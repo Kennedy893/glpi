@@ -54,4 +54,42 @@ export class TicketRepository {
       return ApiResponse.error(error.message);
     }
   }
+
+  // Supprimer un ticket
+  async supprimerTicket(id) {
+    try {
+      // L'API GLPI pour la suppression ne nécessite pas le paramètre expand
+      const data = await this.apiClient.delete(`Ticket/${id}`);
+      
+      // Retourner une réponse de succès avec les données de l'API
+      return ApiResponse.success({
+        message: `Ticket ${id} supprimé avec succès`,
+        deleted: true,
+        id: id,
+        response: data
+      });
+    } catch (error) {
+      console.error(`Erreur deleteTicket ${id}:`, error);
+      return ApiResponse.error(`Impossible de supprimer le ticket ${id}: ${error.message}`);
+    }
+  }
+
+  // Supprimer plusieurs tickets à la fois
+  async supprimerMultipleTickets(ids) {
+    try {
+      // GLPI accepte les IDs séparés par des virgules
+      const idsString = ids.join(',');
+      const data = await this.apiClient.delete(`Ticket/${idsString}`);
+      
+      return ApiResponse.success({
+        message: `${ids.length} ticket(s) supprimé(s) avec succès`,
+        deleted: true,
+        ids: ids,
+        response: data
+      });
+    } catch (error) {
+      console.error('Erreur deleteMultipleTickets:', error);
+      return ApiResponse.error(`Impossible de supprimer les tickets: ${error.message}`);
+    }
+  }
 }

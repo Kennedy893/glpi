@@ -90,6 +90,62 @@ class ApiClientRepository {
       throw error;
     }
   }
+
+  // Requête PUT générique (modification complète)
+  async put(endpoint, data) {
+    if (!this.sessionToken) {
+      await this.initSession();
+    }
+
+    try {
+      const response = await fetch(`${this.baseUrl}/${endpoint}`, {
+        method: 'PUT',
+        headers: {
+          'App-Token': this.appToken,
+          'Session-Token': this.sessionToken,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`Erreur PUT ${endpoint}:`, error);
+      throw error;
+    }
+  }
+
+  // Requête DELETE générique
+  async delete(endpoint) {
+    if (!this.sessionToken) {
+      await this.initSession();
+    }
+
+    try {
+      const response = await fetch(`${this.baseUrl}/${endpoint}`, {
+        method: 'DELETE',
+        headers: {
+          'App-Token': this.appToken,
+          'Session-Token': this.sessionToken,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error(`Erreur HTTP: ${response.status}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`Erreur DELETE ${endpoint}:`, error);
+      throw error;
+    }
+  }
+
 }
 
 // Instance unique (singleton)

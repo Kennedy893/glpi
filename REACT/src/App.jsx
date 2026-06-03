@@ -1,5 +1,5 @@
 import React from 'react';
-import { TicketsPage } from './pages/ticket/TicketPage';
+import { TicketsPage } from './pages/ticket/TicketsPage';
 
 function App() {
   return (
