@@ -1,8 +1,12 @@
 import '../../assets/css/ticket/ticket-table.css'; // On met à jour le chemin du CSS si besoin
 import { useDeleteTicket } from '../../hooks/ticket/useDeleteTicket';
+import { useNavigate } from 'react-router-dom';
+import { useGetTicket } from '../../hooks/ticket/useGetTicket';
 
 export const TicketRow = ({ ticket, onDelete }) => {
   const { deleteTicket, loading } = useDeleteTicket();
+  const { getTicket } = useGetTicket(ticket.id);
+  const navigate = useNavigate();
 
   const handleSupprimer = async () => {
     if (window.confirm(`Supprimer le ticket #${ticket.id} ?`)) {
@@ -11,6 +15,13 @@ export const TicketRow = ({ ticket, onDelete }) => {
         onDelete(ticket.id);
       }
     }
+  }
+
+  const handleGetTicket = async () => {
+    // const response = await getTicket(ticket.id);
+
+    // Redirection vers la page d'édition avec l'ID du ticket
+    navigate(`/tickets/${ticket.id}/edit`);
   }
 
   const formatDate = (dateString) => {
@@ -52,7 +63,7 @@ export const TicketRow = ({ ticket, onDelete }) => {
       </td>
 
       <td>
-        <button>Modifier</button>
+        <button onClick={handleGetTicket}>Modifier</button>
         <button onClick={handleSupprimer}>Supprimer</button>
       </td>
     </tr>

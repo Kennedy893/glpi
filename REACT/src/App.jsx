@@ -1,11 +1,15 @@
-import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { TicketsPage } from './pages/ticket/TicketsPage';
+import { TicketEditPage } from './components/ticket/TicketEdit';
 
 function App() {
   return (
-    <main>
-      <TicketsPage />
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<TicketsPage />} />
+        <Route path="/tickets/:id/edit" element={<TicketEditPage />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

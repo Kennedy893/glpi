@@ -19,10 +19,7 @@ export const TicketsPage = () => {
       <div className="row">
         <div className="col-12">
           <div className="mb-4">
-            <h1>📋 Gestion des Tickets GLPI</h1>
-            <p className="text-muted">
-              Liste des tickets depuis votre instance GLPI
-            </p>
+            <h1>Gestion des Tickets GLPI</h1>
             <hr />
           </div>
           

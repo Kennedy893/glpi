@@ -92,4 +92,48 @@ export class TicketRepository {
       return ApiResponse.error(`Impossible de supprimer les tickets: ${error.message}`);
     }
   }
+
+  // Modifier un Ticket
+  async modifierTicket(id, ticketData) {
+    try {
+        const updateData = {
+            input: {}
+        };
+
+        // Ajouter uniquement les champs fournis
+        if (ticketData.name !== undefined) {
+            updateData.input.name = ticketData.name;
+        }
+        if (ticketData.content !== undefined) {
+            updateData.input.content = ticketData.content;
+        }
+        if (ticketData.status !== undefined) {
+            updateData.input.status = ticketData.status;
+        }
+        if (ticketData.priority !== undefined) {
+            updateData.input.priority = ticketData.priority;
+        }
+        if (ticketData.type !== undefined) {
+            updateData.input.type = ticketData.type;
+        }
+
+        // Vérifier qu'au moins un champ est à modifier
+        if (Object.keys(updateData.input).length === 0) {
+            return ApiResponse.error('Aucune donnée à modifier');
+        }
+
+        // Utilisation de PUT ou PATCH pour la modification
+        const data = await this.apiClient.put(`Ticket/${id}`, updateData);
+
+        return ApiResponse.success({
+            message: `Ticket ${id} modifié avec succès`,
+            updated: true,
+            id: id,
+            response: data
+        });
+    } catch (error) {
+        console.error(`Erreur modifierTicket ${id}:`, error);
+        return ApiResponse.error(`Impossible de modifier le ticket ${id}: ${error.message}`);
+    }
+  }
 }
