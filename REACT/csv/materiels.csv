@@ -1,0 +1,5 @@
+nom,reference,type,marque,modele,numero_serie,ram,stockage,os,prix_achat,date_achat,etat,localisation
+PC-DELL-001,REF-PC-001,Ordinateur,Dell,Latitude 5520,SN-123456,16Go,512Go SSD,Windows 11 Pro,"850,00",01/01/2024,En service,Salle A
+PC-HP-002,REF-PC-002,Ordinateur,HP,EliteBook 840,SN-789012,8Go,256Go SSD,Windows 10 Pro,"920,00",15/02/2024,En service,Salle B
+SRV-001,REF-SRV-001,Serveur,Dell,PowerEdge R740,SN-567890,64Go,2To RAID,Ubuntu 22.04,"3200,00",05/01/2024,En service,Salle serveur
+PRINT-001,REF-PR-001,Imprimante,Canon,LBP6030,SN-345678,,,,"210,00",10/03/2024,En service,Couloir 2

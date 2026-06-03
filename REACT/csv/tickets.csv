@@ -1,0 +1,6 @@
+date_creation,titre,description,type,priorite,statut,demandeur,technicien,categorie,asset_reference,date_resolution
+09/01/2024,Écran noir au démarrage,Le PC ne démarre plus depuis ce matin,Incident,Haute,Résolu,jdupont,ldurand,Matériel,REF-PC-001,10/01/2024
+16/01/2024,Demande accès VPN,J'ai besoin d'un accès VPN pour le télétravail,Demande,Moyenne,Fermé,pbernard,mmartin,Réseau,,17/01/2024
+07/02/2024,Imprimante hors ligne,L'imprimante de la salle B ne répond plus,Incident,Haute,En cours,jdupont,ldurand,Matériel,REF-PR-001,
+08/02/2024,Installation logiciel,Installer Adobe Reader sur mon poste,Demande,Basse,Nouveau,pbernard,,Logiciel,REF-PC-002,
+17/02/2024,Mot de passe oublié,Je n'arrive plus à me connecter,Incident,Moyenne,Annulé,jdupont,mmartin,Accès,,17/02/2024

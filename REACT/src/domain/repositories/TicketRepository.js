@@ -1,6 +1,6 @@
 import { getApiClient } from './ApiClientRepository';
 import { Ticket } from '../models/Ticket';
-import { ApiResponse } from '../models/ApiResponse';
+import { ApiResponse } from '../models/utils/ApiResponse';
 
 // Repository pour les opérations liées aux tickets
 export class TicketRepository {

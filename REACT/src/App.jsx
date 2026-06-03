@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { TicketsPage } from './pages/ticket/TicketsPage';
 import { TicketEditPage } from './components/ticket/TicketEdit';
+import { UserImportPage } from './pages/UserImportPage';
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<TicketsPage />} />
         <Route path="/tickets/:id/edit" element={<TicketEditPage />} />
+        <Route path="/import" element={<UserImportPage />} />
       </Routes>
     </BrowserRouter>
   );

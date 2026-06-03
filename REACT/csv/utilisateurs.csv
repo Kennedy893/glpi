@@ -1,0 +1,5 @@
+date_creation,nom,prenom,email,login,pwd,profil,groupe,entite,localisation
+01/01/2024,Dupont,Jean,jean.dupont@entreprise.fr,jdupont,Azerty1234!,Utilisateur,DSI,Siège,Salle A
+01/01/2024,Martin,Marie,marie.martin@entreprise.fr,mmartin,Secur5678@,Technicien,Support,Siège,Salle B
+15/02/2024,Bernard,Paul,paul.bernard@entreprise.fr,pbernard,Pass9012#,Utilisateur,Comptabilité,Agence Lyon,Bureau 3
+01/03/2024,Durand,Lucas,lucas.durand@entreprise.fr,ldurand,Tech3456$,Technicien,Support,Siège,Salle X
