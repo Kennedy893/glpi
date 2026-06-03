@@ -1,0 +1,48 @@
+[2026-06-02 10:52:19] User ID: `Anonymous` tried to execute an invalid request on `/install/install.php`.
+
+  Backtrace :
+  .\src\Session.php:1817                             
+  ...ner\ControllerListener\CheckCsrfListener.php:89 Session::checkCSRF()
+  ...ymfony\event-dispatcher\EventDispatcher.php:260 Glpi\Kernel\Listener\ControllerListener\CheckCsrfListener->onKernelController()
+  ...ymfony\event-dispatcher\EventDispatcher.php:220 Symfony\Component\EventDispatcher\EventDispatcher::Symfony\Component\EventDispatcher\{closure}()
+  ...symfony\event-dispatcher\EventDispatcher.php:56 Symfony\Component\EventDispatcher\EventDispatcher->callListeners()
+  .\vendor\symfony\http-kernel\HttpKernel.php:169    Symfony\Component\EventDispatcher\EventDispatcher->dispatch()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+[2026-06-02 10:52:23] User ID: `Anonymous` tried to execute an invalid request on `/install/install.php`.
+
+  Backtrace :
+  .\src\Session.php:1817                             
+  ...ner\ControllerListener\CheckCsrfListener.php:89 Session::checkCSRF()
+  ...ymfony\event-dispatcher\EventDispatcher.php:260 Glpi\Kernel\Listener\ControllerListener\CheckCsrfListener->onKernelController()
+  ...ymfony\event-dispatcher\EventDispatcher.php:220 Symfony\Component\EventDispatcher\EventDispatcher::Symfony\Component\EventDispatcher\{closure}()
+  ...symfony\event-dispatcher\EventDispatcher.php:56 Symfony\Component\EventDispatcher\EventDispatcher->callListeners()
+  .\vendor\symfony\http-kernel\HttpKernel.php:169    Symfony\Component\EventDispatcher\EventDispatcher->dispatch()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+[2026-06-02 11:32:44] User ID: `Anonymous` tried to execute an invalid request on `/install/install.php`.
+
+  Backtrace :
+  .\src\Session.php:1817                             
+  ...ner\ControllerListener\CheckCsrfListener.php:89 Session::checkCSRF()
+  ...ymfony\event-dispatcher\EventDispatcher.php:260 Glpi\Kernel\Listener\ControllerListener\CheckCsrfListener->onKernelController()
+  ...ymfony\event-dispatcher\EventDispatcher.php:220 Symfony\Component\EventDispatcher\EventDispatcher::Symfony\Component\EventDispatcher\{closure}()
+  ...symfony\event-dispatcher\EventDispatcher.php:56 Symfony\Component\EventDispatcher\EventDispatcher->callListeners()
+  .\vendor\symfony\http-kernel\HttpKernel.php:169    Symfony\Component\EventDispatcher\EventDispatcher->dispatch()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+[2026-06-02 16:18:20] User ID: `Anonymous` tried to execute an invalid request on `/install/install.php`.
+
+  Backtrace :
+  .\src\Session.php:1817                             
+  ...ner\ControllerListener\CheckCsrfListener.php:89 Session::checkCSRF()
+  ...ymfony\event-dispatcher\EventDispatcher.php:260 Glpi\Kernel\Listener\ControllerListener\CheckCsrfListener->onKernelController()
+  ...ymfony\event-dispatcher\EventDispatcher.php:220 Symfony\Component\EventDispatcher\EventDispatcher::Symfony\Component\EventDispatcher\{closure}()
+  ...symfony\event-dispatcher\EventDispatcher.php:56 Symfony\Component\EventDispatcher\EventDispatcher->callListeners()
+  .\vendor\symfony\http-kernel\HttpKernel.php:169    Symfony\Component\EventDispatcher\EventDispatcher->dispatch()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()

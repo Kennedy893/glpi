@@ -1,0 +1,37 @@
+[2026-06-02 10:52:45] glpi.WARNING:   *** Test logger
+[2026-06-02 11:32:57] glpi.WARNING:   *** Test logger
+[2026-06-02 16:17:52] glpi.WARNING:   *** Test logger
+[2026-06-02 16:18:28] glpi.WARNING:   *** Test logger
+[2026-06-03 07:27:47] glpi.WARNING:   *** Test logger
+[2026-06-03 07:38:14] glpi.WARNING:   *** Test logger
+[2026-06-03 07:43:04] glpi.WARNING:   *** Test logger
+[2026-06-03 08:02:13] glpi.WARNING:   *** Test logger
+[2026-06-03 08:02:20] glpi.ERROR:   *** SSL certificate problem: unable to get local issuer certificate
+  Backtrace :
+  ...achine\safe\lib\Exceptions\CurlException.php:12 
+  ...thecodingmachine\safe\generated\8.3\curl.php:67 Safe\Exceptions\CurlException::createFromPhpError()
+  .\src\Toolbox.php:1501                             Safe\curl_exec()
+  .\src\Toolbox.php:1387                             Toolbox::doCallCurl()
+  .\src\GLPINetwork.php:303                          Toolbox::callCurl()
+  .\src\GLPINetwork.php:96                           GLPINetwork::isServicesAvailable()
+  .\src\GLPINetwork.php:65                           GLPINetwork::showForConfig()
+  .\src\CommonGLPI.php:717                           GLPINetwork::displayTabContentForItem()
+  .\ajax\common.tabs.php:108                         CommonGLPI::displayStandardTab()
+  ...Glpi\Controller\LegacyFileLoadController.php:64 require()
+  .\vendor\symfony\http-kernel\HttpKernel.php:181    Glpi\Controller\LegacyFileLoadController->__invoke()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+
+[2026-06-03 08:33:12] glpi.WARNING:   *** User Warning: Unable to extract nonce from string. It may not have been crypted with sodium functions. at GLPIKey.php line 491
+  Backtrace :
+  .\src\GLPIKey.php:491                              
+  .\src\Glpi\Api\APIRest.php:623                     GLPIKey->decrypt()
+  .\src\Glpi\Api\APIRest.php:150                     Glpi\Api\APIRest->parseIncomingParams()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
