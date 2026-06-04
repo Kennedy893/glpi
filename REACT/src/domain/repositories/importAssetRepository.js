@@ -13,6 +13,7 @@ const TYPE_MAP = {
 };
 
 export const ImportAssetRepository = {
+// --- COMPUTERS --- 
   async createComputer(computerData) {
     console.log('[createComputer] computerData =', computerData);
 
@@ -69,57 +70,36 @@ export const ImportAssetRepository = {
     }
   },
 
+  // ImportAssetRepository.js
   async createInfocom(infocomData, id_item) {
     try {
+        // Les données sont déjà formatées par le modèle !
         const payload = {
-            input: {
-                itemtype:  TYPE_MAP[infocomData.type] || 'Computer',
-                items_id:  id_item || 1, // <id_computer>
-                value:     infocomData.prix_achat || 0,
-                buy_date:  infocomData.date_achat || "2024-01-01",
-                warranty_date: infocomData.date_fin_garantie || null,
-                supplier: infocomData.fournisseur || ''
-            }
+            input: [{
+                itemtype: infocomData.glpiType,  // Déjà "Computer", "Printer", etc.
+                items_id: parseInt(id_item),
+                value: infocomData.prixAchat,    // Déjà un nombre (850.00)
+                buy_date: infocomData.dateAchat  // Déjà "2024-01-01"
+            }]
         };
-        console.log(payload);
-
+        
+        // Ajouter les champs optionnels seulement s'ils existent
+        if (infocomData.dateFinGarantie) {
+            payload.input[0].warranty_date = infocomData.dateFinGarantie;
+        }
+        
+        if (infocomData.fournisseur) {
+            payload.input[0].supplier = infocomData.fournisseur;
+        }
+        
+        console.log('[createInfocom] Payload:', JSON.stringify(payload, null, 2));
+        
         const response = await apiClient.post('Infocom', payload);
-        console.log("[createInfocom] Reponse creation Infocom = " + response);
+        return response?.[0]?.id || null;
         
-        let infocomId = null;
-        if (response && response.id) {
-            infocomId = response.id;
-        } else if (response && response[0] && response[0].id) {
-            infocomId = response[0].id;
-        } else if (response && response.data && response.data.id) {
-            infocomId = response.data.id;
-        }
-
-        if (!infocomId) {
-            console.error('Format de réponse inattendu:', response);
-            throw new Error('Impossible de récupérer l\'ID de l\'Infocom créé');
-        }
-
-        return infocomId;
     } catch (error) {
-        console.error('[createInfoCom] Erreur détaillée:', error);
-        
-        // Afficher plus de détails sur l'erreur API
-        if (error.response) {
-            console.error('Status:', error.response.status);
-            console.error('Data:', error.response.data);
-            
-            // Message d'erreur plus explicite
-            if (error.response.data && error.response.data.message) {
-                throw new Error(`GLPI: ${error.response.data.message}`);
-            } else if (error.response.data && error.response.data[0]) {
-                throw new Error(`GLPI: ${error.response.data[0].message}`);
-            } else {
-                throw new Error(`Erreur GLPI (${error.response.status}): ${JSON.stringify(error.response.data)}`);
-            }
-        }
-        
-        throw error;
+        console.error('[createInfocom] Erreur:', error);
+        return null;
     }
   },
 
@@ -278,6 +258,63 @@ export const ImportAssetRepository = {
         return infocomId;
     } catch (error) {
         console.error('[createItemOS] Erreur détaillée:', error);
+        
+        // Afficher plus de détails sur l'erreur API
+        if (error.response) {
+            console.error('Status:', error.response.status);
+            console.error('Data:', error.response.data);
+            
+            // Message d'erreur plus explicite
+            if (error.response.data && error.response.data.message) {
+                throw new Error(`GLPI: ${error.response.data.message}`);
+            } else if (error.response.data && error.response.data[0]) {
+                throw new Error(`GLPI: ${error.response.data[0].message}`);
+            } else {
+                throw new Error(`Erreur GLPI (${error.response.status}): ${JSON.stringify(error.response.data)}`);
+            }
+        }
+        
+        throw error;
+    }
+  },
+
+// --- PRINTERS --- 
+  async createPrinter(printerData) {
+    console.log('[createPrinter] computerData =', printerData);
+
+    try {
+        // 1. Préparer le payload avec toutes les données nécessaires
+        const payload = {
+            input: [printerData]  // ← IMPORTANT: tableau avec un objet
+        };
+
+        console.log('[createPrinter] Payload envoyé =', JSON.stringify(payload, null, 2));
+
+        // 2. Envoyer la requête (sans slash devant Printer)
+        const response = await apiClient.post('Printer', payload);
+
+        console.log('[createPrinter] Réponse création computer =', response);
+
+        // 3. Extraire l'ID créé (gérer différents formats de réponse)
+        let computerId = null;
+        if (response && response.id) {
+        computerId = response.id;
+        } else if (response && response[0] && response[0].id) {
+        computerId = response[0].id;
+        } else if (response && response.data && response.data.id) {
+        computerId = response.data.id;
+        }
+
+        if (!computerId) {
+        console.error('Format de réponse inattendu:', response);
+        throw new Error('Impossible de récupérer l\'ID du computer créé');
+        }
+
+        console.log('[createPrinter] Utilisateur créé avec succès, ID =', computerId);
+        return computerId;
+
+    } catch (error) {
+        console.error('[createPrinter] Erreur détaillée:', error);
         
         // Afficher plus de détails sur l'erreur API
         if (error.response) {

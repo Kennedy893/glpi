@@ -62,62 +62,84 @@ export const useAssetImporter = () => {
         const totalRows = validatedRows.length;
         
         for (let i = 0; i < totalRows; i++) {
-          const computer = validatedRows[i];
-          const computerLogName = `${computer.nom} ${computer.type}`;
+          const asset = validatedRows[i];
+          const assetLogName = `${asset.nom} ${asset.type}`;
 
           try {
-            addLog(`[${i + 1}/${totalRows}] Création de : ${computerLogName}...`);
+            addLog(`[${i + 1}/${totalRows}] Création de : ${assetLogName}...`);
 
             // Regle : Manufacturer
-            const manufacturerId = await ImportAssetVerif.getOrCreateManufacturer(computer.marque);
+            const manufacturerId = await ImportAssetVerif.getOrCreateManufacturer(asset.marque);
 
             // Regle : Model
-            const modelId = await ImportAssetVerif.getOrCreateComputerModel(computer.modele);
+            const modelId = await ImportAssetVerif.getOrCreateComputerModel(asset.modele);
 
             // Regle : State
-            const stateId = await ImportAssetVerif.getOrCreateState(computer.etat);
+            const stateId = await ImportAssetVerif.getOrCreateState(asset.etat);
 
             // Règle : Localisation
-            const locationId = await ImportAssetVerif.getOrCreateLocation(computer.localisation);
+            const locationId = await ImportAssetVerif.getOrCreateLocation(asset.localisation);
 
             // Regle : DeviceMemory (RAM)
-            const deviceMemoryId = await ImportAssetVerif.getOrCreateDeviceMemory(computer.ram);
+            const deviceMemoryId = await ImportAssetVerif.getOrCreateDeviceMemory(asset.ram);
             console.log('[DEBUG] deviceMemoryId reçu:', deviceMemoryId, 'Type:', typeof deviceMemoryId);
 
             // Regle : DeviceHardDrive (HDD)
-            const deviceHDDId = await ImportAssetVerif.getOrCreateDeviceHardDrive(computer.stockage);
+            const deviceHDDId = await ImportAssetVerif.getOrCreateDeviceHardDrive(asset.stockage);
             
             // Regle : OS
-            const deviceOSId = await ImportAssetVerif.getOrCreateOperatingSystem(computer.os);
+            const deviceOSId = await ImportAssetVerif.getOrCreateOperatingSystem(asset.os);
 
-            // Règle : Création Computer
-            const computerId = await ImportAssetRepository.createComputer({
-              "name":                computer.nom,
-              "otherserial":         computer.reference,
-              "serial":              computer.numero_serie,
-              "manufacturers_id":    manufacturerId,
-              "computermodels_id":   modelId,
-              "states_id":           stateId,
-              "locations_id":        locationId
-            });
+            if (asset.type === 'Ordinateur' || asset.type === 'Serveur') {
+                // Règle : Création Computer
+                const computerId = await ImportAssetRepository.createComputer({
+                    "name":                asset.nom,
+                    "otherserial":         asset.reference,
+                    "serial":              asset.numero_serie,
+                    "manufacturers_id":    manufacturerId,
+                    "computermodels_id":   modelId,
+                    "states_id":           stateId,
+                    "locations_id":        locationId
+                });
 
-            // --- LIAISON ---
+                // --- LIAISON ---
 
-            // Regle : Liaison avec Infocom
-            const infocomId = await ImportAssetRepository.createInfocom(computer, computerId);
+                // Regle : Liaison avec Infocom
+                const infocomId = await ImportAssetRepository.createInfocom(asset, computerId);
 
-            // Regle : Liaison avec ItemDeviceMemory
-            const itemDeviceMemoryId = await ImportAssetRepository.createItemDeviceMemory(computer, computerId, deviceMemoryId);
+                // Regle : Liaison avec ItemDeviceMemory
+                const itemDeviceMemoryId = await ImportAssetRepository.createItemDeviceMemory(asset, computerId, deviceMemoryId);
 
-            // Regle : Liaison avec ItemDeviceHDD
-            const itemDeviceHDDId = await ImportAssetRepository.createItemDeviceHardDrive(computer, computerId, deviceHDDId);
+                // Regle : Liaison avec ItemDeviceHDD
+                const itemDeviceHDDId = await ImportAssetRepository.createItemDeviceHardDrive(asset, computerId, deviceHDDId);
 
+                addLog(`✅ Succès pour ${assetLogName} (ID : ${computerId})`);
+            }
+
+            else if (asset.type === 'Imprimante') {
+                // Regle : Creation Printer
+                const printerId = await ImportAssetRepository.createPrinter({
+                    "name":                asset.nom,
+                    "otherserial":         asset.reference,
+                    "serial":              asset.numero_serie,
+                    "manufacturers_id":    manufacturerId,
+                    "printermodels_id":   modelId,
+                    "states_id":           stateId,
+                    "locations_id":        locationId
+                });
+
+                // --- LIAISON ---
+
+                // Regle : Liaison avec Infocom
+                const infocomId = await ImportAssetRepository.createInfocom(asset, printerId);
+
+                addLog(`✅ Succès pour ${assetLogName} (ID : ${printerId})`);
+            }
+            
             // Regle : liaison avec ItemOS
-            // const itemDeviceOD = await ImportAssetRepository.createItemOS(computer, computerId, deviceOSId);
-
-            addLog(`✅ Succès pour ${computerLogName} (ID : ${computerId})`);
+            // const itemDeviceOD = await ImportAssetRepository.createItemOS(asset, computerId, deviceOSId);
           } catch (error) {
-            addLog(`❌ Erreur lors de l'intégration de ${computerLogName} : ${error.message || error}`);
+            addLog(`❌ Erreur lors de l'intégration de ${assetLogName} : ${error.message || error}`);
           }
 
           setProgress(Math.round(((i + 1) / totalRows) * 100));

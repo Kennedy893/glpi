@@ -115,6 +115,14 @@ export const ImportAssetVerif = {
         });
     },
 
+    // Wrapper pour PrinterModel (comportement original)
+    async getOrCreatePrinterModel(name) {
+        return this.getOrCreateEntity(name, {
+            entityType: 'PrinterModel',
+            searchField: 'name'
+        });
+    },
+
     // Wrapper pour State (comportement original)
     async getOrCreateState(name) {
         return this.getOrCreateEntity(name, {
