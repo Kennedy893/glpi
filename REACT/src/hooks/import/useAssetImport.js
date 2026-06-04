@@ -79,7 +79,17 @@ export const useAssetImporter = () => {
 
             // Règle : Localisation
             const locationId = await ImportAssetVerif.getOrCreateLocation(computer.localisation);
+
+            // Regle : DeviceMemory (RAM)
+            const deviceMemoryId = await ImportAssetVerif.getOrCreateDeviceMemory(computer.ram);
+            console.log('[DEBUG] deviceMemoryId reçu:', deviceMemoryId, 'Type:', typeof deviceMemoryId);
+
+            // Regle : DeviceHardDrive (HDD)
+            const deviceHDDId = await ImportAssetVerif.getOrCreateDeviceHardDrive(computer.stockage);
             
+            // Regle : OS
+            const deviceOSId = await ImportAssetVerif.getOrCreateOperatingSystem(computer.os);
+
             // Règle : Création Computer
             const computerId = await ImportAssetRepository.createComputer({
               "name":                computer.nom,
@@ -90,6 +100,20 @@ export const useAssetImporter = () => {
               "states_id":           stateId,
               "locations_id":        locationId
             });
+
+            // --- LIAISON ---
+
+            // Regle : Liaison avec Infocom
+            const infocomId = await ImportAssetRepository.createInfocom(computer, computerId);
+
+            // Regle : Liaison avec ItemDeviceMemory
+            const itemDeviceMemoryId = await ImportAssetRepository.createItemDeviceMemory(computer, computerId, deviceMemoryId);
+
+            // Regle : Liaison avec ItemDeviceHDD
+            const itemDeviceHDDId = await ImportAssetRepository.createItemDeviceHardDrive(computer, computerId, deviceHDDId);
+
+            // Regle : liaison avec ItemOS
+            // const itemDeviceOD = await ImportAssetRepository.createItemOS(computer, computerId, deviceOSId);
 
             addLog(`✅ Succès pour ${computerLogName} (ID : ${computerId})`);
           } catch (error) {

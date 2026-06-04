@@ -66,8 +66,12 @@ class ApiClientRepository {
   // Requête POST générique
   async post(endpoint, data) {
     if (!this.sessionToken) {
+      console.log(`[POST] Pas de session token, initialisation...`);
       await this.initSession();
     }
+
+    console.log(`[POST] Envoi requête vers: ${this.baseUrl}/${endpoint}`);
+    console.log(`[POST] Payload:`, JSON.stringify(data, null, 2));
 
     try {
       const response = await fetch(`${this.baseUrl}/${endpoint}`, {
@@ -80,14 +84,71 @@ class ApiClientRepository {
         body: JSON.stringify(data)
       });
 
-      if (!response.ok) {
-        throw new Error(`Erreur HTTP: ${response.status}`);
+      console.log(`[POST] Status réponse: ${response.status} ${response.statusText}`);
+      
+      // Lire la réponse même en cas d'erreur pour voir ce que GLPI renvoie
+      const responseText = await response.text();
+      let responseData;
+      
+      try {
+        responseData = JSON.parse(responseText);
+        console.log(`[POST] Réponse brute:`, responseData);
+      } catch (e) {
+        responseData = responseText;
+        console.log(`[POST] Réponse non-JSON:`, responseText);
       }
 
-      return await response.json();
+      if (!response.ok) {
+        // Construire un message d'erreur détaillé
+        let errorMessage = `HTTP ${response.status} ${response.statusText}`;
+        
+        if (responseData) {
+          if (typeof responseData === 'object') {
+            // GLPI renvoie souvent des erreurs dans ce format
+            if (responseData.message) {
+              errorMessage += ` - Message: ${responseData.message}`;
+            }
+            if (responseData[0] && responseData[0].message) {
+              errorMessage += ` - Détail: ${responseData[0].message}`;
+            }
+            if (Array.isArray(responseData)) {
+              errorMessage += ` - Réponse: ${JSON.stringify(responseData)}`;
+            }
+          } else {
+            errorMessage += ` - ${responseData}`;
+          }
+        }
+        
+        console.error(`[POST] ❌ Échec ${endpoint}:`, errorMessage);
+        console.error(`[POST] Payload qui a causé l'erreur:`, JSON.stringify(data, null, 2));
+        
+        // Créer une erreur enrichie
+        const detailedError = new Error(errorMessage);
+        detailedError.status = response.status;
+        detailedError.statusText = response.statusText;
+        detailedError.response = responseData;
+        detailedError.endpoint = endpoint;
+        detailedError.payload = data;
+        
+        throw detailedError;
+      }
+
+      console.log(`[POST] ✅ Succès ${endpoint}`);
+      return responseData;
+
     } catch (error) {
-      console.error(`Erreur POST ${endpoint}:`, error);
-      throw error;
+      // Si c'est déjà notre erreur enrichie, la relancer
+      if (error.status) {
+        throw error;
+      }
+      
+      // Sinon, enrichir l'erreur réseau
+      console.error(`[POST] Erreur réseau ou autre pour ${endpoint}:`, error);
+      const networkError = new Error(`Erreur réseau: ${error.message}`);
+      networkError.originalError = error;
+      networkError.endpoint = endpoint;
+      networkError.payload = data;
+      throw networkError;
     }
   }
 
