@@ -1,18 +1,15 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { TicketsPage } from './pages/ticket/TicketsPage';
-import { TicketEditPage } from './components/ticket/TicketEdit';
-import { UserImportPage } from './pages/UserImportPage';
-import { ResetPage } from './pages/ResetPage';
+import { BrowserRouter } from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import RouteConfig from './config/RouteConfig';
 
 function App() {
+  console.log('App rendering'); 
+
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<TicketsPage />} />
-        <Route path="/tickets/:id/edit" element={<TicketEditPage />} />
-        <Route path="/import" element={<UserImportPage />} />
-        <Route path="/reset" element={<ResetPage />} />
-      </Routes>
+      <AuthProvider>
+        <RouteConfig />
+      </AuthProvider>
     </BrowserRouter>
   );
 }
