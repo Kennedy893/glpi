@@ -252,3 +252,65 @@ POST /Item_Ticket
   "itemtype": "Computer",
   "items_id": <id_asset>
 }
+
+<!-- ///////////////////////////////////// -->
+
+Pour chaque ligne :
+
+1. Lire Item_Type → choisir endpoint principal (Computer, Monitor...)
+Item_Type = "Computer" → POST /Computer
+Item_Type = "Monitor"  → POST /Monitor
+Item_Type = "Printer"  → POST /Printer
+... etc
+
+2. getOrCreate :
+   ├── /State        (Status)
+   ├── /Location     (Location)
+   ├── /Manufacturer (Manufacturer)
+   └── /ComputerModel ou /MonitorModel (Model)
+GET /Location?searchText=Administration     → id_location
+GET /Manufacturer?searchText=Dell           → id_manufacturer
+GET /State?searchText=En production         → id_state
+GET /User?searchText=Rakoto Jean            → id_user  (peut être null)
+GET /ComputerModel?searchText=OptiPlex 7010 → id_model (si Computer)
+GET /MonitorModel?searchText=AC1000         → id_model (si Monitor)
+
+3. Résoudre User :
+   ├── GET /User?searchText=...   → users_id
+   └── sinon GET/POST /Group      → groups_id
+"Rakoto Jean"    → chercher dans /User          → users_id
+"ITU Labs"       → chercher dans /Group         → groups_id
+"Bibliothèque"   → chercher dans /Group         → groups_id
+""               → null, champ ignoré
+
+4. POST /Computer ou /Monitor
+   avec tous les IDs résolus
+   → id_asset
+POST /Computer
+{
+  input: {
+    name:               "PC-ADM-001",        // colonne Name
+    otherserial:        "ITU-2026-0001",     // colonne Inventory_Number
+    manufacturers_id:   <id_manufacturer>,
+    computermodels_id:  <id_model>,
+    states_id:          <id_state>,
+    locations_id:       <id_location>,
+    users_id:           <id_user>            // null si vide
+  }
+}
+→ id_computer
+POST /Monitor
+{
+  input: {
+    name:              "MN-FORM-002",
+    otherserial:       "ITU-2026-0010",
+    manufacturers_id:  <id_manufacturer>,
+    monitormodels_id:  <id_model>,           // ← différent de computermodels_id
+    states_id:         <id_state>,
+    locations_id:      <id_location>,
+    users_id:          <id_user>
+  }
+}
+→ id_monitor
+
+(pas d'Infocom, pas de composants — colonnes absentes du CSV)
