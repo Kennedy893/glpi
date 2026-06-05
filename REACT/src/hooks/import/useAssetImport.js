@@ -63,77 +63,83 @@ export const useAssetImporter = () => {
         
         for (let i = 0; i < totalRows; i++) {
           const asset = validatedRows[i];
-          const assetLogName = `${asset.nom} ${asset.type}`;
+          const assetLogName = `${asset.name} ${asset.glpiType}`;
 
           try {
             addLog(`[${i + 1}/${totalRows}] Création de : ${assetLogName}...`);
 
             // Regle : Manufacturer
-            const manufacturerId = await ImportAssetVerif.getOrCreateManufacturer(asset.marque);
-
-            // Regle : Model
-            const modelId = await ImportAssetVerif.getOrCreateComputerModel(asset.modele);
+            const manufacturerId = await ImportAssetVerif.getOrCreateManufacturer(asset.manufacturer);
 
             // Regle : State
-            const stateId = await ImportAssetVerif.getOrCreateState(asset.etat);
+            const stateId = await ImportAssetVerif.getOrCreateState(asset.status);
 
             // Règle : Localisation
-            const locationId = await ImportAssetVerif.getOrCreateLocation(asset.localisation);
+            const locationId = await ImportAssetVerif.getOrCreateLocation(asset.location);
+
+            // Regle : User
+            const userId = await ImportAssetVerif.getOrCreateUser(asset.user);
 
             // Regle : DeviceMemory (RAM)
-            const deviceMemoryId = await ImportAssetVerif.getOrCreateDeviceMemory(asset.ram);
-            console.log('[DEBUG] deviceMemoryId reçu:', deviceMemoryId, 'Type:', typeof deviceMemoryId);
+            // const deviceMemoryId = await ImportAssetVerif.getOrCreateDeviceMemory(asset.ram);
+            // console.log('[DEBUG] deviceMemoryId reçu:', deviceMemoryId, 'Type:', typeof deviceMemoryId);
 
             // Regle : DeviceHardDrive (HDD)
-            const deviceHDDId = await ImportAssetVerif.getOrCreateDeviceHardDrive(asset.stockage);
+            // const deviceHDDId = await ImportAssetVerif.getOrCreateDeviceHardDrive(asset.stockage);
             
             // Regle : OS
-            const deviceOSId = await ImportAssetVerif.getOrCreateOperatingSystem(asset.os);
+            // const deviceOSId = await ImportAssetVerif.getOrCreateOperatingSystem(asset.os);
 
-            if (asset.type === 'Ordinateur' || asset.type === 'Serveur') {
+            if (asset.glpiType === 'Computer' || asset.glpiType === 'Serveur') {
+                // Regle : Model
+                const modelId = await ImportAssetVerif.getOrCreateComputerModel(asset.modele);
+
                 // Règle : Création Computer
                 const computerId = await ImportAssetRepository.createComputer({
-                    "name":                asset.nom,
-                    "otherserial":         asset.reference,
-                    "serial":              asset.numero_serie,
+                    "name":                asset.name,
+                    "otherserial":         asset.inventoryNumber,
                     "manufacturers_id":    manufacturerId,
                     "computermodels_id":   modelId,
                     "states_id":           stateId,
-                    "locations_id":        locationId
+                    "locations_id":        locationId,
+                    "users_id":            userId || 0
                 });
 
                 // --- LIAISON ---
 
                 // Regle : Liaison avec Infocom
-                const infocomId = await ImportAssetRepository.createInfocom(asset, computerId);
+                // const infocomId = await ImportAssetRepository.createInfocom(asset, computerId);
 
                 // Regle : Liaison avec ItemDeviceMemory
-                const itemDeviceMemoryId = await ImportAssetRepository.createItemDeviceMemory(asset, computerId, deviceMemoryId);
+                // const itemDeviceMemoryId = await ImportAssetRepository.createItemDeviceMemory(asset, computerId, deviceMemoryId);
 
                 // Regle : Liaison avec ItemDeviceHDD
-                const itemDeviceHDDId = await ImportAssetRepository.createItemDeviceHardDrive(asset, computerId, deviceHDDId);
+                // const itemDeviceHDDId = await ImportAssetRepository.createItemDeviceHardDrive(asset, computerId, deviceHDDId);
 
                 addLog(`✅ Succès pour ${assetLogName} (ID : ${computerId})`);
             }
 
-            else if (asset.type === 'Imprimante') {
-                // Regle : Creation Printer
-                const printerId = await ImportAssetRepository.createPrinter({
-                    "name":                asset.nom,
-                    "otherserial":         asset.reference,
-                    "serial":              asset.numero_serie,
+            else if (asset.glpiType === 'Monitor') {
+                // Regle : Model
+                const modelId = await ImportAssetVerif.getOrCreateMonitorModel(asset.modele)
+
+                // Regle : Creation Monitor
+                const monitorId = await ImportAssetRepository.createMonitor({
+                    "name":                asset.name,
+                    "otherserial":         asset.inventoryNumber,
                     "manufacturers_id":    manufacturerId,
-                    "printermodels_id":   modelId,
+                    "monitormodels_id":    modelId,
                     "states_id":           stateId,
-                    "locations_id":        locationId
+                    "locations_id":        locationId,
+                    "users_id":            userId
                 });
 
                 // --- LIAISON ---
 
                 // Regle : Liaison avec Infocom
-                const infocomId = await ImportAssetRepository.createInfocom(asset, printerId);
+                // const infocomId = await ImportAssetRepository.createInfocom(asset, printerId);
 
-                addLog(`✅ Succès pour ${assetLogName} (ID : ${printerId})`);
+                addLog(`✅ Succès pour ${assetLogName} (ID : ${monitorId})`);
             }
             
             // Regle : liaison avec ItemOS

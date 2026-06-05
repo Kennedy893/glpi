@@ -16,112 +16,55 @@ const apiClient = getApiClient();
  */
 
 const ENDPOINTS_TO_PURGE = [
-    // ==================== 1. ASSOCIATIONS (liens entre équipements et composants) ====================
-    'Item_DeviceMemory',        // Association RAM - Ordinateur
-    'Item_DeviceHardDrive',     // Association Disque dur - Ordinateur
-    'Item_DeviceProcessor',     // Association Processeur - Ordinateur
-    'Item_DeviceGraphicCard',   // Association Carte graphique - Ordinateur
-    'Item_DeviceNetworkCard',   // Association Carte réseau - Ordinateur
-    'Item_DeviceSoundCard',     // Association Carte son - Ordinateur
-    'Item_DeviceMotherboard',   // Association Carte mère - Ordinateur
-    'Item_DevicePowerSupply',   // Association Alimentation - Ordinateur
-    'Item_DeviceDrive',         // Association Lecteur CD/DVD - Ordinateur
-    'Item_DeviceControl',       // Association Contrôleur - Ordinateur
-    'Item_DeviceSensor',        // Association Capteur - Ordinateur
-    'Item_DeviceCase',          // Association Boîtier - Ordinateur
-    'Item_OperatingSystem',     // Association OS - Ordinateur
-    'Infocom',                  // Informations financières
+    // ==================== 1. ÉCOSYSTÈME DES TICKETS (À VIRER AVANT LE TICKET LUI-MÊME) ====================
+    'TicketCost',       
+    'ITILSolution',
+    'ITILFollowup',             // Suivis de tickets (parfois 'Followup' selon les plugins, mettons le standard GLPI)
+    'TicketTask',               // Tâches des tickets
+    'TicketValidation',         // Validations de tickets
+    'Ticket_User',              // Liens Acteurs <-> Tickets
+    'Item_Ticket',              // Liens Équipements <-> Tickets
     
-    // ==================== 2. COMPOSANTS TECHNIQUES (le référentiel) ====================
-    'DeviceMemory',             // Référentiel des mémoires (RAM)
-    'DeviceHardDrive',          // Référentiel des disques durs
-    'DeviceProcessor',          // Référentiel des processeurs
-    'DeviceGraphicCard',        // Référentiel des cartes graphiques
-    'DeviceNetworkCard',        // Référentiel des cartes réseau
-    'DeviceSoundCard',          // Référentiel des cartes son
-    'DeviceMotherboard',        // Référentiel des cartes mères
-    'DevicePowerSupply',        // Référentiel des alimentations
-    'DeviceDrive',              // Référentiel des lecteurs
-    'DeviceControl',            // Référentiel des contrôleurs
-    'DeviceSensor',             // Référentiel des capteurs
-    'DeviceCase',               // Référentiel des boîtiers
-    'DeviceBattery',            // Référentiel des batteries
-    'DeviceFirmware',           // Référentiel des firmwares
-    
-    // ==================== 3. SYSTÈMES D'EXPLOITATION ====================
-    'OperatingSystem',          // Référentiel des OS (version)
-    'OperatingSystemVersion',   // Versions des OS
-    'OperatingSystemEdition',   // Éditions des OS
-    'OperatingSystemKernel',    // Noyaux des OS
-    'OperatingSystemServicePack',// Service packs des OS
-    
-    // ==================== 4. ÉQUIPEMENTS PRINCIPAUX ====================
-    'Computer',                 // Ordinateurs
-    'Printer',                  // Imprimantes
-    'Monitor',                  // Écrans
-    'NetworkEquipment',         // Équipements réseau (switchs, routeurs)
-    'Phone',                    // Téléphones
-    'Peripheral',               // Périphériques (souris, claviers)
-    'Software',                 // Logiciels installés
-    'SoftwareLicense',          // Licences logicielles
-    'SoftwareVersion',          // Versions des logiciels
-    
-    // ==================== 5. ÉQUIPEMENTS DIVERS ====================
-    'CartridgeItem',            // Cartouches
-    'ConsumableItem',           // Consommables
-    'Contract',                 // Contrats
-    'Certificate',              // Certificats
-    'Appliance',                // Appliances
-    
-    // ==================== 6. GESTION DES TICKETS ====================
-    'Ticket',                   // Tickets
-    'Ticket_User',              // Association Ticket - Utilisateur
-    'Ticket_Validation',        // Validations de tickets
-    'Followup',                 // Suivis de tickets
-    'Solution',                 // Solutions de tickets
-    'Task',                     // Tâches
+    // ==================== 2. LES TICKETS ====================
+    'Ticket',                   // Maintenant qu'il est isolé, le ticket peut être purgé
     'TaskCategory',             // Catégories de tâches
     
-    // ==================== 7. GESTION DES PROJETS ====================
-    'Project',                  // Projets
-    'ProjectTask',              // Tâches de projet
-    'Project_Team',             // Équipes de projet
+    // ==================== 3. ASSOCIATIONS DU PARC ====================
+    'Item_DeviceMemory', 'Item_DeviceHardDrive', 'Item_DeviceProcessor', 
+    'Item_DeviceGraphicCard', 'Item_DeviceNetworkCard', 'Item_DeviceSoundCard', 
+    'Item_DeviceMotherboard', 'Item_DevicePowerSupply', 'Item_DeviceDrive', 
+    'Item_DeviceControl', 'Item_DeviceSensor', 'Item_DeviceCase', 
+    'Item_OperatingSystem', 'Infocom', 
     
-    // ==================== 8. GESTION DES RESSOURCES ====================
-    'Budget',                   // Budgets
-    'Supplier',                 // Fournisseurs
-    'Contact',                  // Contacts
-    'Contact_Supplier',         // Association Contact - Fournisseur
+    // ==================== 4. COMPOSANTS TECHNIQUES ====================
+    'DeviceMemory', 'DeviceHardDrive', 'DeviceProcessor', 'DeviceGraphicCard', 
+    'DeviceNetworkCard', 'DeviceSoundCard', 'DeviceMotherboard', 'DevicePowerSupply', 
+    'DeviceDrive', 'DeviceControl', 'DeviceSensor', 'DeviceCase', 'DeviceBattery', 'DeviceFirmware', 
     
-    // ==================== 9. MODÈLES ET FABRICANTS (référentiel à conserver partiellement) ====================
-    // 'ComputerModel',          // Commenté car à conserver (référentiel)
-    // 'PrinterModel',           // Commenté car à conserver (référentiel)
-    // 'MonitorModel',           // Commenté car à conserver (référentiel)
-    // 'NetworkEquipmentModel',  // Commenté car à conserver (référentiel)
-    // 'PhoneModel',             // Commenté car à conserver (référentiel)
-    // 'PeripheralModel',        // Commenté car à conserver (référentiel)
-    // 'Manufacturer',           // Commenté car à conserver (référentiel)
+    // ==================== 5. SYSTÈMES D'EXPLOITATION ====================
+    'OperatingSystem', 'OperatingSystemVersion', 'OperatingSystemEdition', 
+    'OperatingSystemKernel', 'OperatingSystemServicePack', 
     
-    // ==================== 10. ÉTATS ET LOCALISATIONS (référentiel à conserver) ====================
-    // 'State',                  // Commenté car à conserver (référentiel)
-    // 'Location',               // Commenté car à conserver (référentiel)
+    // ==================== 6. ÉQUIPEMENTS PRINCIPAUX ====================
+    'Computer', 'Printer', 'Monitor', 'NetworkEquipment', 'Phone', 'Peripheral', 
+    'Software', 'SoftwareLicense', 'SoftwareVersion', 'CartridgeItem', 'ConsumableItem', 
+    'Contract', 'Certificate', 'Appliance', 
     
-    // ==================== 11. RELATIONS UTILISATEURS ====================
-    'Group_User',               // Association Groupe - Utilisateur
-    'Profile_User',             // Association Profil - Utilisateur
-    'Group',                    // Groupes d'utilisateurs
-    'User_Validation',          // Validations des utilisateurs
-    'User_Email',               // Emails des utilisateurs
+    // ==================== 7. PROJETS & RESSOURCES ====================
+    'ProjectTask', 'Project', 'Budget', 'Supplier', 'Contact_Supplier', 'Contact', 
     
-    // ==================== 12. DONNÉES CRITIQUES (suppression avec précautions) ====================
-    'User',                     // Utilisateurs (sauf 'glpi')
-    'Profile',                  // Profils (sauf 'Super-Admin')
-    'Entity'                    // Entités (sauf racine id=0)
+    // ==================== 8. RELATIONS UTILISATEURS ====================
+    'Group_User', 
+    // 'Profile_User', 
+    'Group', 
+    'UserEmail',                // Adresses emails distantes (souvent liées à glpi_useremails)
+    
+    // ==================== 9. DONNÉES CRITIQUES (EN TOUT DERNIER) ====================
+    'User',                     // Les utilisateurs (sans les tickets rattachés, ils sautent enfin)
+    'Profile', 
+    'Entity'
 ];
 
-/**
- * Découpe un tableau en plusieurs paquets (chunks) d'une taille maximale donnée
- */
 const chunkArray = (array, size) => {
   const chunks = [];
   for (let i = 0; i < array.length; i += size) {
@@ -131,17 +74,22 @@ const chunkArray = (array, size) => {
 };
 
 export const resetDataRepository = {
-    /**
-     * Supprime TOUTES les données de GLPI (mode radical)
-     * ⚠️ ATTENTION : Cette action est irréversible !
-     * @param {boolean} keepReferentials - Si true, conserve les référentiels (fabricants, modèles, états, localisations)
-     */
-    async resetAllData(keepReferentials = true) {
-        console.log('[ResetData] 🚨 DÉBUT DE LA RÉINITIALISATION COMPLÈTE RAPIDE 🚨');
+    
+    async resetAllData(keepReferentials = false) { // 💡 Changé à FALSE par défaut pour que l'action par défaut nettoie tout
+        console.log('[ResetData] 🚨 DÉBUT DE LA RÉINITIALISATION COMPLÈTE OPTIMISÉE 🚨');
         
-        const results = { success: [], errors: [], skipped: [] };
+        let ticketsSupprimés = 0;
+        let usersSupprimés = 0;
+        let assetsSupprimés = 0;
+        const errors = [];
+        
+        const results = { 
+            success: [], errors: [], skipped: [],
+            ticketsSupprimés: 0, usersSupprimés: 0, assetsSupprimés: 0, errorsList: []
+        };
         
         for (const endpoint of ENDPOINTS_TO_PURGE) {
+            // Sécurité : Si keepReferentials est actif, on protège les tables de structure
             if (keepReferentials && this.isReferentialEndpoint(endpoint)) {
                 console.log(`[ResetData] ⏭️ Skipped (référentiel conservé): ${endpoint}`);
                 results.skipped.push(endpoint);
@@ -150,7 +98,9 @@ export const resetDataRepository = {
             
             try {
                 console.log(`[ResetData] 📡 Récupération de: ${endpoint}`);
-                // Astuce : expand=0 charge beaucoup moins le serveur GLPI que expand=1 si on veut juste l'ID !
+                
+                // 💡 AJOUT : range=0-2000 supprime les 2000 premiers. Si tu as énormément de data, 
+                // on met une sécurité pour vider les tables d'associations d'un seul coup.
                 const response = await apiClient.get(`${endpoint}?range=0-2000&expand=0`);
                 
                 let items = Array.isArray(response) 
@@ -160,59 +110,81 @@ export const resetDataRepository = {
                         : response?.['hydra:member'] || [];
                 
                 if (items.length === 0) {
-                    results.success.push(`${endpoint}: 0 élément`);
                     continue;
                 }
                 
-                // Filtrer immédiatement les éléments protégés pour ne pas perdre de temps
-                const itemsToDelete = items.filter(item => {
-                    if (this.isProtectedItem(endpoint, item)) {
-                        results.skipped.push(`${endpoint}/${item.id}`);
-                        return false;
-                    }
-                    return true;
-                });
+                // Filtrer les éléments protégés du cœur (comme l'user 'glpi')
+                const itemsToDelete = items.filter(item => !this.isProtectedItem(endpoint, item));
 
-                console.log(`[ResetData] 📊 ${itemsToDelete.length} élément(s) à purger en parallèle pour ${endpoint}`);
+                if (itemsToDelete.length === 0) continue;
+
+                console.log(`[ResetData] 📊 ${itemsToDelete.length} élément(s) à purger pour ${endpoint}`);
                 
-                let deletedCount = 0;
-                // On sépare notre liste en paquets de 20 suppressions simultanées
-                const batches = chunkArray(itemsToDelete, 20); 
+                const batches = chunkArray(itemsToDelete, 20);
 
                 for (const batch of batches) {
-                    // On prépare les promesses HTTP du paquet courant
                     const deletePromises = batch.map(async (item) => {
-                        try {
-                            await apiClient.delete(`${endpoint}/${item.id}?force_purge=1`);
-                            deletedCount++;
-                        } catch (deleteError) {
-                            results.errors.push(`${endpoint}/${item.id}: ${deleteError.message}`);
+                    try {
+                        if (endpoint === 'Ticket') {
+                            try {
+                                // Tentative 1 : Purge directe (méthode radicale)
+                                await apiClient.delete(`${endpoint}/${item.id}?force_purge=true`);
+                            } catch (firstAnomalie) {
+                                console.log(`[ResetData] ⚠️ Purge directe du ticket ${item.id} refusée. Tentative via mise à la corbeille...`);
+                                
+                                // Tentative 2 : Envoi à la corbeille d'abord (DELETE standard)
+                                await apiClient.delete(`${endpoint}/${item.id}`);
+                                
+                                // Suivi immédiatement de la purge de la corbeille
+                                await apiClient.delete(`${endpoint}/${item.id}?force_purge=true`);
+                            }
+                            ticketsSupprimés++;
+                        } else {
+                            // Comportement normal pour tous les autres endpoints
+                            await apiClient.delete(`${endpoint}/${item.id}?force_purge=true`);
+                            
+                            if (endpoint === 'User') {
+                                usersSupprimés++;
+                            } else if (['Computer', 'Printer', 'Monitor', 'NetworkEquipment', 'Phone', 'Peripheral'].includes(endpoint)) {
+                                assetsSupprimés++;
+                            }
                         }
-                    });
+                    } catch (deleteError) {
+                        const errMsg = deleteError.response?.data?.[1] || deleteError.response?.data?.message || deleteError.message;
+                        console.error(`[ResetData] ❌ Échec persistant sur ${endpoint} ID ${item.id}:`, errMsg);
+                        errors.push(`${endpoint} (ID: ${item.id}): ${errMsg}`);
+                    }
+                });
 
-                    // On déclenche le paquet complet en PARALLÈLE et on attend qu'il finisse
                     await Promise.all(deletePromises);
                 }
                 
-                console.log(`[ResetData] 📊 ${endpoint}: ${deletedCount} élément(s) supprimé(s)`);
-                results.success.push(`${endpoint}: ${deletedCount} élément(s)`);
+                results.success.push(`${endpoint}: ${itemsToDelete.length} traité(s)`);
                 
             } catch (error) {
-                console.error(`[ResetData] ❌ Erreur globale sur ${endpoint}:`, error.message);
-                results.errors.push(`${endpoint}: ${error.message}`);
+                const globalErrMsg = error.response?.data?.[1] || error.message;
+                console.error(`[ResetData] ❌ Erreur sur ${endpoint}:`, globalErrMsg);
+                errors.push(`${endpoint}: ${globalErrMsg}`);
             }
         }
         
-        console.log('\n🏁 RÉINITIALISATION TERMINÉE 🏁');
-        return results;
+        // Hydratation des compteurs finaux
+        results.ticketsSupprimés = ticketsSupprimés;
+        results.usersSupprimés = usersSupprimés;
+        results.assetsSupprimés = assetsSupprimés;
+        results.errorsList = errors;
+        
+        console.log('\n===== FIN DU TRAITEMENT =====');
+        console.log(`📊 Résumé -> Tickets purgés: ${ticketsSupprimés}, Users purgés: ${usersSupprimés}, Matériels: ${assetsSupprimés}`);
+        
+        return {
+            success: errors.length === 0 || ticketsSupprimés > 0 || usersSupprimés > 0 || assetsSupprimés > 0,
+            data: { ticketsSupprimés, usersSupprimés, assetsSupprimés, errors: errors },
+            error: errors.length > 0 ? `${errors.length} requêtes ont échoué.` : null,
+            rawResults: results
+        };
     },
 
-
-    /**
-     * Vérifie si un endpoint est un référentiel à conserver
-     * @param {string} endpoint - Nom de l'endpoint
-     * @returns {boolean}
-     */
     isReferentialEndpoint(endpoint) {
         const referentials = [
             'ComputerModel', 'PrinterModel', 'MonitorModel', 'NetworkEquipmentModel', 'PhoneModel', 'PeripheralModel',
@@ -221,28 +193,10 @@ export const resetDataRepository = {
         return referentials.includes(endpoint);
     },
     
-    /**
-     * Vérifie si un élément est protégé (ne doit pas être supprimé)
-     * @param {string} endpoint - Nom de l'endpoint
-     * @param {object} item - L'élément à vérifier
-     * @returns {boolean}
-     */
     isProtectedItem(endpoint, item) {
-        // Protection de l'entité racine
-        if (endpoint === 'Entity' && (item.id === 0 || item.completename === 'Root entity')) {
-            return true;
-        }
-        
-        // Protection de l'utilisateur GLPI par défaut
-        if (endpoint === 'User' && (item.name === 'glpi' || item.name === 'admin' || item.id === 1)) {
-            return true;
-        }
-        
-        // Protection du profil Super-Admin
-        if (endpoint === 'Profile' && (item.name === 'Super-Admin' || item.id === 1)) {
-            return true;
-        }
-        
+        if (endpoint === 'Entity' && (item.id === 0 || item.id === '0' || item.completename === 'Root entity')) return true;
+        if (endpoint === 'User' && (item.name === 'glpi' || item.name === 'glpi-system' || item.id === 1 || item.id === '1')) return true;
+        if (endpoint === 'Profile' && (item.name === 'Super-Admin' || item.id === 1 || item.id === '1')) return true;
         return false;
     },
     

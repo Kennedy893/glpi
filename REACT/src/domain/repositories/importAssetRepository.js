@@ -333,5 +333,62 @@ export const ImportAssetRepository = {
         
         throw error;
     }
+  },
+
+  // --- MONITORS --- 
+  async createMonitor(printerData) {
+    console.log('[createMonitor] computerData =', printerData);
+
+    try {
+        // 1. Préparer le payload avec toutes les données nécessaires
+        const payload = {
+            input: [printerData]  // ← IMPORTANT: tableau avec un objet
+        };
+
+        console.log('[createMonitor] Payload envoyé =', JSON.stringify(payload, null, 2));
+
+        // 2. Envoyer la requête (sans slash devant Printer)
+        const response = await apiClient.post('Monitor', payload);
+
+        console.log('[createMonitor] Réponse création monitor =', response);
+
+        // 3. Extraire l'ID créé (gérer différents formats de réponse)
+        let computerId = null;
+        if (response && response.id) {
+        computerId = response.id;
+        } else if (response && response[0] && response[0].id) {
+        computerId = response[0].id;
+        } else if (response && response.data && response.data.id) {
+        computerId = response.data.id;
+        }
+
+        if (!computerId) {
+        console.error('Format de réponse inattendu:', response);
+        throw new Error('Impossible de récupérer l\'ID du computer créé');
+        }
+
+        console.log('[createMonitor] Utilisateur créé avec succès, ID =', computerId);
+        return computerId;
+
+    } catch (error) {
+        console.error('[createMonitor] Erreur détaillée:', error);
+        
+        // Afficher plus de détails sur l'erreur API
+        if (error.response) {
+            console.error('Status:', error.response.status);
+            console.error('Data:', error.response.data);
+            
+            // Message d'erreur plus explicite
+            if (error.response.data && error.response.data.message) {
+                throw new Error(`GLPI: ${error.response.data.message}`);
+            } else if (error.response.data && error.response.data[0]) {
+                throw new Error(`GLPI: ${error.response.data[0].message}`);
+            } else {
+                throw new Error(`Erreur GLPI (${error.response.status}): ${JSON.stringify(error.response.data)}`);
+            }
+        }
+        
+        throw error;
+    }
   }
 }

@@ -99,6 +99,14 @@ export const ImportAssetVerif = {
         }
     },
 
+    // Wrapper pour User (comportement original)
+    async getOrCreateUser(name) {
+        return this.getOrCreateEntity(name, {
+            entityType: 'User',
+            searchField: 'name'
+        });
+    },
+
     // Wrapper pour Manufacturer (comportement original)
     async getOrCreateManufacturer(name) {
         return this.getOrCreateEntity(name, {
@@ -119,6 +127,14 @@ export const ImportAssetVerif = {
     async getOrCreatePrinterModel(name) {
         return this.getOrCreateEntity(name, {
             entityType: 'PrinterModel',
+            searchField: 'name'
+        });
+    },
+
+    // Wrapper pour MonitorModel (comportement original)
+    async getOrCreateMonitorModel(name) {
+        return this.getOrCreateEntity(name, {
+            entityType: 'MonitorModel',
             searchField: 'name'
         });
     },

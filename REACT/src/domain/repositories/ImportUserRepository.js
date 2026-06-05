@@ -317,20 +317,20 @@ export const ImportUserRepository = {
 
         // 3. Préparer le payload avec toutes les données nécessaires
         const payload = {
-        input: {
-            name: userData.login.toLowerCase().trim(),  // Login en minuscules
-            firstname: userData.prenom || '',
-            realname: userData.nom || '',
-            password: userData.pwd,
-            password2: userData.pwd,  // GLPI demande confirmation du mot de passe
-            email: userData.email || '',
-            locations_id: userData.locationId && !isNaN(userData.locationId) ? parseInt(userData.locationId) : 0,
-            is_active: 1,  // Activer le compte
-            is_deleted: 0,  // Non supprimé
-            begin_date: null,
-            end_date: null,
-            language: 'fr_FR',  // Langue par défaut
-        }
+            input: {
+                name: userData.login.toLowerCase().trim(),  // Login en minuscules
+                firstname: userData.prenom || '',
+                realname: userData.nom || '',
+                password: userData.pwd,
+                password2: userData.pwd,  // GLPI demande confirmation du mot de passe
+                email: userData.email || '',
+                locations_id: userData.locationId && !isNaN(userData.locationId) ? parseInt(userData.locationId) : 0,
+                is_active: 1,  // Activer le compte
+                is_deleted: 0,  // Non supprimé
+                begin_date: null,
+                end_date: null,
+                language: 'fr_FR',  // Langue par défaut
+            }
         };
 
         console.log('[createUser] Payload envoyé =', JSON.stringify(payload, null, 2));

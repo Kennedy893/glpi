@@ -63,9 +63,11 @@ const extractCapacity = (storageStr) => {
  */
 const normalizeTypeForGLPI = (type) => {
   const TYPE_MAP = {
+    'Computer': 'Computer',
     'Ordinateur': 'Computer',
     'Serveur': 'Computer',
     'Imprimante': 'Printer',
+    'Monitor': 'Monitor',
     'Écran': 'Monitor',
     'Ecran': 'Monitor',
     'Téléphone': 'Phone',
@@ -102,7 +104,7 @@ const isValidPrice = (priceStr) => {
  * Valide le type d'équipement
  */
 const isValidType = (type) => {
-  const validTypes = ['Ordinateur', 'Serveur', 'Imprimante', 'Écran', 'Ecran', 'Switch', 'Routeur', 'Téléphone'];
+  const validTypes = ['Computer', 'Monitor', 'Ordinateur', 'Serveur', 'Imprimante', 'Écran', 'Ecran', 'Switch', 'Routeur', 'Téléphone'];
   return validTypes.includes(type);
 };
 
@@ -123,6 +125,15 @@ const normalizeRam = (ramStr) => {
   return match ? parseInt(match[1]) : null;
 };
 
+export const GLPI_TYPE_MAP = {
+  'Computer':         'Computer',
+  'Monitor':          'Monitor',
+  'Printer':          'Printer',
+  'NetworkEquipment': 'NetworkEquipment',
+  'Phone':            'Phone',
+  'Peripheral':       'Peripheral',
+};
+
 /**
  * Valide et transforme une ligne brute du CSV materiels en entité exploitable.
  * Les données sont déjà formatées pour GLPI.
@@ -131,117 +142,61 @@ export const validateAndMapMaterielRow = (rawRow, index) => {
   const errors = [];
   const lineNum = index + 2;
 
-  // 1. Validation du nom (obligatoire)
-  if (!rawRow.nom || rawRow.nom.trim() === '') {
-    errors.push(`Ligne ${lineNum} : Le nom de l'équipement est obligatoire.`);
-  }
+  // // 1. Nom (obligatoire)
+  // if (!rawRow.Name || rawRow.Name.trim() === '')
+  //   errors.push(`Ligne ${lineNum} : Le nom de l'équipement est obligatoire.`);
 
-  // 2. Validation du type (obligatoire)
-  if (!rawRow.type || rawRow.type.trim() === '') {
-    errors.push(`Ligne ${lineNum} : Le type d'équipement est obligatoire.`);
-  } else if (!isValidType(rawRow.type)) {
-    errors.push(`Ligne ${lineNum} : Le type "${rawRow.type}" n'est pas reconnu.`);
-  }
+  // // 2. Type (obligatoire)
+  // if (!rawRow.Item_Type || rawRow.Item_Type.trim() === '')
+  //   errors.push(`Ligne ${lineNum} : Le type d'équipement est obligatoire.`);
+  // else if (!isValidType(rawRow.Item_Type))
+  //   errors.push(`Ligne ${lineNum} : Type "${rawRow.Item_Type}" non reconnu. Types valides : ${Object.keys(GLPI_TYPE_MAP).join(', ')}`);
 
-  // 3. Validation de la marque (obligatoire)
-  if (!rawRow.marque || rawRow.marque.trim() === '') {
-    errors.push(`Ligne ${lineNum} : La marque est obligatoire.`);
-  }
+  // // 3. Status (obligatoire)
+  // if (!rawRow.Status || rawRow.Status.trim() === '')
+  //   errors.push(`Ligne ${lineNum} : Le statut est obligatoire.`);
 
-  // 4. Validation du modèle (obligatoire)
-  if (!rawRow.modele || rawRow.modele.trim() === '') {
-    errors.push(`Ligne ${lineNum} : Le modèle est obligatoire.`);
-  }
+  // // 4. Location (obligatoire)
+  // if (!rawRow.Location || rawRow.Location.trim() === '')
+  //   errors.push(`Ligne ${lineNum} : La localisation est obligatoire.`);
 
-  // 5. Validation de l'état (obligatoire)
-  if (!rawRow.etat || rawRow.etat.trim() === '') {
-    errors.push(`Ligne ${lineNum} : L'état est obligatoire.`);
-  }
+  // // 5. Manufacturer (obligatoire)
+  // if (!rawRow.Manufacturer || rawRow.Manufacturer.trim() === '')
+  //   errors.push(`Ligne ${lineNum} : Le fabricant est obligatoire.`);
 
-  // 6. Validation de la localisation (obligatoire)
-  if (!rawRow.localisation || rawRow.localisation.trim() === '') {
-    errors.push(`Ligne ${lineNum} : La localisation est obligatoire.`);
-  }
+  // // 6. Model (obligatoire)
+  // if (!rawRow.Model || rawRow.Model.trim() === '')
+  //   errors.push(`Ligne ${lineNum} : Le modèle est obligatoire.`);
 
-  // 7. Validation de la date d'achat
-  if (rawRow.date_achat && rawRow.date_achat.trim() !== '') {
-    if (!isValidDate(rawRow.date_achat)) {
-      errors.push(`Ligne ${lineNum} : La date d'achat "${rawRow.date_achat}" est invalide.`);
-    }
-  }
+  // // 7. Inventory_Number (obligatoire)
+  // if (!rawRow.Inventory_Number || rawRow.Inventory_Number.trim() === '')
+  //   errors.push(`Ligne ${lineNum} : Le numéro d'inventaire est obligatoire.`);
 
-  // 8. Validation du prix d'achat
-  if (rawRow.prix_achat && rawRow.prix_achat.trim() !== '') {
-    if (!isValidPrice(rawRow.prix_achat)) {
-      errors.push(`Ligne ${lineNum} : Le prix d'achat "${rawRow.prix_achat}" est invalide.`);
-    }
-  }
+  if (errors.length > 0) return { data: null, errors };
 
-  if (errors.length > 0) {
-    return { data: null, errors };
-  }
+  // === NETTOYAGE ET MAPPING POUR GLPI ===
 
-  // === FORMATAGE ET CONVERSION POUR GLPI ===
-  
-  const cleanType = rawRow.type.trim();
-  const glpiType = normalizeTypeForGLPI(cleanType);
-  
-  // Formater les dates pour GLPI
-  const formattedDateAchat = formatDateForGLPI(rawRow.date_achat);
-  
-  // Convertir le prix en nombre
-  const convertedPrice = convertPrice(rawRow.prix_achat);
-  
-  // Données spécifiques selon le type
-  let ramForGLPI = null;
-  let storageForGLPI = null;
-  let ramSize = null;
-  let storageCapacity = null;
-  
-  if (glpiType === 'Computer') {
-    // Pour les ordinateurs, extraire la taille de RAM
-    if (rawRow.ram) {
-      ramForGLPI = rawRow.ram.trim();
-      ramSize = normalizeRam(rawRow.ram);
-    }
-    
-    // Pour le stockage, extraire la capacité
-    if (rawRow.stockage) {
-      storageForGLPI = rawRow.stockage.trim();
-      storageCapacity = extractCapacity(rawRow.stockage);
-    }
-  }
+  const userResolved = rawRow.User;
 
-  // Retourne l'objet standardisé et PRÊT POUR GLPI
   return {
     errors: [],
     data: {
-      // Données originales nettoyées
-      nom: rawRow.nom.trim(),
-      reference: normalizeReference(rawRow.reference),
-      type: cleanType,           // Type original français
-      marque: rawRow.marque.trim(),
-      modele: rawRow.modele.trim(),
-      etat: rawRow.etat.trim(),
-      localisation: rawRow.localisation.trim(),
-      numeroSerie: rawRow.numero_serie ? rawRow.numero_serie.trim() : null,
-      
-      // Données formatées pour GLPI
-      glpiType: glpiType,        // Type GLPI (Computer, Printer, etc.)
-      prixAchat: convertedPrice,  // Nombre (850.00)
-      dateAchat: formattedDateAchat,  // Format YYYY-MM-DD
-      
-      // Données techniques formatées
-      ram: ramForGLPI,           // Chaîne originale (ex: "16Go")
-      ramSize: ramSize,          // Taille en Go (16)
-      stockage: storageForGLPI,   // Chaîne originale (ex: "512Go SSD")
-      storageCapacity: storageCapacity, // Capacité en Go (512)
-      os: rawRow.os ? rawRow.os.trim() : null,
-      
-      // Champs additionnels
-      technicien: rawRow.technicien ? rawRow.technicien.trim() : null,
-      fournisseur: rawRow.fournisseur ? rawRow.fournisseur.trim() : null,
-      dateFinGarantie: formatDateForGLPI(rawRow.date_fin_garantie)
+      // Champs directs
+      name:              rawRow.Name.trim(),
+      inventoryNumber:  normalizeReference(rawRow.Inventory_Number),
+      type:             rawRow.Item_Type.trim(),
+      glpiType:         GLPI_TYPE_MAP[rawRow.Item_Type.trim()],
+
+      // Champs à résoudre via getOrCreate
+      status:       rawRow.Status.trim(),
+      location: rawRow.Location.trim(),
+      manufacturer:       rawRow.Manufacturer.trim(),
+      modele:       rawRow.Model.trim(),
+
+      // User : personne ou groupe
+      // userType:  userResolved.type,   // 'user' | 'group' | 'none'
+      // userValue: userResolved.value,  // nom à résoudre via GET
+      user: userResolved
     }
   };
 };
