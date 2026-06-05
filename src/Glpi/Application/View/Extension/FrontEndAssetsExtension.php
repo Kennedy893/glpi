@@ -65,7 +65,8 @@ class FrontEndAssetsExtension extends AbstractExtension
 
     public function __construct(string $root_dir = GLPI_ROOT)
     {
-        $this->root_dir = $root_dir;
+        // $this->root_dir = $root_dir;
+        $this->root_dir = str_replace(DIRECTORY_SEPARATOR, '/', $root_dir); // Normalize root dir path to avoid issues on Windows
     }
 
     public function getFunctions(): array
