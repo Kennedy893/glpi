@@ -6,6 +6,7 @@ import { UserImportPage } from '../pages/UserImportPage';
 import { ResetPage } from '../pages/ResetPage';
 import { ProtectedRoute } from '../components/ProtectedRoute';
 import { BackofficeLayout } from '../components/layout/BackofficeLayout';
+import { DashboardPage } from '../pages/dashboard/DashboardPage';
 
 const RouteConfig = () => {
   return (
@@ -34,6 +35,14 @@ const RouteConfig = () => {
         <ProtectedRoute>
           <BackofficeLayout>
             <ResetPage />
+          </BackofficeLayout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/dashboard" element={
+        <ProtectedRoute>
+          <BackofficeLayout>
+            <DashboardPage />
           </BackofficeLayout>
         </ProtectedRoute>
       } />

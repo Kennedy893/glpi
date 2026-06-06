@@ -207,6 +207,30 @@ class ApiClientRepository {
     }
   }
 
+  // Lire les headers 
+  async getWithHeaders(endpoint) {
+    if (!this.sessionToken) {
+      await this.initSession();
+    }
+
+    const response = await fetch(`${this.baseUrl}/${endpoint}`, {
+      method: 'GET',
+      headers: {
+        'App-Token':     this.appToken,
+        'Session-Token': this.sessionToken,
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const contentRange = response.headers.get('Content-Range'); // ✅ headers accessibles ici
+
+    return { data, contentRange };
+  }
+
 }
 
 // Instance unique (singleton)
@@ -227,3 +251,4 @@ export const getApiClient = () => {
   }
   return apiClientInstance;
 };
+

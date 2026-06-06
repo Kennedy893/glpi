@@ -3,6 +3,7 @@ import { LoginPage } from '../pages/login/LoginPage';
 import { TicketsPage } from '../pages/ticket/TicketsPage';
 import { UserImportPage } from '../pages/UserImportPage';
 import { ResetPage } from '../pages/ResetPage';
+import { DashboardPage } from '../pages/dashboard/DashboardPage';
 
 // Configuration du menu (barre de navigation)
 export const menuConfig = [
@@ -17,6 +18,10 @@ export const menuConfig = [
   {
     label: 'Reset Données',
     path: '/reset',
+  },
+  {
+    label: 'Dashboard',
+    path: '/dashboard',
   }
 ];
 
@@ -45,6 +50,12 @@ export const routesConfig = [
   {
     path: '/reset',
     component: ResetPage,
+    protected: true,
+    title: 'Réinitialisation'
+  },
+  {
+    path: '/dashboard',
+    component: DashboardPage,
     protected: true,
     title: 'Réinitialisation'
   }
