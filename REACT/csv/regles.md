@@ -254,7 +254,7 @@ POST /Item_Ticket
 }
 
 <!-- ///////////////////////////////////// -->
-
+FICHIER 1
 Pour chaque ligne :
 
 1. Lire Item_Type → choisir endpoint principal (Computer, Monitor...)
@@ -314,3 +314,62 @@ POST /Monitor
 → id_monitor
 
 (pas d'Infocom, pas de composants — colonnes absentes du CSV)
+
+
+FICHIER 2
+POST /Ticket
+{
+  input: {
+    ref:      "1",                       // Ref_Ticket → otherserial si disponible
+    date:     "2026-06-03 13:45:00",     // Date + Heure combinées
+    type:     1,                         // "Incident" → 1
+    name:     "Tsy mandeha",             // Titre
+    content:  "hafahafa be",             // Description
+    status:   1,                         // "New" → 1
+    priority: 3,                         // "Medium" → 3
+    entities_id: 0                       // entité racine par défaut
+  }
+}
+→ id_ticket
+
+"Incident" → 1
+"Demande"  → 2
+
+"New"         → 1
+"Processing"  → 2
+"Pending"     → 4
+"Solved"      → 5
+"Closed"      → 6
+
+"Very Low"  → 1
+"Low"       → 2
+"Medium"    → 3
+"High"      → 4
+"Very High" → 5
+"Major"     → 6
+
+
+Pour "PC-ADM-001" :
+  GET /Computer?searchText=PC-ADM-001   → { id: X, itemtype: "Computer" }
+
+Pour "MN-FORM-002" :
+  GET /Monitor?searchText=MN-FORM-002   → { id: Y, itemtype: "Monitor" }
+
+
+POST /Item_Ticket
+{
+  input: {
+    tickets_id: <id_ticket>,
+    itemtype:   "Computer",
+    items_id:   <id_computer>
+  }
+}
+
+POST /Item_Ticket
+{
+  input: {
+    tickets_id: <id_ticket>,
+    itemtype:   "Monitor",
+    items_id:   <id_monitor>
+  }
+}

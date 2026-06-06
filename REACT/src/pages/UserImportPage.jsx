@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { useAssetImporter } from '../hooks/import/useAssetImport';
+import { useTicketImport } from '../hooks/import/useTicketImport';
 
 export const UserImportPage = () => {
   const [file, setFile] = useState(null);
-  const { importCsv, loading, logs, progress } = useAssetImporter();
+  // const { importCsv, loading, logs, progress } = useAssetImporter();
+  const { importCsv, loading, logs, progress } = useTicketImport();
 
   const handleFileChange = (e) => {
     if (e.target.files) setFile(e.target.files[0]);

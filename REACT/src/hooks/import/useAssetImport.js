@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { parseCsv } from '../../domain/models/utils/CsvParser';
-import { validateAndMapMaterielRow } from '../../domain/models/assets/AssetImport';
+import { validateAndMapMaterielRow } from '../../domain/models/import/AssetImport';
 import { ImportAssetRepository } from '../../domain/repositories/ImportAssetRepository';
 import { ImportAssetVerif } from '../../domain/repositories/ImportAssetVerif';
 
