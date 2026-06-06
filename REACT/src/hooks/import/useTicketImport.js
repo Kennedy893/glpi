@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { parseCsv } from '../../domain/models/utils/CsvParser';
 import { validateAndMapTicketRow } from "../../domain/models/import/TicketImport";
 import { ImportTicketRepository } from "../../domain/repositories/ImportTicketRepository";
+import { ImportAssetVerif } from '../../domain/repositories/ImportAssetVerif';
 
 export const useTicketImport = () => {
     const [loading, setLoading] = useState(false);
@@ -62,14 +63,24 @@ export const useTicketImport = () => {
 
                 const refToGlpiId = {}; // table de correspondance en mémoire
                 
+                // Table de mapping itemtype → fonction de recherche
+                const FIND_ASSET_FN = {
+                    'Computer':        (name) => ImportAssetVerif.findComputerByName(name),
+                    'Monitor':         (name) => ImportAssetVerif.findMonitorByName(name),
+                    // 'Printer':         (name) => ImportAssetVerif.findPrinterByName(name),
+                    // 'NetworkEquipment':(name) => ImportAssetVerif.findNetworkEquipmentByName(name),
+                    // 'Phone':           (name) => ImportAssetVerif.findPhoneByName(name),
+                    // 'Peripheral':      (name) => ImportAssetVerif.findPeripheralByName(name),
+                };
+
                 for (let i = 0; i < totalRows; i++) {
                     const ticket = validatedRows[i];
                     const ticketLogName = `${ticket.refTicket} ${ticket.titre}`;
                     console.log('ITEMS = ',ticket.items);
                     
                     try {
-                        // Creer le Ticket
-                        const response = await ImportTicketRepository.createTicket({
+                        // 1- Creer le Ticket
+                        const ticketId = await ImportTicketRepository.createTicket({
                             "date": ticket.date,
                             "type": ticket.type,
                             "name": ticket.titre,
@@ -80,9 +91,40 @@ export const useTicketImport = () => {
                         });
 
                         // Sauvegarder la correspondance
-                        refToGlpiId[ticket.refTicket] = response;
+                        refToGlpiId[ticket.refTicket] = ticketId;
                         // → refToGlpiId["1"] = 42  (l'id réel dans GLPI)
                         console.log(refToGlpiId);
+
+                        // 2- Lien Ticket<->Asset
+                        for (const item of ticket.items) {
+                            try {
+                                // Trouver l'asset par nom (pas getOrCreate !)
+                                const findFn = FIND_ASSET_FN[item.itemtype];
+                                if (!findFn) {
+                                    addLog(`⚠️ Type "${item.itemtype}" non géré — asset ${item.name} ignoré.`);
+                                continue;
+                                }
+
+                                // FindID By Name
+                                const assetId = await findFn(item.name);
+                                if (!assetId) {
+                                    addLog(`⚠️ Asset "${item.name}" introuvable dans GLPI — lien ignoré.`);
+                                    continue;
+                                }
+
+                                // POST /Item_Ticket — le vrai lien
+                                await ImportTicketRepository.createItemTicket({
+                                    tickets_id: ticketId,
+                                    itemtype:   item.itemtype,
+                                    items_id:   assetId
+                                });
+
+                                addLog(`🔗 Lien créé : ${item.itemtype} "${item.name}" → Ticket ${ticketId}`);
+
+                            } catch (itemError) {
+                                addLog(`⚠️ Erreur lien asset ${item.name} : ${itemError.message}`);
+                            }
+                        }
                         
                     } catch (error) {
                         addLog(`❌ Erreur lors de l'intégration de ${ticketLogName} : ${error.message || error}`);

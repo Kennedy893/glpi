@@ -49,5 +49,33 @@ export const ImportTicketRepository = {
             throw error;
         }
         
+    },
+
+    async createItemTicket(data) {
+        console.log(`[createItemTicket] data = `, data);
+        
+        try {
+            const response = await apiClient.post('Item_Ticket', { input: data});
+            return response?.id ?? response?.[0]?.id ?? null;
+        } catch (error) {
+            console.error('[createItemTicket] Erreur détaillée:', error);
+            
+            // Afficher plus de détails sur l'erreur API
+            if (error.response) {
+                console.error('Status:', error.response.status);
+                console.error('Data:', error.response.data);
+                
+                // Message d'erreur plus explicite
+                if (error.response.data && error.response.data.message) {
+                    throw new Error(`GLPI: ${error.response.data.message}`);
+                } else if (error.response.data && error.response.data[0]) {
+                    throw new Error(`GLPI: ${error.response.data[0].message}`);
+                } else {
+                    throw new Error(`Erreur GLPI (${error.response.status}): ${JSON.stringify(error.response.data)}`);
+                }
+            }
+            
+            throw error;
+        }
     }
 }

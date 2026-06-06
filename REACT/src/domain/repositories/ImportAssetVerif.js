@@ -99,6 +99,32 @@ export const ImportAssetVerif = {
         }
     },
 
+    // Trouver un Computer par son nom
+    async findComputerByName(name) {
+        try {
+            const results = await apiClient.get(`Computer?searchText=${encodeURIComponent(name)}&range=0-1`);
+            if (Array.isArray(results) && results.length > 0) { 
+                return results[0].id;
+            }
+            return null;
+        } catch (error) {
+            console.error(`[findComputerByName]:`, error);
+        }
+    },
+
+    // Trouver un Monitor par son nom
+    async findMonitorByName(name) {
+        try {
+            const results = await apiClient.get(`Monitor?searchText=${encodeURIComponent(name)}&range=0-1`);
+            if (Array.isArray(results) && results.length > 0) { 
+                return results[0].id;
+            }
+            return null;
+        } catch (error) {
+            console.error(`[findMonitorByName]:`, error);
+        }
+    },
+
     // Wrapper pour User (comportement original)
     async getOrCreateUser(name) {
         return this.getOrCreateEntity(name, {
