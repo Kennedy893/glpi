@@ -7,12 +7,19 @@ import { ResetPage } from '../pages/ResetPage';
 import { ProtectedRoute } from '../components/ProtectedRoute';
 import { BackofficeLayout } from '../components/layout/BackofficeLayout';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
+import { CreateTicketPage } from '../pages/ticket/CreateTicketPage';
 
 const RouteConfig = () => {
   return (
     <Routes>
       {/* Route publique */}
       <Route path="/login" element={<LoginPage />} />
+
+      <Route path="/frontoffice/create-ticket" element={
+        <BackofficeLayout>
+            <CreateTicketPage />
+        </BackofficeLayout>
+      } />
       
       {/* Routes protégées */}
       <Route path="/" element={
@@ -46,7 +53,7 @@ const RouteConfig = () => {
           </BackofficeLayout>
         </ProtectedRoute>
       } />
-      
+
       {/* Redirection */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>

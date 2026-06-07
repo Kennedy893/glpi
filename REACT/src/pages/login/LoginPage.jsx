@@ -17,7 +17,7 @@ export const LoginPage = () => {
   }, [isAuthenticated, navigate]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // sert à empêcher la soumission d'un formulaire.
     setIsSubmitting(true);
     
     // Simulation d'un petit délai pour l'effet visuel
@@ -29,6 +29,10 @@ export const LoginPage = () => {
     
     setIsSubmitting(false);
   };
+
+  const handleFrontoffice = async () => {
+    navigate('/frontoffice/create-ticket');
+  }
 
   // Remplir automatiquement en développement
   useEffect(() => {
@@ -92,6 +96,8 @@ export const LoginPage = () => {
               )}
             </button>
           </form>
+
+          <button className="login-button" onClick={handleFrontoffice}>Accéder au frontoffice</button>
         </div>
         
         <div className="login-footer">

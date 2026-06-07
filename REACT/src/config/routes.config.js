@@ -4,6 +4,7 @@ import { TicketsPage } from '../pages/ticket/TicketsPage';
 import { ImportPage } from '../pages/ImportPage';
 import { ResetPage } from '../pages/ResetPage';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
+import { CreateTicketPage } from '../pages/ticket/CreateTicketPage';
 
 // Configuration du menu (barre de navigation)
 export const menuConfig = [
@@ -22,6 +23,10 @@ export const menuConfig = [
   {
     label: 'Tickets',
     path: '/tickets',
+  },
+  {
+    label: 'Creer Ticket',
+    path: '/frontoffice/create-ticket',
   },
 ];
 
@@ -58,6 +63,12 @@ export const routesConfig = [
     component: TicketsPage,
     protected: true,
     title: 'Gestion des tickets'
+  },
+  {
+    path: '/frontoffice/create-ticket',
+    component: CreateTicketPage,
+    protected: false,
+    title: 'Creation de ticket'
   },
 ];
 
