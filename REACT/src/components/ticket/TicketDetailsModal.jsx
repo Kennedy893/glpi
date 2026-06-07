@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react';
 import '../../assets/css/ticket/ticket-details-modal.css';
 import { useDetailsTicket } from '../../hooks/ticket/useDetailsTicket';
+import { useDetailsTicketCost } from '../../hooks/ticket/useDetailsTicketCost';
 
 export const TicketDetailsModal = ({ ticket, onClose, formatDate }) => {
   const [isVisible, setIsVisible] = useState(false);
   const { assets, loading, error } = useDetailsTicket(ticket.id);
+  const { costs } = useDetailsTicketCost(ticket.id);
 
   useEffect(() => {
     // Animation d'entrée
@@ -78,13 +80,65 @@ export const TicketDetailsModal = ({ ticket, onClose, formatDate }) => {
 
             {!loading && !error && assets.length > 0 && (
                 <div className="assets-list">
-                <span className="detail-label">Assets asscoiés :</span>
+                <span className="detail-label">Assets asscociés :</span>
                 {assets.map((asset, index) => (
                     <div key={index} className="asset-item">
                         <span className="asset-name">{asset.name}</span>
                     </div>
                 ))}
                 </div>
+            )}
+
+            {/* Section des coûts - Version professionnelle sans emojis */}
+            {costs.length > 0 && (
+              <div className="costs-section">
+                <span className="detail-label">Détails des coûts :</span>
+                <div className="costs-table-wrapper">
+                  <table className="costs-table">
+                    <thead>
+                      <tr>
+                        <th>N°</th>
+                        <th>Temps (min)</th>
+                        <th>Coût temps (€)</th>
+                        <th>Coût fixe (€)</th>
+                        <th>Coût matériel (€)</th>
+                        <th>Total (€)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {costs.map((cost, index) => {
+                        const total = (parseFloat(cost.cost_time || 0) + 
+                                      parseFloat(cost.cost_fixed || 0) + 
+                                      parseFloat(cost.cost_material || 0)).toFixed(2);
+                        return (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{cost.actiontime || 0}</td>
+                            <td>{parseFloat(cost.cost_time || 0).toFixed(2)}</td>
+                            <td>{parseFloat(cost.cost_fixed || 0).toFixed(2)}</td>
+                            <td>{parseFloat(cost.cost_material || 0).toFixed(2)}</td>
+                            <td className="total-cell">{total} €</td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                    <tfoot>
+                      <tr className="total-row">
+                        <td colSpan="2"><strong>Totaux :</strong></td>
+                        <td><strong>{costs.reduce((sum, c) => sum + parseFloat(c.cost_time || 0), 0).toFixed(2)} €</strong></td>
+                        <td><strong>{costs.reduce((sum, c) => sum + parseFloat(c.cost_fixed || 0), 0).toFixed(2)} €</strong></td>
+                        <td><strong>{costs.reduce((sum, c) => sum + parseFloat(c.cost_material || 0), 0).toFixed(2)} €</strong></td>
+                        <td className="total-cell"><strong>
+                          {costs.reduce((sum, c) => sum + 
+                            parseFloat(c.cost_time || 0) + 
+                            parseFloat(c.cost_fixed || 0) + 
+                            parseFloat(c.cost_material || 0), 0).toFixed(2)} €
+                        </strong></td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
             )}
 
             <div className="detail-section full-width">
