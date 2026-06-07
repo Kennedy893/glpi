@@ -30,7 +30,7 @@ export const ImportPage = () => {
     loading:   loadingCost,
     logs:      logsCost,
     progress:  progressCost,
-  } = useTicketCostImport(refToGlpiId);
+  } = useTicketCostImport();
 
   const loading = loadingAsset || loadingTicket || loadingCost;
   const allLogs = [...logsAsset, ...logsTicket, ...logsCost];
@@ -41,10 +41,14 @@ export const ImportPage = () => {
   const handleImportAll = async () => {
     if (!fileAsset || !fileTicket || !fileTicketCost) return;
 
-    // Séquentiel : assets → tickets → coûts
     await importAssets(fileAsset);
-    await importTickets(fileTicket);
-    await importCosts(fileTicketCost);
+
+    // Récupérer la table directement depuis le retour de importTickets
+    const table = await importTickets(fileTicket);
+    console.log('[ImportPage] table reçue =', table); // vérification
+
+    // Passer la table directement à importCosts — pas via le state
+    await importCosts(fileTicketCost, table);
   };
 
   const allFilesSelected = fileAsset && fileTicket && fileTicketCost;

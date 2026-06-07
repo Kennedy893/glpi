@@ -13,14 +13,12 @@ export const useTicketImport = () => {
         setLogs((prev) => [...prev, `[${new Date().toLocaleTimeString()}] ${message}`]);
     };
 
-    const importCsv = async (file) => {
-        setLoading(true);
-        setLogs([]);
-        setProgress(0);
+    const importCsv = (file) => {
+        return new Promise((resolve) => {
+            const reader = new FileReader();
+            const localRefToGlpiId = {}; // ← table locale
 
-        const reader = new FileReader();
-
-        reader.onload = async (e) => {
+            reader.onload = async (e) => {
             try {
                 const text = e.target.result;
                 addLog("Lecture du fichier CSV...");
@@ -132,6 +130,7 @@ export const useTicketImport = () => {
                     setProgress(Math.round(((i + 1) / totalRows) * 100));
                 }
                 addLog("🏁 Processus d'importation terminé.");
+                resolve(refToGlpiId); // ✅ retourne la table via resolve
                 return refToGlpiId;
             } catch (err) {
                 addLog(`❌ Erreur critique lors du traitement : ${err.message}`);
@@ -147,7 +146,8 @@ export const useTicketImport = () => {
 
         // Déclenche la lecture du fichier en texte UTF-8
         reader.readAsText(file, 'UTF-8');
-    };
+    });
 
+    }
     return { importCsv, loading, logs, progress };
 }
