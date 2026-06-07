@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import '../../assets/css/ticket/ticket-details-modal.css';
+import { useDetailsTicket } from '../../hooks/ticket/useDetailsTicket';
 
 export const TicketDetailsModal = ({ ticket, onClose, formatDate }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const { assets, loading, error } = useDetailsTicket(ticket.id);
 
   useEffect(() => {
     // Animation d'entrée
@@ -73,6 +75,17 @@ export const TicketDetailsModal = ({ ticket, onClose, formatDate }) => {
                 <span className="detail-value">{formatDate(ticket.date)}</span>
               </div>
             </div>
+
+            {!loading && !error && assets.length > 0 && (
+                <div className="assets-list">
+                <span className="detail-label">Assets asscoiés :</span>
+                {assets.map((asset, index) => (
+                    <div key={index} className="asset-item">
+                        <span className="asset-name">{asset.name}</span>
+                    </div>
+                ))}
+                </div>
+            )}
 
             <div className="detail-section full-width">
               <div className="detail-label">Description :</div>
