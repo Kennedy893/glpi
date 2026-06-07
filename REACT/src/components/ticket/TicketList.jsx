@@ -12,13 +12,6 @@ export const TicketList = ({ tickets, onRefresh }) => {
         </div>
         <h3 className="empty-state-title">Aucun ticket trouvé</h3>
         <p className="empty-state-description">Il n'y a actuellement aucun ticket dans la liste.</p>
-        <button className="btn-refresh-primary" onClick={onRefresh}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-            <circle cx="12" cy="12" r="3"/>
-          </svg>
-          Rafraîchir
-        </button>
       </div>
     );
   }
@@ -30,13 +23,6 @@ export const TicketList = ({ tickets, onRefresh }) => {
           <h3 className="table-title">Tickets</h3>
           <span className="ticket-count-badge">{tickets.length}</span>
         </div>
-        <button className="btn-refresh-outline" onClick={onRefresh}>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M23 4v6h-6M1 20v-6h6" strokeLinecap="round"/>
-            <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" strokeLinecap="round"/>
-          </svg>
-          Rafraîchir
-        </button>
       </div>
 
       <div className="table-wrapper">
