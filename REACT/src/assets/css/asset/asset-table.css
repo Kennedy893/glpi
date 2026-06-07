@@ -1,0 +1,144 @@
+/* assets/css/asset/asset-table.css */
+
+.asset-row {
+  transition: background-color 0.2s ease;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.asset-row:hover {
+  background-color: #f8f9ff;
+}
+
+/* Colonnes */
+.col-id {
+  font-weight: 600;
+  color: #667eea;
+  font-family: monospace;
+  padding: 14px 16px;
+  width: 80px;
+}
+
+.col-name {
+  padding: 14px 16px;
+  font-weight: 500;
+}
+
+.asset-icon {
+  font-size: 18px;
+  margin-right: 8px;
+}
+
+.asset-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.col-type,
+.col-manufacturer,
+.col-model,
+.col-location {
+  padding: 14px 16px;
+  color: #555;
+}
+
+.col-status {
+  padding: 14px 16px;
+}
+
+.col-actions {
+  padding: 14px 16px;
+  text-align: center;
+  width: 100px;
+}
+
+/* Badges d'état */
+.state-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.state-active {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.state-broken {
+  background: #ffebee;
+  color: #c62828;
+}
+
+.state-maintenance {
+  background: #fff3e0;
+  color: #ef6c00;
+}
+
+.state-retired {
+  background: #eceff1;
+  color: #546e7a;
+}
+
+.state-default {
+  background: #f5f5f5;
+  color: #666;
+}
+
+/* Bouton détails */
+.btn-view-details {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: 1px solid #ddd;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #555;
+}
+
+.btn-view-details:hover {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+}
+
+.btn-view-details svg {
+  transition: stroke 0.2s ease;
+}
+
+.btn-view-details:hover svg {
+  stroke: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .col-manufacturer,
+  .col-model {
+    display: none;
+  }
+  
+  .col-id {
+    width: 60px;
+    padding: 10px 12px;
+  }
+  
+  .col-name,
+  .col-type,
+  .col-location,
+  .col-status,
+  .col-actions {
+    padding: 10px 12px;
+  }
+  
+  .btn-view-details span {
+    display: none;
+  }
+  
+  .btn-view-details {
+    padding: 6px 10px;
+  }
+}

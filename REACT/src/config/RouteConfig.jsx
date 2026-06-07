@@ -8,6 +8,7 @@ import { ProtectedRoute } from '../components/ProtectedRoute';
 import { BackofficeLayout } from '../components/layout/BackofficeLayout';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { CreateTicketPage } from '../pages/ticket/CreateTicketPage';
+import { AssetsPage } from '../pages/asset/AssetsPage';
 
 const RouteConfig = () => {
   return (
@@ -18,6 +19,12 @@ const RouteConfig = () => {
       <Route path="/frontoffice/create-ticket" element={
         <BackofficeLayout>
             <CreateTicketPage />
+        </BackofficeLayout>
+      } />
+
+      <Route path="/frontoffice/liste-elements" element={
+        <BackofficeLayout>
+            <AssetsPage />
         </BackofficeLayout>
       } />
       
