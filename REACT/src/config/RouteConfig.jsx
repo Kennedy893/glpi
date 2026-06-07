@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { LoginPage } from '../pages/login/LoginPage';
 import { TicketsPage } from '../pages/ticket/TicketsPage';
-import { UserImportPage } from '../pages/UserImportPage';
+import { ImportPage } from '../pages/ImportPage';
 import { ResetPage } from '../pages/ResetPage';
 import { ProtectedRoute } from '../components/ProtectedRoute';
 import { BackofficeLayout } from '../components/layout/BackofficeLayout';
@@ -26,7 +26,7 @@ const RouteConfig = () => {
       <Route path="/import" element={
         <ProtectedRoute>
           <BackofficeLayout>
-            <UserImportPage />
+            <ImportPage />
           </BackofficeLayout>
         </ProtectedRoute>
       } />

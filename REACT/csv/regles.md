@@ -254,6 +254,7 @@ POST /Item_Ticket
 }
 
 <!-- ///////////////////////////////////// -->
+
 FICHIER 1
 Pour chaque ligne :
 
@@ -371,5 +372,23 @@ POST /Item_Ticket
     tickets_id: <id_ticket>,
     itemtype:   "Monitor",
     items_id:   <id_monitor>
+  }
+}
+
+
+FICHIER 3
+Num_Ticket : Résolu via refToGlpiId
+Duration_second : Durée en secondes
+Time_Cost : Coût horaire
+Fixed_Cost : Coût fixe
+Coût main d'œuvre réel = (Duration_second / 3600) × Time_Cost
+
+POST /TicketCost
+{
+  input: {
+    tickets_id:  <id_glpi>,   // résolu via refToGlpiId[Num_Ticket]
+    actiontime:  0,            // Duration_second → entier
+    cost_time:  0,            // Time_Cost → float (virgule → point)
+    cost_fixed:        109.0         // Fixed_Cost → float
   }
 }

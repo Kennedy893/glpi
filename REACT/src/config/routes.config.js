@@ -1,7 +1,7 @@
 // config/routes.config.js
 import { LoginPage } from '../pages/login/LoginPage';
 import { TicketsPage } from '../pages/ticket/TicketsPage';
-import { UserImportPage } from '../pages/UserImportPage';
+import { ImportPage } from '../pages/ImportPage';
 import { ResetPage } from '../pages/ResetPage';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 
@@ -43,7 +43,7 @@ export const routesConfig = [
   },
   {
     path: '/import',
-    component: UserImportPage,
+    component: ImportPage,
     protected: true,
     title: 'Import des utilisateurs'
   },

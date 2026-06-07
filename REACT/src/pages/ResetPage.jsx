@@ -115,7 +115,7 @@ export const ResetPage = () => {
         <div className="loading-overlay">
           <div className="loading-spinner">
             <div className="spinner"></div>
-            <span>Réinitialisation en cours, veuillez patienter...</span>
+            <span>Réinitialisation en cours...</span>
           </div>
         </div>
       )}

@@ -35,45 +35,45 @@ export const DashboardPage = () => {
         
         <div className="stats-grid">
             <div className="stat-card">
-            <div className="stat-icon">💻</div>
-            <div className="stat-value">{nbComputers}</div>
-            <div className="stat-label">Ordinateurs</div>
+                <div className="stat-icon">💻</div>
+                <div className="stat-value">{nbComputers}</div>
+                <div className="stat-label">Ordinateurs</div>
             </div>
 
             <div className="stat-card">
-            <div className="stat-icon">🖥️</div>
-            <div className="stat-value">{nbMonitors}</div>
-            <div className="stat-label">Écrans</div>
+                <div className="stat-icon">🖥️</div>
+                <div className="stat-value">{nbMonitors}</div>
+                <div className="stat-label">Écrans</div>
             </div>
 
             <div className="stat-card">
-            <div className="stat-icon">🖨️</div>
-            <div className="stat-value">{nbPrinters}</div>
-            <div className="stat-label">Imprimantes</div>
+                <div className="stat-icon">🖨️</div>
+                <div className="stat-value">{nbPrinters}</div>
+                <div className="stat-label">Imprimantes</div>
             </div>
 
             <div className="stat-card">
-            <div className="stat-icon">🌐</div>
-            <div className="stat-value">{nbNetworkEquipments}</div>
-            <div className="stat-label">Équipements réseau</div>
+                <div className="stat-icon">🌐</div>
+                <div className="stat-value">{nbNetworkEquipments}</div>
+                <div className="stat-label">Équipements réseau</div>
             </div>
 
             <div className="stat-card">
-            <div className="stat-icon">📱</div>
-            <div className="stat-value">{nbPhones}</div>
-            <div className="stat-label">Téléphones</div>
+                <div className="stat-icon">📱</div>
+                <div className="stat-value">{nbPhones}</div>
+                <div className="stat-label">Téléphones</div>
             </div>
 
             <div className="stat-card">
-            <div className="stat-icon">🖱️</div>
-            <div className="stat-value">{nbPeripherals}</div>
-            <div className="stat-label">Périphériques</div>
+                <div className="stat-icon">🖱️</div>
+                <div className="stat-value">{nbPeripherals}</div>
+                <div className="stat-label">Périphériques</div>
             </div>
 
             <div className="stat-card total-card">
-            <div className="stat-icon">🏆</div>
-            <div className="stat-value">{nbTotalAsset}</div>
-            <div className="stat-label">Total équipements</div>
+                <div className="stat-icon">🏆</div>
+                <div className="stat-value">{nbTotalAsset}</div>
+                <div className="stat-label">Total équipements</div>
             </div>
         </div>
         </div>
@@ -87,21 +87,21 @@ export const DashboardPage = () => {
         
         <div className="stats-grid">
             <div className="stat-card">
-            <div className="stat-icon">🚨</div>
-            <div className="stat-value">{nbTicketIncident}</div>
-            <div className="stat-label">Incident</div>
+                <div className="stat-icon">🚨</div>
+                <div className="stat-value">{nbTicketIncident}</div>
+                <div className="stat-label">Incident</div>
             </div>
 
             <div className="stat-card">
-            <div className="stat-icon">➕</div>
-            <div className="stat-value">{nbTicketDemande}</div>
-            <div className="stat-label">Demande</div>
+                <div className="stat-icon">➕</div>
+                <div className="stat-value">{nbTicketDemande}</div>
+                <div className="stat-label">Demande</div>
             </div>
 
             <div className="stat-card total-card">
-            <div className="stat-icon">🏆</div>
-            <div className="stat-value">{nbTotalTicket}</div>
-            <div className="stat-label">Total tickets</div>
+                <div className="stat-icon">🏆</div>
+                <div className="stat-value">{nbTotalTicket}</div>
+                <div className="stat-label">Total tickets</div>
             </div>
         </div>
         </div>
