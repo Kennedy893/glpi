@@ -132,7 +132,7 @@ export const useAssetImporter = () => {
                       "monitormodels_id":    modelId,
                       "states_id":           stateId,
                       "locations_id":        locationId,
-                      "users_id":            userId
+                      "users_id":            userId || 0
                   });
 
                   // --- LIAISON ---

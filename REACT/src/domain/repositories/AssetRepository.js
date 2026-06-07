@@ -112,7 +112,7 @@ export const AssetRepository = {
             }
             
             // Utilisateur (pour Computer uniquement)
-            if (typeAsset === 'Computer' && asset.users_id) {
+            if (asset.users_id) {
                 try {
                     const user = await apiClient.get(`User/${asset.users_id}`);
                     details.user = user?.name || null;
