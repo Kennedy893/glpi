@@ -18,7 +18,7 @@ const RouteConfig = () => {
       <Route path="/" element={
         <ProtectedRoute>
           <BackofficeLayout>
-            <TicketsPage />
+            <DashboardPage />
           </BackofficeLayout>
         </ProtectedRoute>
       } />
@@ -39,10 +39,10 @@ const RouteConfig = () => {
         </ProtectedRoute>
       } />
 
-      <Route path="/dashboard" element={
+      <Route path="/tickets" element={
         <ProtectedRoute>
           <BackofficeLayout>
-            <DashboardPage />
+            <TicketsPage />
           </BackofficeLayout>
         </ProtectedRoute>
       } />

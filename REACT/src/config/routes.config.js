@@ -8,11 +8,7 @@ import { DashboardPage } from '../pages/dashboard/DashboardPage';
 // Configuration du menu (barre de navigation)
 export const menuConfig = [
   {
-    label: 'Tickets',
-    path: '/',
-  },
-  {
-    label: 'Import Utilisateurs',
+    label: 'Import',
     path: '/import'
   },
   {
@@ -21,8 +17,12 @@ export const menuConfig = [
   },
   {
     label: 'Dashboard',
-    path: '/dashboard',
-  }
+    path: '/',
+  },
+  {
+    label: 'Tickets',
+    path: '/tickets',
+  },
 ];
 
 // Configuration des routes
@@ -36,16 +36,10 @@ export const routesConfig = [
   },
   // Routes protégées (backoffice)
   {
-    path: '/',
-    component: TicketsPage,
-    protected: true,
-    title: 'Gestion des tickets'
-  },
-  {
     path: '/import',
     component: ImportPage,
     protected: true,
-    title: 'Import des utilisateurs'
+    title: 'Import'
   },
   {
     path: '/reset',
@@ -54,11 +48,17 @@ export const routesConfig = [
     title: 'Réinitialisation'
   },
   {
-    path: '/dashboard',
+    path: '/',
     component: DashboardPage,
     protected: true,
     title: 'Réinitialisation'
-  }
+  },
+  {
+    path: '/tickets',
+    component: TicketsPage,
+    protected: true,
+    title: 'Gestion des tickets'
+  },
 ];
 
 // Fonction utilitaire pour obtenir le titre d'une page

@@ -111,14 +111,14 @@ export const ResetPage = () => {
       )}
 
       {/* Overlay de chargement */}
-      {loading && (
+      {/* {loading && (
         <div className="loading-overlay">
           <div className="loading-spinner">
             <div className="spinner"></div>
             <span>Réinitialisation en cours...</span>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

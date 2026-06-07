@@ -1,0 +1,204 @@
+/* ImportPage.css */
+.import-page {
+  padding: 2rem 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+  font-family: sans-serif;
+}
+
+.import-title {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0 0 0.25rem 0;
+  color: var(--color-text-primary, #111);
+}
+
+.import-subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary, #666);
+  margin: 0 0 1.5rem 0;
+}
+
+/* Fichiers section */
+.files-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.file-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--color-background-secondary, #f5f5f5);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+
+.file-label {
+  font-size: 14px;
+  font-weight: 500;
+  min-width: 220px;
+  color: var(--color-text-primary, #111);
+}
+
+.file-button {
+  font-size: 13px;
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  background: var(--color-background-primary, #fff);
+  border: 1px solid var(--color-border-tertiary, #ddd);
+  color: var(--color-text-secondary, #444);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 260px;
+  display: inline-block;
+}
+
+.file-button.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.file-check {
+  font-size: 16px;
+}
+
+/* Bouton principal */
+.import-button {
+  padding: 0.65rem 1.5rem;
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+
+.import-button.active {
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.import-button.disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.import-warning {
+  font-size: 13px;
+  color: #f0a500;
+  margin-top: 8px;
+}
+
+/* Progression */
+.progress-section {
+  margin-top: 1.5rem;
+}
+
+.progress-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.progress-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.progress-label {
+  font-size: 13px;
+  min-width: 90px;
+  color: var(--color-text-secondary, #666);
+}
+
+.progress-track {
+  flex: 1;
+  background: #e0e0e0;
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.progress-fill.active {
+  background: #4CAF50;
+}
+
+.progress-fill.completed {
+  background: #69db7c;
+}
+
+.progress-fill.inactive {
+  background: #555;
+}
+
+.progress-percent {
+  font-size: 12px;
+  min-width: 35px;
+  text-align: right;
+  color: var(--color-text-secondary, #666);
+}
+
+.progress-global {
+  font-size: 13px;
+  color: var(--color-text-secondary, #666);
+  margin-top: 8px;
+  text-align: right;
+}
+
+/* Logs */
+.logs-section {
+  margin-top: 2rem;
+}
+
+.logs-title {
+  font-size: 15px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--color-text-primary, #111);
+}
+
+.logs-box {
+  background: #1e1e1e;
+  border-radius: 8px;
+  padding: 1rem;
+  max-height: 320px;
+  overflow-y: auto;
+  font-family: monospace;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.log-line {
+  margin-bottom: 2px;
+}
+
+.log-line.error {
+  color: #ff6b6b;
+}
+
+.log-line.success {
+  color: #69db7c;
+}
+
+.log-line.warning {
+  color: #ffd43b;
+}
+
+.log-line.info {
+  color: #ccc;
+}
+
+.logs-empty {
+  color: #666;
+}
