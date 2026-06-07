@@ -1,11 +1,21 @@
 export class Ticket {
-  constructor(id, name, content, status, date, requester) {
+  constructor(id, name, type, content, status, date, requester) {
     this.id = id;
     this.name = name;
+    this.type = type;
     this.content = content;
     this.status = status;
     this.date = date;
     this.requester = requester;
+  }
+
+  // Resolution type de ticket
+  getTypeText() {
+    const typeMap = {
+      1: 'Incident',
+      2: 'Demande'
+    };
+    return typeMap[this.type] || 'Non defini';
   }
 
   // Statut en texte lisible
@@ -37,9 +47,10 @@ export class Ticket {
     return new Ticket(
       data.id,
       data.name,
+      data.type,
       data.content,
       data.status,
-      data.date_creation,
+      data.date,
       data.users_id_recipient
     );
   }

@@ -24,10 +24,24 @@ export const TicketRow = ({ ticket, onDelete }) => {
     navigate(`/tickets/${ticket.id}/edit`);
   }
 
+  // const formatDate = (dateString) => {
+  //   if (!dateString) return 'Date inconnue';
+  //   const date = new Date(dateString);
+  //   return date.toLocaleDateString('fr-FR');
+  // };
+
   const formatDate = (dateString) => {
     if (!dateString) return 'Date inconnue';
     const date = new Date(dateString);
-    return date.toLocaleDateString('fr-FR');
+    if (isNaN(date.getTime())) return 'Date invalide';
+    
+    return date.toLocaleString('fr-FR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
   };
 
   return (
@@ -37,6 +51,9 @@ export const TicketRow = ({ ticket, onDelete }) => {
       
       {/* Nom du ticket */}
       <td className="fw-semibold ticket-name">{ticket.name}</td>
+
+      {/* Type */}
+      <td className="fw-semibold ticket-name">{ticket.getTypeText()}</td>
       
       {/* Contenu tronqué avec gestion du texte de remplacement */}
       <td className="text-muted ticket-content">
@@ -63,7 +80,7 @@ export const TicketRow = ({ ticket, onDelete }) => {
       </td>
 
       <td>
-        <button onClick={handleGetTicket}>Modifier</button>
+        {/* <button onClick={handleGetTicket}>Modifier</button> */}
         <button onClick={handleSupprimer}>Supprimer</button>
       </td>
     </tr>
