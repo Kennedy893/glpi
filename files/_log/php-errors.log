@@ -35,3 +35,143 @@
   .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
   .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
 
+[2026-06-08 09:41:38] glpi.WARNING:   *** Warning: Array to string conversion at DBmysql.php line 374
+  Backtrace :
+  .\src\DBmysql.php:374                              
+  .\src\DBmysql.php:1317                             DBmysql->escape()
+  .\src\DBmysql.php:1352                             DBmysql::quoteValue()
+  .\src\DBmysql.php:1378                             DBmysql->buildInsert()
+  .\src\CommonDBTM.php:778                           DBmysql->insert()
+  .\src\CommonDBTM.php:1382                          CommonDBTM->addToDB()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-08 09:41:38] glpi.WARNING:   *** User Warning: MySQL query warnings:
+  SQL: INSERT INTO `glpi_tickets` (`date`, `type`, `name`, `content`, `status`, `priority`, `entities_id`, `urgency`, `impact`, `users_id_lastupdater`, `users_id_recipient`, `itilcategories_id`, `requesttypes_id`, `global_validation`, `date_creation`, `date_mod`) VALUES ('2026-06-08 09:41:38', '1', '2026-06-07T12:41', '1', '3', 'Array', '0', '3', '3', '2', '2', '0', '1', '1', '2026-06-08 09:41:38', '2026-06-08 09:41:38')
+  Warnings: 
+1366: Incorrect integer value: 'Array' for column 'priority' at row 1 at DBmysql.php line 444
+  Backtrace :
+  .\src\DBmysql.php:444                              
+  .\src\DBmysql.php:1377                             DBmysql->doQuery()
+  .\src\CommonDBTM.php:778                           DBmysql->insert()
+  .\src\CommonDBTM.php:1382                          CommonDBTM->addToDB()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-08 09:41:50] glpi.WARNING:   *** Warning: Undefined array key "glpipriority_0" at SQLProvider.php line 6456
+  Backtrace :
+  .\src\Glpi\Search\Provider\SQLProvider.php:6456    
+  .\src\Glpi\Search\Provider\SQLProvider.php:5360    Glpi\Search\Provider\SQLProvider::giveItem()
+  .\src\Glpi\Search\SearchEngine.php:678             Glpi\Search\Provider\SQLProvider::constructData()
+  .\src\Glpi\Search\SearchEngine.php:693             Glpi\Search\SearchEngine::getData()
+  .\src\Glpi\Search\SearchEngine.php:650             Glpi\Search\SearchEngine::showOutput()
+  .\src\Search.php:169                               Glpi\Search\SearchEngine::show()
+  .\front\ticket.php:56                              Search::show()
+  ...Glpi\Controller\LegacyFileLoadController.php:64 require()
+  .\vendor\symfony\http-kernel\HttpKernel.php:181    Glpi\Controller\LegacyFileLoadController->__invoke()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+
+[2026-06-08 09:42:31] glpi.WARNING:   *** Warning: Undefined array key "glpipriority_0" at SQLProvider.php line 6456
+  Backtrace :
+  .\src\Glpi\Search\Provider\SQLProvider.php:6456    
+  .\src\Glpi\Search\Provider\SQLProvider.php:5360    Glpi\Search\Provider\SQLProvider::giveItem()
+  .\src\Glpi\Search\SearchEngine.php:678             Glpi\Search\Provider\SQLProvider::constructData()
+  .\src\Glpi\Search\SearchEngine.php:693             Glpi\Search\SearchEngine::getData()
+  .\src\Glpi\Search\SearchEngine.php:650             Glpi\Search\SearchEngine::showOutput()
+  .\src\Search.php:169                               Glpi\Search\SearchEngine::show()
+  .\front\ticket.php:56                              Search::show()
+  ...Glpi\Controller\LegacyFileLoadController.php:64 require()
+  .\vendor\symfony\http-kernel\HttpKernel.php:181    Glpi\Controller\LegacyFileLoadController->__invoke()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+
+[2026-06-08 09:47:35] glpi.WARNING:   *** Warning: Undefined array key "glpipriority_0" at SQLProvider.php line 6456
+  Backtrace :
+  .\src\Glpi\Search\Provider\SQLProvider.php:6456    
+  .\src\Glpi\Search\Provider\SQLProvider.php:5360    Glpi\Search\Provider\SQLProvider::giveItem()
+  .\src\Glpi\Search\SearchEngine.php:678             Glpi\Search\Provider\SQLProvider::constructData()
+  .\src\Glpi\Search\SearchEngine.php:693             Glpi\Search\SearchEngine::getData()
+  .\src\Glpi\Search\SearchEngine.php:650             Glpi\Search\SearchEngine::showOutput()
+  .\src\Search.php:169                               Glpi\Search\SearchEngine::show()
+  .\front\ticket.php:56                              Search::show()
+  ...Glpi\Controller\LegacyFileLoadController.php:64 require()
+  .\vendor\symfony\http-kernel\HttpKernel.php:181    Glpi\Controller\LegacyFileLoadController->__invoke()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+
+[2026-06-08 10:56:32] glpi.WARNING:   *** Warning: Undefined array key "glpipriority_0" at SQLProvider.php line 6456
+  Backtrace :
+  .\src\Glpi\Search\Provider\SQLProvider.php:6456    
+  .\src\Glpi\Search\Provider\SQLProvider.php:5360    Glpi\Search\Provider\SQLProvider::giveItem()
+  .\src\Glpi\Search\SearchEngine.php:678             Glpi\Search\Provider\SQLProvider::constructData()
+  .\src\Glpi\Search\SearchEngine.php:693             Glpi\Search\SearchEngine::getData()
+  .\src\Glpi\Search\SearchEngine.php:650             Glpi\Search\SearchEngine::showOutput()
+  .\src\Search.php:169                               Glpi\Search\SearchEngine::show()
+  .\front\ticket.php:56                              Search::show()
+  ...Glpi\Controller\LegacyFileLoadController.php:64 require()
+  .\vendor\symfony\http-kernel\HttpKernel.php:181    Glpi\Controller\LegacyFileLoadController->__invoke()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+
+[2026-06-08 13:30:47] glpi.WARNING:   *** Warning: Undefined array key "glpipriority_0" at SQLProvider.php line 6456
+  Backtrace :
+  .\src\Glpi\Search\Provider\SQLProvider.php:6456    
+  .\src\Glpi\Search\Provider\SQLProvider.php:5360    Glpi\Search\Provider\SQLProvider::giveItem()
+  .\src\Glpi\Search\SearchEngine.php:678             Glpi\Search\Provider\SQLProvider::constructData()
+  .\src\Glpi\Search\SearchEngine.php:693             Glpi\Search\SearchEngine::getData()
+  .\src\Glpi\Search\SearchEngine.php:650             Glpi\Search\SearchEngine::showOutput()
+  .\src\Search.php:169                               Glpi\Search\SearchEngine::show()
+  .\front\ticket.php:56                              Search::show()
+  ...Glpi\Controller\LegacyFileLoadController.php:64 require()
+  .\vendor\symfony\http-kernel\HttpKernel.php:181    Glpi\Controller\LegacyFileLoadController->__invoke()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+
+[2026-06-08 13:31:28] glpi.WARNING:   *** Warning: Undefined array key "glpipriority_0" at SQLProvider.php line 6456
+  Backtrace :
+  .\src\Glpi\Search\Provider\SQLProvider.php:6456    
+  .\src\Glpi\Search\Provider\SQLProvider.php:5360    Glpi\Search\Provider\SQLProvider::giveItem()
+  .\src\Glpi\Search\SearchEngine.php:678             Glpi\Search\Provider\SQLProvider::constructData()
+  .\src\Glpi\Search\SearchEngine.php:693             Glpi\Search\SearchEngine::getData()
+  .\src\Glpi\Search\SearchEngine.php:650             Glpi\Search\SearchEngine::showOutput()
+  .\src\Search.php:169                               Glpi\Search\SearchEngine::show()
+  .\front\ticket.php:56                              Search::show()
+  ...Glpi\Controller\LegacyFileLoadController.php:64 require()
+  .\vendor\symfony\http-kernel\HttpKernel.php:181    Glpi\Controller\LegacyFileLoadController->__invoke()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+
+[2026-06-08 13:33:40] glpi.WARNING:   *** Warning: Undefined array key "glpipriority_0" at SQLProvider.php line 6456
+  Backtrace :
+  .\src\Glpi\Search\Provider\SQLProvider.php:6456    
+  .\src\Glpi\Search\Provider\SQLProvider.php:5360    Glpi\Search\Provider\SQLProvider::giveItem()
+  .\src\Glpi\Search\SearchEngine.php:678             Glpi\Search\Provider\SQLProvider::constructData()
+  .\src\Glpi\Search\SearchEngine.php:693             Glpi\Search\SearchEngine::getData()
+  .\src\Glpi\Search\SearchEngine.php:650             Glpi\Search\SearchEngine::showOutput()
+  .\src\Search.php:169                               Glpi\Search\SearchEngine::show()
+  .\front\ticket.php:56                              Search::show()
+  ...Glpi\Controller\LegacyFileLoadController.php:64 require()
+  .\vendor\symfony\http-kernel\HttpKernel.php:181    Glpi\Controller\LegacyFileLoadController->__invoke()
+  .\vendor\symfony\http-kernel\HttpKernel.php:76     Symfony\Component\HttpKernel\HttpKernel->handleRaw()
+  .\vendor\symfony\http-kernel\Kernel.php:208        Symfony\Component\HttpKernel\HttpKernel->handle()
+  .\public\index.php:71                              Symfony\Component\HttpKernel\Kernel->handle()
+

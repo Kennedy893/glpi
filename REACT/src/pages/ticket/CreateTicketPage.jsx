@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useAssetsByType } from '../../hooks/asset/useAssetsByType';
+import { useCreateTicket } from '../../hooks/ticket/useCreateTicket';
 
 const TICKET_TYPES = [{ value: 1, label: 'Incident' }, { value: 2, label: 'Demande' }];
 const TICKET_PRIORITIES = [
@@ -14,6 +15,11 @@ const ASSET_TYPES = [
   { value: 'NetworkEquipment', label: 'Réseau' },
   { value: 'Phone',            label: 'Téléphones' },
   { value: 'Peripheral',       label: 'Périphériques' },
+];
+const TICKET_STATUS = [
+  { value: 1, label: 'New' }, { value: 2, label: 'Processing' },
+  { value: 4, label: 'Pending' },    { value: 5, label: 'Solved' },
+  { value: 6, label: 'Closed' }, 
 ];
 
 export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess }) => {
@@ -35,7 +41,7 @@ export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess 
     Peripheral:       peripherals      || [],
   };
 
-  const [form, setForm] = useState({ type: 1, priority: 3, titre: '', description: '' });
+  const [form, setForm] = useState({ type: 1, priority: 3, status: 1, titre: '', description: '', date: null });
 
   // Types dont la liste est "ouverte" (déroulée)
   const [openTypes, setOpenTypes]         = useState({});
@@ -46,6 +52,10 @@ export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess 
   const [submitting, setSubmitting] = useState(false);
   const [error, setError]           = useState(null);
   const [success, setSuccess]       = useState(false);
+
+  // Hook de creation
+  const { create } = useCreateTicket();   
+  
 
   // ── Charger les assets d'un type au premier clic ─────────
   const loadTypeIfNeeded = async (itemtype) => {
@@ -99,17 +109,27 @@ export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess 
 
     setSubmitting(true);
     try {
-      const ticketId = await ticketRepository.createTicket({
-        type: form.type, priority: form.priority,
-        name: form.titre.trim(), content: form.description.trim(),
-        status: 1, entities_id: 0,
-      });
+    //   const ticketId = await ticketRepository.createTicket({
+    //     type: form.type, priority: form.priority,
+    //     name: form.titre.trim(), content: form.description.trim(),
+    //     status: 1, entities_id: 0,
+    //   });
 
-      for (const asset of selectedAssets) {
-        await ticketRepository.createItemTicket({
-          tickets_id: ticketId, itemtype: asset.itemtype, items_id: asset.id,
-        });
-      }
+    //   for (const asset of selectedAssets) {
+    //     await ticketRepository.createItemTicket({
+    //       tickets_id: ticketId, itemtype: asset.itemtype, items_id: asset.id,
+    //     });
+    //   }
+        
+      await create(
+        form.date,
+        form.type,
+        form.titre,
+        form.description,
+        form.status,
+        form.priority,
+        selectedAssets
+      ) 
 
       setSuccess(true);
       onSuccess?.({ ticketId });
@@ -121,7 +141,7 @@ export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess 
   };
 
   const handleReset = () => {
-    setForm({ type: 1, priority: 3, titre: '', description: '' });
+    setForm({ type: 1, priority: 3, titre: '', description: '', date: null });
     setSelectedAssets([]);
     setOpenTypes({});
     setSuccess(false);
@@ -172,6 +192,12 @@ export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess 
                 {TICKET_PRIORITIES.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
               </select>
             </Field>
+            <Field label="Status *">
+              <select style={s.select} value={form.status}
+                onChange={e => setForm(f => ({ ...f, status: Number(e.target.value) }))}>
+                {TICKET_STATUS.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
+              </select>
+            </Field>
           </div>
 
           <Field label="Titre *">
@@ -187,6 +213,13 @@ export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess 
               placeholder="Décrivez le problème en détail..."
               value={form.description}
               onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+            />
+          </Field>
+
+          <Field label="Date *">
+            <input style={s.input} type="datetime-local"
+              value={form.date}
+              onChange={e => setForm(f => ({ ...f, date: e.target.value }))}
             />
           </Field>
 

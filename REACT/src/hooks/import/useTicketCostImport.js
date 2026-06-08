@@ -83,7 +83,7 @@ export const useTicketCostImport = (refToGlpiId) => {
                         }
                     }
                     addLog("🏁 Processus d'importation terminé.");
-                    resolve(); // ✅ signale la fin réelle
+                    resolve(); // signale la fin réelle
                     // return refToGlpiId;
                 } catch (err) {
                     addLog(`❌ Erreur critique lors du traitement : ${err.message}`);

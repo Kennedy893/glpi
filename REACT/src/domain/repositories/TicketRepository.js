@@ -42,11 +42,14 @@ export class TicketRepository {
   async createTicket(ticketData) {
     try {
       const data = await this.apiClient.post('Ticket', {
-        input: {
-          name: ticketData.name,
-          content: ticketData.content,
-          status: ticketData.status || 1
-        }
+        // input: [{
+        //   name: ticketData.name,
+        //   content: ticketData.content,
+        //   status: ticketData.status || 1
+        // }]
+        input: [{
+          ticketData
+        }]
       });
       return ApiResponse.success(data);
     } catch (error) {

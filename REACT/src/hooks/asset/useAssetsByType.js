@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AssetRepository } from "../../domain/repositories/AssetRepository"; // ✅ import
+import { AssetRepository } from "../../domain/repositories/AssetRepository"; // import
 
 export const useAssetsByType = () => {
   const [computers,        setComputers]        = useState([]);
@@ -11,8 +11,8 @@ export const useAssetsByType = () => {
   const [loading,          setLoading]          = useState(true);
   const [error,            setError]            = useState(null);
 
-  useEffect(() => {                              // ✅ useEffect obligatoire
-    const loadAll = async () => {               // ✅ fonction async à l'intérieur
+  useEffect(() => {                              // useEffect obligatoire
+    const loadAll = async () => {               // fonction async à l'intérieur
       setLoading(true);
       setError(null);
 
@@ -24,7 +24,7 @@ export const useAssetsByType = () => {
           networkData,
           phonesData,
           peripheralsData,
-        ] = await Promise.all([                 // ✅ await dans une fonction async
+        ] = await Promise.all([                 // await dans une fonction async
           AssetRepository.getAllAsset('Computer'),
           AssetRepository.getAllAsset('Printer'),
           AssetRepository.getAllAsset('Monitor'),
@@ -33,7 +33,7 @@ export const useAssetsByType = () => {
           AssetRepository.getAllAsset('Peripheral'),
         ]);
 
-        // ✅ setters appelés après le await
+        // setters appelés après le await
         setComputers(computersData);
         setPrinters(printersData);
         setMonitors(monitorsData);
@@ -50,7 +50,7 @@ export const useAssetsByType = () => {
     };
 
     loadAll();
-  }, []); // ✅ tableau vide = chargement une seule fois au montage
+  }, []); // tableau vide = chargement une seule fois au montage
 
   return {
     computers,

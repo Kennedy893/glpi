@@ -1,5 +1,5 @@
 // components/Navbar.jsx
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { menuConfig } from '../config/routes.config';
 import '../assets/css/navbar.css';
@@ -7,10 +7,12 @@ import '../assets/css/navbar.css';
 export const Navbar = () => {
   const { logout } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     if (window.confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
       logout();
+      navigate('/login');
     }
   };
 
