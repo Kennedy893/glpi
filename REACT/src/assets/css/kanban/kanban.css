@@ -1,0 +1,133 @@
+/* ==========================================================================
+   STYLE DE LA PAGE GLOBALE (KanbanPage)
+   ========================================================================== */
+
+/* Conteneur principal fluide */
+.container-fluid.py-4 {
+    background-color: #fafbfc;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Titre principal de la page */
+.container-fluid h2 {
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    color: #2c3e50 !important;
+}
+
+/* 🚀 LE MOTEUR DU KANBAN : GESTION DU LAYOUT HORIZONTAL */
+.row.flex-nowrap {
+    display: flex !important;
+    flex-direction: row;
+    flex-wrap: nowrap !important; /* Empêche absolument les colonnes de passer à la ligne */
+    overflow-x: auto !important;  /* Active le scroll horizontal global */
+    overflow-y: hidden;           /* Bloque le scroll vertical de la ligne */
+    gap: 1rem;                    /* Espace uniforme entre chaque colonne */
+    padding: 10px 5px;
+    align-items: flex-start;      /* Aligne le haut des colonnes proprement */
+}
+
+/* Personnalisation de la scrollbar horizontale du tableau global */
+.row.flex-nowrap::-webkit-scrollbar {
+    height: 10px; /* Épaisseur de la barre horizontale */
+}
+
+.row.flex-nowrap::-webkit-scrollbar-track {
+    background: #ebecf0;
+    border-radius: 20px;
+}
+
+.row.flex-nowrap::-webkit-scrollbar-thumb {
+    background: #b6c2cd;
+    border-radius: 20px;
+    border: 2px solid #ebecf0;
+}
+
+.row.flex-nowrap::-webkit-scrollbar-thumb:hover {
+    background: #a4b3c1;
+}
+
+/* ==========================================================================
+   STYLE DES COLONNES (KanbanColumn)
+   ========================================================================== */
+
+.kanban-column-wrapper {
+    flex: 0 0 auto;               /* Empêche Bootstrap de compresser les colonnes */
+    width: 320px;                 /* Fixe une largeur idéale et robuste pour chaque colonne */
+    max-width: 320px;
+    height: calc(100vh - 180px);  /* S'adapte à la hauteur restante de l'écran */
+    margin-bottom: 0;
+}
+
+.kanban-column-card {
+    background-color: #f4f5f7 !important;
+    border: 1px solid #dfe1e6 !important;
+    border-radius: 10px !important;
+    display: flex;
+    flex-direction: column;       /* Force la structure Header / Body à s'empiler */
+    height: 100%;
+}
+
+.kanban-column-card .card-header {
+    border-top-left-radius: 10px !important;
+    border-top-right-radius: 10px !important;
+    border-bottom: 2px solid #dfe1e6 !important;
+}
+
+/* Zone interne de défilement des tickets */
+.kanban-column-body {
+    flex-grow: 1;                 /* Prend tout l'espace vertical dispo dans la carte */
+    overflow-y: auto !important;  /* Active le scroll vertical pour les tickets */
+    padding: 12px !important;
+}
+
+/* Scrollbar fine pour l'intérieur d'une colonne */
+.kanban-column-body::-webkit-scrollbar {
+    width: 5px;
+}
+
+.kanban-column-body::-webkit-scrollbar-thumb {
+    background-color: #c1c7d0;
+    border-radius: 10px;
+}
+
+/* ==========================================================================
+   STYLE DES LIGNES TICKETS
+   ========================================================================== */
+
+.kanban-ticket-row {
+    background-color: #ffffff;
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 3px rgba(9, 30, 66, 0.25);
+    cursor: pointer;
+    transition: background-color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+    border-left: 4px solid #4a90e2; 
+}
+
+.kanban-ticket-row:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(9, 30, 66, 0.3);
+    background-color: #f8f9fa;
+}
+
+.ticket-id-badge {
+    background-color: #eef2f7;
+    color: #4a5568;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 3px 6px;
+    border-radius: 4px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.ticket-name-text {
+    font-size: 0.88rem;
+    color: #172b4d;
+    font-weight: 500;
+    line-height: 1.3;
+}

@@ -5,14 +5,13 @@ export const useTickets = () => {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [repository] = useState(() => new TicketRepository());
 
   // Fonction pour charger les tickets
   const loadTickets = useCallback(async () => {
     setLoading(true);
     setError(null);
     
-    const response = await repository.getAllTickets();
+    const response = await TicketRepository.getAllTickets();
     
     if (response.success) {
       setTickets(response.data);
@@ -21,7 +20,7 @@ export const useTickets = () => {
     }
     
     setLoading(false);
-  }, [repository]);
+  }, [TicketRepository]);
 
   // Chargement automatique au montage du composant
   useEffect(() => {

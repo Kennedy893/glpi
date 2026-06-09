@@ -2,17 +2,17 @@ import { getApiClient } from './ApiClientRepository';
 import { Ticket } from '../models/Ticket';
 import { ApiResponse } from '../models/utils/ApiResponse';
 
+// On récupère le client une bonne fois pour toutes au chargement du fichier
+const apiClient = getApiClient();
+
 // Repository pour les opérations liées aux tickets
-export class TicketRepository {
-  constructor() {
-    this.apiClient = getApiClient();
-  }
+export const TicketRepository = {
 
   // Récupérer tous les tickets
   async getAllTickets(limit = 50, expand = true) {
     try {
       const endpoint = expand ? `Ticket?expand=1&limit=${limit}` : `Ticket?limit=${limit}`;
-      const data = await this.apiClient.get(endpoint);
+      const data = await apiClient.get(endpoint);
       
       // Transformation des données API en modèles Ticket
       const tickets = Array.isArray(data) 
@@ -24,7 +24,7 @@ export class TicketRepository {
       console.error('Erreur getAllTickets:', error);
       return ApiResponse.error(error.message);
     }
-  }
+  },
 
   // Récupérer un ticket spécifique
   async getTicketById(id) {
@@ -36,7 +36,7 @@ export class TicketRepository {
       console.error(`Erreur getTicketById ${id}:`, error);
       return ApiResponse.error(error.message);
     }
-  }
+  },
 
   // Créer un nouveau ticket
   async createTicket(ticketData) {
@@ -56,7 +56,7 @@ export class TicketRepository {
       console.error('Erreur createTicket:', error);
       return ApiResponse.error(error.message);
     }
-  }
+  },
 
   // Supprimer un ticket
   async supprimerTicket(id) {
@@ -75,7 +75,7 @@ export class TicketRepository {
       console.error(`Erreur deleteTicket ${id}:`, error);
       return ApiResponse.error(`Impossible de supprimer le ticket ${id}: ${error.message}`);
     }
-  }
+  },
 
   // Supprimer plusieurs tickets à la fois
   async supprimerMultipleTickets(ids) {
@@ -94,7 +94,7 @@ export class TicketRepository {
       console.error('Erreur deleteMultipleTickets:', error);
       return ApiResponse.error(`Impossible de supprimer les tickets: ${error.message}`);
     }
-  }
+  },
 
   // Modifier un Ticket
   async modifierTicket(id, ticketData) {
@@ -137,6 +137,29 @@ export class TicketRepository {
     } catch (error) {
         console.error(`Erreur modifierTicket ${id}:`, error);
         return ApiResponse.error(`Impossible de modifier le ticket ${id}: ${error.message}`);
+    }
+  },
+
+  // Recuperer les tickets selon par status
+  async getTicketsByStatus(status) {
+    try {
+        // On récupère tout le catalogue de tickets d'un coup
+        const response = await apiClient.get('Ticket?range=0-2000');
+        
+        let allTickets = Array.isArray(response) 
+            ? response 
+            : response?.data || response?.['hydra:member'] || [];
+
+        // 💡 C'est JavaScript qui applique le filtre sur le statut reçu !
+        // Attention : GLPI renvoie parfois le statut sous forme de string ou number, on compare avec ==
+        const filteredTickets = allTickets.filter(ticket => ticket.status == status);
+
+        console.log(`[getTicketsByStatus] ${filteredTickets.length} ticket(s) filtré(s) pour le statut ${status}`);
+        return filteredTickets;
+
+    } catch (error) {
+        console.error('[getTicketsByStatus] Erreur:', error);
+        return [];
     }
   }
 }

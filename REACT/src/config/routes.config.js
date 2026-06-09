@@ -6,6 +6,7 @@ import { ResetPage } from '../pages/ResetPage';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { CreateTicketPage } from '../pages/ticket/CreateTicketPage';
 import { AssetsPage } from '../pages/asset/AssetsPage';
+import { KanbanPage } from '../pages/kanban/KanbanPage';
 
 // Configuration du menu (barre de navigation)
 export const menuConfig = [
@@ -32,6 +33,10 @@ export const menuConfig = [
   {
     label: 'Elements',
     path: '/frontoffice/liste-elements',
+  },
+  {
+    label: 'Representation',
+    path: '/frontoffice/kanban',
   },
 ];
 
@@ -80,6 +85,12 @@ export const routesConfig = [
     component: AssetsPage,
     protected: false,
     title: 'Liste des elements'
+  },
+  {
+    path: '/frontoffice/kanban',
+    component: KanbanPage,
+    protected: false,
+    title: 'Representation des tickets'
   },
 ];
 

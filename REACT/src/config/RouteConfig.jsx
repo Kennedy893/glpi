@@ -9,6 +9,7 @@ import { BackofficeLayout } from '../components/layout/BackofficeLayout';
 import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { CreateTicketPage } from '../pages/ticket/CreateTicketPage';
 import { AssetsPage } from '../pages/asset/AssetsPage';
+import { KanbanPage } from '../pages/kanban/KanbanPage';
 
 const RouteConfig = () => {
   return (
@@ -25,6 +26,12 @@ const RouteConfig = () => {
       <Route path="/frontoffice/liste-elements" element={
         <BackofficeLayout>
             <AssetsPage />
+        </BackofficeLayout>
+      } />
+
+      <Route path="/frontoffice/kanban" element={
+        <BackofficeLayout>
+            <KanbanPage />
         </BackofficeLayout>
       } />
       
