@@ -1,11 +1,12 @@
 export class Ticket {
-  constructor(id, name, type, content, status, date, requester) {
+  constructor(id, name, type, content, status, date, priority, requester) {
     this.id = id;
     this.name = name;
     this.type = type;
     this.content = content;
     this.status = status;
     this.date = date;
+    this.priority = priority;
     this.requester = requester;
   }
 
@@ -51,6 +52,7 @@ export class Ticket {
       data.content,
       data.status,
       data.date,
+      data.priority,
       data.users_id_recipient
     );
   }

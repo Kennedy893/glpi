@@ -26,7 +26,7 @@ export const usePresentation = () => {
                     return {
                         statusId: statusObj.id,
                         statusLabel: statusObj.label,
-                        tickets: tickets // Le tableau de tickets renvoyé par ton repository
+                        tickets: tickets // Le tableau de tickets renvoyé par ton repository,
                     };
                 });
 

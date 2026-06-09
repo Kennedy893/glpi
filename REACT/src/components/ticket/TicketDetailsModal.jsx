@@ -36,7 +36,7 @@ export const TicketDetailsModal = ({ ticket, onClose, formatDate }) => {
       <div className={`modal-container ${isVisible ? 'visible' : ''}`}>
         <div className="modal-header">
           <h2 className="modal-title">
-            Ticket #{ticket.id} - {ticket.name}
+            {ticket.name}
           </h2>
           <button className="modal-close" onClick={handleClose}>
             ✕
@@ -46,10 +46,10 @@ export const TicketDetailsModal = ({ ticket, onClose, formatDate }) => {
         <div className="modal-body">
           <div className="details-grid">
             <div className="detail-section">
-              <div className="detail-row">
+              {/* <div className="detail-row">
                 <span className="detail-label">ID :</span>
                 <span className="detail-value">#{ticket.id}</span>
-              </div>
+              </div> */}
               
               <div className="detail-row">
                 <span className="detail-label">Nom :</span>
