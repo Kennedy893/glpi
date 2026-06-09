@@ -3,9 +3,64 @@ import '../../assets/css/kanban/kanban.css'
 
 export const KanbanColumn = ({ title, tickets, onTicketClick, status }) => {
     const navigate = useNavigate();
+
     const onAddTicket = () => {
         navigate('/frontoffice/create-ticket');
-    }
+    };
+
+    const handleDragStart = (e, ticket) => {
+        // Stocker les données du ticket dans le drag event
+        e.dataTransfer.setData('application/json', JSON.stringify({
+            ticket: ticket,
+            sourceStatus: status
+        }));
+        e.dataTransfer.effectAllowed = 'move';
+        
+        // Ajouter une classe pour le style pendant le drag
+        e.target.classList.add('dragging');
+    };
+
+    const handleDragEnd = (e) => {
+        // Enlever la classe de style
+        e.target.classList.remove('dragging');
+    };
+
+    const handleDragOver = (e) => {
+        // Permettre le drop
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        
+        // Ajouter un effet visuel sur la colonne
+        const column = e.currentTarget;
+        column.classList.add('drag-over');
+    };
+
+    const handleDragLeave = (e) => {
+        // Enlever l'effet visuel
+        const column = e.currentTarget;
+        column.classList.remove('drag-over');
+    };
+
+    const handleDrop = (e) => {
+        // Empêcher le comportement par défaut
+        e.preventDefault();
+        
+        // Enlever l'effet visuel
+        const column = e.currentTarget;
+        column.classList.remove('drag-over');
+        
+        // Récupérer les données du ticket
+        const dragData = e.dataTransfer.getData('application/json');
+        if (!dragData) return;
+        
+        const { ticket, sourceStatus } = JSON.parse(dragData);
+        
+        // Ne rien faire si le ticket est déposé dans la même colonne
+        if (sourceStatus === status) return;
+        
+        // Appeler la fonction de callback avec les informations
+        onTicketDrop(ticket, sourceStatus, status);
+    };
 
     return (
         <div className="col-12 col-sm-6 col-md-4 col-lg-3 kanban-column-wrapper">
@@ -26,6 +81,9 @@ export const KanbanColumn = ({ title, tickets, onTicketClick, status }) => {
                                 key={ticket.id} 
                                 onClick={() => onTicketClick(ticket)} 
                                 className="kanban-ticket-row d-flex align-items-center"
+                                draggable="true"
+                                onDragStart={(e) => handleDragStart(e, ticket)}
+                                onDragEnd={handleDragEnd}
                             >
                                 <span className="ticket-name-text text-truncate" title={ticket.name}>
                                     {ticket.name}

@@ -7,8 +7,10 @@ import { Ticket } from "../../domain/models/Ticket"; // Importez votre classe Ti
 import '../../assets/css/kanban/kanban.css';
 
 export const KanbanPage = () => {
-    const { ticketsStatusMap, loading, error, addNewTicket } = usePresentation();
+    const { ticketsStatusMap, loading, error, updateTicketStatus } = usePresentation();
     const [selectedTicket, setSelectedTicket] = useState(null);
+    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const [pendingDrop, setPendingDrop] = useState(null);   
 
     const handleTicketClick = (ticketData) => {
         // Convertir l'objet brut en instance de Ticket
@@ -34,8 +36,74 @@ export const KanbanPage = () => {
         console.log("Ajouter un ticket dans la colonne:", status);
     };
 
+    // Gérer le drop d'un ticket
+    const handleTicketDrop = (ticket, sourceStatus, targetStatus) => {
+        // Convertir les statuts en IDs
+        const statusToId = {
+            'Nouveau': 1,
+            'En cours': 2,
+            'Résolu': 3,
+            'Fermé': 4,
+            'Annulé': 5
+        };
+        
+        const sourceStatusId = statusToId[sourceStatus];
+        const targetStatusId = statusToId[targetStatus];
+        
+        // Vérifier si le changement nécessite des informations supplémentaires
+        const needsAdditionalInfo = (targetStatus === 'Résolu' && ticket.status !== 3);
+        
+        if (needsAdditionalInfo) {
+            // Ouvrir le dialogue de confirmation
+            setPendingDrop({
+                ticket,
+                sourceStatusId,
+                targetStatusId,
+                targetStatusLabel: targetStatus
+            });
+            setShowConfirmDialog(true);
+        } else {
+            // Changer directement le statut
+            updateTicketStatus(ticket.id, targetStatusId);
+        }
+    };
+
+    // Confirmer le changement avec informations supplémentaires
+    const confirmStatusChange = (additionalInfo) => {
+        if (pendingDrop) {
+            updateTicketStatus(
+                pendingDrop.ticket.id, 
+                pendingDrop.targetStatusId, 
+                additionalInfo
+            );
+            setShowConfirmDialog(false);
+            setPendingDrop(null);
+        }
+    };
+
+    // Annuler le changement
+    const cancelStatusChange = () => {
+        setShowConfirmDialog(false);
+        setPendingDrop(null);
+    };
+
     if (loading) return <div className="text-center my-5"><div className="spinner-border"></div></div>;
     if (error) return <div className="alert alert-danger m-3">{error}</div>;
+
+    // Transformer ticketsStatusMap pour avoir les bons statuts
+    const columns = [
+        { statusId: 1, statusLabel: 'Nouveau', tickets: [] },
+        { statusId: 2, statusLabel: 'En cours', tickets: [] },
+        { statusId: 3, statusLabel: 'Résolu', tickets: [] }
+    ];
+    
+    // Remplir les colonnes avec les tickets
+    ticketsStatusMap.forEach(group => {
+        const column = columns.find(c => c.statusId === group.statusId);
+        if (column) {
+            column.tickets = group.tickets;
+        }
+    });
 
     return (
         <div className="container-fluid py-4">
@@ -50,6 +118,7 @@ export const KanbanPage = () => {
                         status={group.statusLabel}
                         onTicketClick={handleTicketClick}  // Utilisez la fonction de conversion
                         onAddTicket={() => handleAddTicket(group.statusLabel)}
+                        onTicketDrop={handleTicketDrop}
                     />
                 ))}
             </div>
@@ -60,6 +129,16 @@ export const KanbanPage = () => {
                     ticket={selectedTicket}  // Maintenant c'est une instance de Ticket
                     onClose={() => setSelectedTicket(null)} 
                     formatDate={formatDate}
+                />
+            )}
+
+            {/* Dialogue de confirmation pour changement de statut */}
+            {showConfirmDialog && pendingDrop && (
+                <ConfirmationDialog
+                    ticket={pendingDrop.ticket}
+                    targetStatus={pendingDrop.targetStatusLabel}
+                    onConfirm={confirmStatusChange}
+                    onCancel={cancelStatusChange}
                 />
             )}
         </div>
