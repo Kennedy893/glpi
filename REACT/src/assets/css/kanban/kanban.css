@@ -1,3 +1,24 @@
+/* ========== VARIABLES COULEURS PAR DÉFAUT ========== */
+:root {
+    /* Couleur unique pour la colonne 1 - À FAIRE / NOUVEAU (Rouge/Corail professionnel) */
+    --col1-color: #e5484d;
+    --col1-bg-light: #fef3f2;
+    --col1-bg-hover: #ffe8e7;
+    --col1-border-light: #fecdc9;
+    
+    /* Couleur unique pour la colonne 2 - EN COURS (Bleu professionnel) */
+    --col2-color: #3e63dd;
+    --col2-bg-light: #f0f3fe;
+    --col2-bg-hover: #e6edfc;
+    --col2-border-light: #cddbfa;
+    
+    /* Couleur unique pour la colonne 3 - TERMINÉ / RÉSOLU (Vert professionnel) */
+    --col3-color: #30a46c;
+    --col3-bg-light: #effaf5;
+    --col3-bg-hover: #e3f6ef;
+    --col3-border-light: #b9e0d0;
+}
+
 /* ========== STYLES PRINCIPAUX DU KANBAN ========== */
 
 /* Layout principal */
@@ -53,54 +74,85 @@ h2 {
     box-shadow: 0 20px 35px -8px rgba(0,0,0,0.15);
 }
 
-/* ===== COLONNE 1 - À FAIRE (Rouge/Orange/Rose) ===== */
+
+/* ========== STYLES DES COLONNES ========== */
+
+/* ----- COLONNE 1 - TOUTE EN ORANGE ----- */
 .kanban-column-wrapper:first-child .kanban-column-card .card-header {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: var(--col1-color);
 }
 
 .kanban-column-wrapper:first-child .kanban-column-body {
-    background: linear-gradient(to bottom, #fff5f5 0%, #ffffff 100%);
+    background: var(--col1-bg-light);
+}
+
+.kanban-column-wrapper:first-child .kanban-ticket-row {
+    border-left: 3px solid var(--col1-color);
 }
 
 .kanban-column-wrapper:first-child .kanban-ticket-row:hover {
-    border-left: 4px solid #f5576c;
-    background: linear-gradient(90deg, #fff5f5 0%, #ffffff 100%);
+    background: var(--col1-bg-hover);
+    border-left: 3px solid var(--col1-color);
 }
 
 .kanban-column-wrapper:first-child .add-ticket-in-column-btn {
-    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    background: var(--col1-color);
 }
 
-/* ===== COLONNE 2 - EN COURS (Bleu/Cyan) ===== */
+.kanban-column-wrapper:first-child .badge {
+    background: var(--col1-color) !important;
+}
+
+/* ----- COLONNE 2 - TOUTE EN BLEU ----- */
 .kanban-column-wrapper:nth-child(2) .kanban-column-card .card-header {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background: var(--col2-color);
 }
 
 .kanban-column-wrapper:nth-child(2) .kanban-column-body {
-    background: linear-gradient(to bottom, #f0f9ff 0%, #ffffff 100%);
+    background: var(--col2-bg-light);
+}
+
+.kanban-column-wrapper:nth-child(2) .kanban-ticket-row {
+    border-left: 3px solid var(--col2-color);
 }
 
 .kanban-column-wrapper:nth-child(2) .kanban-ticket-row:hover {
-    border-left: 4px solid #4facfe;
-    background: linear-gradient(90deg, #f0f9ff 0%, #ffffff 100%);
+    background: var(--col2-bg-hover);
+    border-left: 3px solid var(--col2-color);
 }
 
 .kanban-column-wrapper:nth-child(2) .add-ticket-in-column-btn {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    background: var(--col2-color);
 }
 
-/* ===== COLONNE 3 - TERMINÉ (Vert) ===== */
+.kanban-column-wrapper:nth-child(2) .badge {
+    background: var(--col2-color) !important;
+}
+
+/* ----- COLONNE 3 - TOUTE EN VERT ----- */
 .kanban-column-wrapper:nth-child(3) .kanban-column-card .card-header {
-    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    background: var(--col3-color);
 }
 
 .kanban-column-wrapper:nth-child(3) .kanban-column-body {
-    background: linear-gradient(to bottom, #f0fff4 0%, #ffffff 100%);
+    background: var(--col3-bg-light);
+}
+
+.kanban-column-wrapper:nth-child(3) .kanban-ticket-row {
+    border-left: 3px solid var(--col3-color);
 }
 
 .kanban-column-wrapper:nth-child(3) .kanban-ticket-row:hover {
-    border-left: 4px solid #43e97b;
-    background: linear-gradient(90deg, #f0fff4 0%, #ffffff 100%);
+    background: var(--col3-bg-hover);
+    border-left: 3px solid var(--col3-color);
+}
+
+.kanban-column-wrapper:nth-child(3) .add-ticket-in-column-btn {
+    background: var(--col3-color);
+}
+
+.kanban-column-wrapper:nth-child(3) .badge {
+    background: var(--col3-color) !important;
 }
 
 /* Header de colonne */
