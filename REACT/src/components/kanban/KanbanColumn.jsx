@@ -1,6 +1,12 @@
+import { useNavigate } from 'react-router-dom';
 import '../../assets/css/kanban/kanban.css'
 
-export const KanbanColumn = ({ title, tickets, onTicketClick, onAddTicket, status }) => {
+export const KanbanColumn = ({ title, tickets, onTicketClick, status }) => {
+    const navigate = useNavigate();
+    const onAddTicket = () => {
+        navigate('/frontoffice/create-ticket');
+    }
+
     return (
         <div className="col-12 col-sm-6 col-md-4 col-lg-3 kanban-column-wrapper">
             <div className="card kanban-column-card h-100 shadow-sm">
@@ -34,9 +40,9 @@ export const KanbanColumn = ({ title, tickets, onTicketClick, onAddTicket, statu
                     <div className="card-footer bg-white border-top-0 p-2">
                         <button 
                             className="add-ticket-in-column-btn"
-                            // onClick={onAddTicket}
+                            onClick={onAddTicket}
                         >
-                            + Ajouter un ticket
+                            Ajouter 1 ticket
                         </button>
                     </div>
                 )}
