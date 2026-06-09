@@ -77,6 +77,6 @@ export const usePresentation = () => {
         ticketsStatusMap,
         loading,
         error,
-        updateTicketStatus
+        setTicketsStatusMap
     };
 };

@@ -161,5 +161,15 @@ export const TicketRepository = {
         console.error('[getTicketsByStatus] Erreur:', error);
         return [];
     }
-  }
+  },
+
+  async updateTicket(ticketId, data) {
+    const response = await apiClient.put(`Ticket/${ticketId}`, { input: data });
+    return response?.id ?? null;
+  },
+
+  async createSolution(data) {
+    const response = await apiClient.post('ITILSolution', { input: data });
+    return response?.id ?? null;
+  },
 }

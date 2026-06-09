@@ -433,3 +433,24 @@ h2 {
     height: 3rem;
     color: #667eea;
 }
+
+
+/* Colonne survolée pendant le drag */
+.drag-over {
+  border: 2px dashed #2563eb !important;
+  background-color: #eff6ff !important;
+}
+
+/* Ticket en cours de drag */
+.dragging {
+  opacity: 0.4;
+  transform: scale(0.97);
+}
+
+/* Ticket draggable */
+.kanban-ticket-row {
+  cursor: grab;
+}
+.kanban-ticket-row:active {
+  cursor: grabbing;
+}
