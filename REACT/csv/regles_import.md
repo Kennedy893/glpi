@@ -392,3 +392,34 @@ POST /TicketCost
     cost_fixed:        109.0         // Fixed_Cost → float
   }
 }
+
+
+FICHIER 4 (ZIP)
+1. Lire le ZIP (bibliothèque JSZip)
+2. Pour le fichier image dans le ZIP :
+   a. Extraire le nom du fichier → "PC-ADM-001.jpg"
+   b. Déduire le nom de l'asset → "PC-ADM-001"
+   c. GET /Computer?searchText=PC-ADM-001 → id_asset
+   d. POST /Document (upload image en base64)  → id_document
+   e. POST /Document_Item → lier document à l'asset
+
+Endpoints :
+  GET  /Computer?searchText=PC-ADM-001     → trouver l'asset par nom
+  POST /Document                           → créer le document
+  POST /Document_Item                      → lier document à l'asset
+
+POST /Document
+{
+  input: {
+    name:        "PC-ADM-001.jpg",
+    filename:    "PC-ADM-001.jpg",
+    _filename:   ["PC-ADM-001.jpg"],  // champ spécifique GLPI
+    entities_id: 0
+  },
+  uploadManifest: {
+    input: {
+      name:        "PC-ADM-001.jpg",
+      entities_id: 0
+    }
+  }
+}

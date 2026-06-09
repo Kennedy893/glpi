@@ -162,5 +162,5 @@ export const AssetRepository = {
             Peripheral: 'Peripheralmodel'
         };
         return endpoints[typeAsset] || null;
-    }
+    },
 }

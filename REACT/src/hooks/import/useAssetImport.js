@@ -14,6 +14,7 @@ export const useAssetImporter = () => {
   };
 
   const importCsv = (file) => {
+    if (!file) return; // ← Ne rien faire si pas de fichier
     return new Promise((resolve, reject) => {
       setLoading(true);
       setLogs([]);

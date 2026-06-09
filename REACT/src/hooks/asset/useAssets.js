@@ -1,3 +1,4 @@
+// hooks/asset/useAssets.js
 import { useState, useEffect, useCallback } from 'react';
 import { AssetRepository } from '../../domain/repositories/AssetRepository';
 
@@ -11,7 +12,7 @@ export const useAssets = () => {
     setError(null);
     
     try {
-      // Récupérer tous les types d'équipements (bruts)
+      // Récupérer tous les types d'équipements
       const [computers, printers, monitors, networkEquipments, phones, peripherals] = await Promise.all([
         AssetRepository.getAllAsset('Computer'),
         AssetRepository.getAllAsset('Printer'),
@@ -31,35 +32,36 @@ export const useAssets = () => {
         ...(peripherals || []).map(item => ({ ...item, type: 'Peripheral' }))
       ];
       
-      // ✅ Utiliser getAssetWithDetails pour chaque asset
-      // Cela récupère l'asset ET tous ses détails en UNE requête par asset
-      const enrichedAssets = await Promise.all(
-        rawAssets.map(asset => 
-          AssetRepository.getAssetWithDetails(asset.type, asset.id)
-        )
-      );
+      setAssets(rawAssets);
+      console.log('[useAssets] Assets chargés:', rawAssets.length);
       
-      // Filtrer les éventuels null (erreurs)
-      const validAssets = enrichedAssets.filter(asset => asset !== null);
+      // ✅ Retourner les assets pour les appels programmatiques
+      return rawAssets;
       
-      setAssets(validAssets);
     } catch (err) {
       console.error('Erreur chargement assets:', err);
       setError(err.message || 'Erreur lors du chargement du parc');
+      return []; // Retourner un tableau vide en cas d'erreur
     } finally {
       setLoading(false);
     }
   }, []);
 
+  // ✅ Fonction refresh qui retourne les données
+  const refresh = useCallback(async () => {
+    return await loadAssets();
+  }, [loadAssets]);
+
   useEffect(() => {
     loadAssets();
   }, [loadAssets]);
 
-  const refresh = () => {
-    loadAssets();
+  return { 
+    assets, 
+    loading, 
+    error, 
+    refresh  // ✅ refresh retourne maintenant une Promise
   };
-
-  return { assets, loading, error, refresh };
 };
 
 

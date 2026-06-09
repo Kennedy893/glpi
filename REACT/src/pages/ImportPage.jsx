@@ -1,17 +1,24 @@
-import { useState } from 'react';
+// pages/ImportPage.jsx
+import { useState, useEffect } from 'react';
 import { useAssetImporter }    from '../hooks/import/useAssetImport';
 import { useTicketImport }     from '../hooks/import/useTicketImport';
 import { useTicketCostImport } from '../hooks/import/useTicketCostImport';
+import { useImageImport } from '../hooks/import/useImageImport';
+import { useAssets } from '../hooks/asset/useAssets';
 import '../assets/css/import.css';
 
 export const ImportPage = () => {
   const [fileAsset,      setFileAsset]      = useState(null);
   const [fileTicket,     setFileTicket]     = useState(null);
   const [fileTicketCost, setFileTicketCost] = useState(null);
+  const [fileZipImages,  setFileZipImages]  = useState(null); // Nouveau state pour le ZIP
 
   const [refToGlpiId, setRefToGlpiId] = useState({});
+  
+  // Récupérer tous les assets pour le mapping
+  const { assets, loading: loadingAssets, refresh: refreshAssets } = useAssets();
 
-  // Hooks des 3 fichiers
+  // Hooks des 4 fichiers
   const {
     importCsv: importAssets,
     loading:   loadingAsset,
@@ -33,26 +40,89 @@ export const ImportPage = () => {
     progress:  progressCost,
   } = useTicketCostImport();
 
-  const loading = loadingAsset || loadingTicket || loadingCost;
-  const allLogs = [...logsAsset, ...logsTicket, ...logsCost];
+  const {
+    importZip: importImages,
+    loading:   loadingImages,
+    logs:      logsImages,
+    progress:  progressImages,
+  } = useImageImport();
 
-  // Progression globale : moyenne des 3
-  const globalProgress = Math.round((progressAsset + progressTicket + progressCost) / 3);
+  const loading = loadingAsset || loadingTicket || loadingCost || loadingImages || loadingAssets;
+  const allLogs = [...logsAsset, ...logsTicket, ...logsCost, ...logsImages];
 
-  const handleImportAll = async () => {
-    if (!fileAsset || !fileTicket || !fileTicketCost) return;
+  // Progression globale
+  const globalProgress = Math.round((progressAsset + progressTicket + progressCost + progressImages) / 4);
 
-    await importAssets(fileAsset);
+  // ✅ Attendre que les assets soient chargés pour construire le mapping
+  const assetMap = assets.reduce((map, asset) => {
+    if (asset.name && asset.id) {
+      map[asset.name] = asset.id;
+    }
+    return map;
+  }, {});
 
-    // Récupérer la table directement depuis le retour de importTickets
-    const table = await importTickets(fileTicket);
-    console.log('[ImportPage] table reçue =', table); // vérification
+  console.log('[ImportPage] assetMap construit:', Object.keys(assetMap).length, 'entrées');
+  console.log('[ImportPage] Exemples d\'assets:', assets.slice(0, 3).map(a => ({ name: a.name, id: a.id })));
 
-    // Passer la table directement à importCosts — pas via le state
-    await importCosts(fileTicketCost, table);
+  // Rafraîchir les assets après l'import des matériels
+  // useEffect(() => {
+  //   if (!loadingAsset && progressAsset === 100) {
+  //     refreshAssets();
+  //   }
+  // }, [loadingAsset, progressAsset, refreshAssets]);
+  // pages/ImportPage.jsx
+
+const handleImportAll = async () => {
+    console.log('[ImportPage] Début import...');
+    let freshAssets = [];
+    
+    // 1. Importer les assets si un fichier est fourni
+    if (fileAsset) {
+      console.log('[ImportPage] Import des assets...');
+      await importAssets(fileAsset);
+      
+      // ✅ Attendre que les assets soient rafraîchis
+      console.log('[ImportPage] Rafraîchissement des assets...');
+      freshAssets = await refreshAssets();
+      
+      console.log('[ImportPage] Assets frais reçus:', freshAssets?.length || 0);
+      console.log('[ImportPage] Premiers assets:', freshAssets?.slice(0, 3));
+      
+      // Construire le mapping avec les assets frais
+      const freshAssetMap = (freshAssets || []).reduce((map, asset) => {
+        if (asset.name && asset.id) {
+          map[asset.name] = asset.id;
+          console.log(`[ImportPage] Mapping: ${asset.name} -> ${asset.id}`);
+        }
+        return map;
+      }, {});
+      
+      console.log('[ImportPage] freshAssetMap construit:', Object.keys(freshAssetMap).length, 'entrées');
+      console.log('[ImportPage] Clés du mapping:', Object.keys(freshAssetMap));
+      
+      // 2. Importer les images avec le mapping frais
+      if (fileZipImages && Object.keys(freshAssetMap).length > 0) {
+        console.log('[ImportPage] Import des images avec mapping...');
+        await importImages(fileZipImages, freshAssetMap);
+      } else if (fileZipImages && Object.keys(freshAssetMap).length === 0) {
+        console.warn('[ImportPage] Pas de mapping disponible pour les images');
+      }
+    }
+    
+    // 3. Importer les tickets
+    let table = null;
+    if (fileTicket) {
+      console.log('[ImportPage] Import des tickets...');
+      table = await importTickets(fileTicket);
+    }
+    
+    // 4. Importer les coûts des tickets
+    if (fileTicketCost && table) {
+      console.log('[ImportPage] Import des coûts...');
+      await importCosts(fileTicketCost, table);
+    }
   };
-
-  const allFilesSelected = fileAsset && fileTicket && fileTicketCost;
+  const allFilesSelected = fileAsset && fileTicket && fileTicketCost && fileZipImages;
 
   const getLogClass = (log) => {
     if (log.includes('❌')) return 'error';
@@ -64,12 +134,12 @@ export const ImportPage = () => {
   return (
     <div className="import-page">
       <h2 className="import-title">Importation massive GLPI</h2>
-      <p className="import-subtitle">Sélectionnez les 3 fichiers CSV puis lancez l'import.</p>
+      <p className="import-subtitle">Sélectionnez les 4 fichiers puis lancez l'import.</p>
 
-      {/* Sélection des 3 fichiers */}
+      {/* Sélection des 4 fichiers */}
       <div className="files-section">
         <FileInput
-          label="Fichier 1 — Matériels"
+          label="Fichier 1 — Matériels (CSV)"
           accept=".csv"
           disabled={loading}
           onChange={(f) => setFileAsset(f)}
@@ -77,7 +147,7 @@ export const ImportPage = () => {
         />
 
         <FileInput
-          label="Fichier 2 — Tickets"
+          label="Fichier 2 — Tickets (CSV)"
           accept=".csv"
           disabled={loading}
           onChange={(f) => setFileTicket(f)}
@@ -85,13 +155,28 @@ export const ImportPage = () => {
         />
 
         <FileInput
-          label="Fichier 3 — Coûts des tickets"
+          label="Fichier 3 — Coûts des tickets (CSV)"
           accept=".csv"
           disabled={loading}
           onChange={(f) => setFileTicketCost(f)}
           selected={fileTicketCost}
         />
+
+        <FileInput
+          label="Fichier 4 — Images des équipements (ZIP)"
+          accept=".zip"
+          disabled={loading}
+          onChange={(f) => setFileZipImages(f)}
+          selected={fileZipImages}
+        />
       </div>
+
+      {/* Affichage du nombre d'assets disponibles pour le mapping */}
+      {Object.keys(assetMap).length > 0 && (
+        <div className="asset-map-info">
+          📊 {Object.keys(assetMap).length} équipements disponibles pour l'import des images
+        </div>
+      )}
 
       {/* Bouton unique */}
       <button
@@ -103,7 +188,7 @@ export const ImportPage = () => {
       </button>
 
       {!allFilesSelected && !loading && (
-        <p className="import-warning">⚠️ Sélectionnez les 3 fichiers pour activer l'import.</p>
+        <p className="import-warning">⚠️ Sélectionnez les 4 fichiers pour activer l'import.</p>
       )}
 
       {/* Progression globale */}
@@ -113,6 +198,7 @@ export const ImportPage = () => {
             <ProgressBar label="Matériels"  value={progressAsset}  active={loadingAsset} />
             <ProgressBar label="Tickets"    value={progressTicket} active={loadingTicket} />
             <ProgressBar label="Coûts"      value={progressCost}   active={loadingCost} />
+            <ProgressBar label="Images ZIP" value={progressImages} active={loadingImages} />
           </div>
           <p className="progress-global">Progression globale : {globalProgress}%</p>
         </div>
