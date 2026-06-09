@@ -1,6 +1,6 @@
 import '../../assets/css/kanban/kanban.css'
 
-export const KanbanColumn = ({ title, tickets, onTicketClick }) => {
+export const KanbanColumn = ({ title, tickets, onTicketClick, onAddTicket, status }) => {
     return (
         <div className="col-12 col-sm-6 col-md-4 col-lg-3 kanban-column-wrapper">
             <div className="card kanban-column-card h-100 shadow-sm">
@@ -28,6 +28,18 @@ export const KanbanColumn = ({ title, tickets, onTicketClick }) => {
                         ))
                     )}
                 </div>
+
+                {/* Bouton Ajouter un ticket - en dehors de la zone scrollable */}
+                {status === 'Nouveau' && (
+                    <div className="card-footer bg-white border-top-0 p-2">
+                        <button 
+                            className="add-ticket-in-column-btn"
+                            // onClick={onAddTicket}
+                        >
+                            + Ajouter un ticket
+                        </button>
+                    </div>
+                )}
             </div>
         </div>
     );

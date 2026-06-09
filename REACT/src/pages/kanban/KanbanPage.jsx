@@ -22,6 +22,7 @@ export const KanbanPage = () => {
                         key={group.statusId} 
                         title={group.statusLabel} 
                         tickets={group.tickets} 
+                        status={group.statusLabel}
                         onTicketClick={(ticket) => setSelectedTicket(ticket)}
                     />
                 ))}
