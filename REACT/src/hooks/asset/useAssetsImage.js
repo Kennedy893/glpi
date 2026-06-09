@@ -1,8 +1,7 @@
-
 import { useState, useEffect, useCallback } from 'react';
 import { AssetRepository } from '../../domain/repositories/AssetRepository';
 
-export const useAssets = () => {
+export const useAssetsImage = () => {
   const [assets, setAssets] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +11,7 @@ export const useAssets = () => {
     setError(null);
     
     try {
-      // Récupérer tous les types d'équipements (bruts)
+      // Récupérer tous les types d'équipements
       const [computers, printers, monitors, networkEquipments, phones, peripherals] = await Promise.all([
         AssetRepository.getAllAsset('Computer'),
         AssetRepository.getAllAsset('Printer'),
@@ -32,35 +31,37 @@ export const useAssets = () => {
         ...(peripherals || []).map(item => ({ ...item, type: 'Peripheral' }))
       ];
       
-      // ✅ Utiliser getAssetWithDetails pour chaque asset
-      // Cela récupère l'asset ET tous ses détails en UNE requête par asset
-      const enrichedAssets = await Promise.all(
-        rawAssets.map(asset => 
-          AssetRepository.getAssetWithDetails(asset.type, asset.id)
-        )
-      );
+      setAssets(rawAssets);
+      console.log('[useAssets] Assets chargés:', rawAssets.length);
       
-      // Filtrer les éventuels null (erreurs)
-      const validAssets = enrichedAssets.filter(asset => asset !== null);
+      // ✅ Retourner les assets pour les appels programmatiques
+      return rawAssets;
       
-      setAssets(validAssets);
     } catch (err) {
       console.error('Erreur chargement assets:', err);
       setError(err.message || 'Erreur lors du chargement du parc');
+      return []; // Retourner un tableau vide en cas d'erreur
     } finally {
       setLoading(false);
     }
   }, []);
 
+  // ✅ Fonction refresh qui retourne les données
+  const refresh = useCallback(async () => {
+    return await loadAssets();
+  }, [loadAssets]);
+
   useEffect(() => {
     loadAssets();
   }, [loadAssets]);
 
-  const refresh = () => {
-    loadAssets();
+  return { 
+    assets, 
+    loading, 
+    error, 
+    refresh  // ✅ refresh retourne maintenant une Promise
   };
 
-  return { assets, loading, error, refresh };
 };
 
 
@@ -84,56 +85,3 @@ export const useAssets = () => {
 //   const printer = printers[i];
 //   rawAssets.push({
 //     id: printer.id,
-//     name: printer.name,
-//     type: 'Printer'
-//   });
-// }
-
-// // Ajouter les monitors
-// for (let i = 0; i < monitors.length; i++) {
-//   const monitor = monitors[i];
-//   rawAssets.push({
-//     id: monitor.id,
-//     name: monitor.name,
-//     type: 'Monitor'
-//   });
-// }
-
-// // Ajouter les équipements réseau
-// for (let i = 0; i < networkEquipments.length; i++) {
-//   const networkEquipment = networkEquipments[i];
-//   rawAssets.push({
-//     id: networkEquipment.id,
-//     name: networkEquipment.name,
-//     type: 'NetworkEquipment'
-//   });
-// }
-
-// // Ajouter les téléphones
-// for (let i = 0; i < phones.length; i++) {
-//   const phone = phones[i];
-//   rawAssets.push({
-//     id: phone.id,
-//     name: phone.name,
-//     type: 'Phone'
-//   });
-// }
-
-// // Ajouter les périphériques
-// for (let i = 0; i < peripherals.length; i++) {
-//   const peripheral = peripherals[i];
-//   rawAssets.push({
-//     id: peripheral.id,
-//     name: peripheral.name,
-//     type: 'Peripheral'
-//   });
-// }
-
-// // Maintenant, pour chaque asset, récupérer tous les détails
-// const enrichedAssets = [];
-
-// for (let i = 0; i < rawAssets.length; i++) {
-//   const asset = rawAssets[i];
-//   const assetWithDetails = await AssetRepository.getAssetWithDetails(asset.type, asset.id);
-//   enrichedAssets.push(assetWithDetails);
-// }

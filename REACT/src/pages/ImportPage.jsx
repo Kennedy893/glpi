@@ -4,7 +4,7 @@ import { useAssetImporter }    from '../hooks/import/useAssetImport';
 import { useTicketImport }     from '../hooks/import/useTicketImport';
 import { useTicketCostImport } from '../hooks/import/useTicketCostImport';
 import { useImageImport } from '../hooks/import/useImageImport';
-import { useAssets } from '../hooks/asset/useAssets';
+import { useAssetsImage } from '../hooks/asset/useAssetsImage';
 import '../assets/css/import.css';
 
 export const ImportPage = () => {
@@ -16,7 +16,7 @@ export const ImportPage = () => {
   const [refToGlpiId, setRefToGlpiId] = useState({});
   
   // Récupérer tous les assets pour le mapping
-  const { assets, loading: loadingAssets, refresh: refreshAssets } = useAssets();
+  const { assets, loading: loadingAssets, refresh: refreshAssets } = useAssetsImage();
 
   // Hooks des 4 fichiers
   const {
