@@ -1,5 +1,5 @@
 // KanbanPage.js
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePresentation } from "../../hooks/ticket/usePresentation";
 import { KanbanColumn } from "../../components/kanban/KanbanColumn";
 import { TicketDetailsModal } from "../../components/ticket/TicketDetailsModal";
@@ -7,11 +7,14 @@ import { Ticket } from "../../domain/models/Ticket"; // Importez votre classe Ti
 import '../../assets/css/kanban/kanban.css';
 import { useKanban }          from "../../hooks/ticket/useKanban";
 import { StatusDialog } from "../../components/kanban/StatusDialog";
+import { useKanbanSettings } from "../../hooks/kanban/useKanbanSettings";
 
 export const KanbanPage = () => {
     // const { ticketsStatusMap, loading, error, addNewTicket } = usePresentation();
     const { ticketsStatusMap, loading, error, setTicketsStatusMap } = usePresentation();
     const [selectedTicket, setSelectedTicket] = useState(null);
+
+    const { settings } = useKanbanSettings();
 
     // hook kanban — drag + dialogue
     const {
@@ -46,6 +49,26 @@ export const KanbanPage = () => {
     const handleAddTicket = (status) => {
         console.log("Ajouter un ticket dans la colonne:", status);
     };
+
+    const applyColumnTheme = (prefix, color) => {
+            document.documentElement.style.setProperty(`--${prefix}-color`, color);
+            document.documentElement.style.setProperty(`--${prefix}-bg-light`, color);
+            document.documentElement.style.setProperty(`--${prefix}-bg-hover`, color);
+            document.documentElement.style.setProperty(`--${prefix}-border-light`, color);
+        };
+
+        useEffect(() => {
+        if (!settings?.columns) return;
+
+        const nouveau = settings.columns.find(c => c.statusId === 1);
+        const progress = settings.columns.find(c => c.statusId === 2);
+        const termine = settings.columns.find(c => c.statusId === 5);
+
+        if (nouveau) applyColumnTheme('col1', nouveau.color);
+        if (progress) applyColumnTheme('col2', progress.color);
+        if (termine) applyColumnTheme('col3', termine.color);
+    }, [settings]);
+
 
     if (loading) return <div className="text-center my-5"><div className="spinner-border"></div></div>;
     if (error) return <div className="alert alert-danger m-3">{error}</div>;

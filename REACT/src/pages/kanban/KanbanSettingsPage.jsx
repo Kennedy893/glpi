@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useKanbanSettings } from "../../hooks/kanban/useKanbanSettings";
+import "../../assets/css/kanban/kanban-settings.css";
 
 export const KanbanSettingsPage = () => {
     const [couleurNouveau, setCouleurNouveau] = useState('');
@@ -10,12 +11,10 @@ export const KanbanSettingsPage = () => {
     const [tradTermine, setTradTermine] = useState('');
 
     const {settings, update, loading, error} = useKanbanSettings();
-
     const [successMessage, setSuccessMessage] = useState('');
 
     const handleUpdate = async (e) => {
         e.preventDefault();
-
         setSuccessMessage('');
 
         try {
@@ -29,71 +28,124 @@ export const KanbanSettingsPage = () => {
             );
 
             setSuccessMessage('Paramètres mis à jour avec succès.');
-
-            // Vider les champs
             setCouleurNouveau('');
             setTradNouveau('');
-
             setCouleurProgress('');
             setTradProgress('');
-
             setCouleurTermine('');
             setTradTermine('');
         } catch (err) {
-            // L'erreur est déjà gérée par le hook
             console.error(err);
         }
     };
 
     return (
-        <div>
-            <form onSubmit={handleUpdate}>
-                <div>
-                    {loading && <p>Chargement...</p>}
+        <div className="kanban-settings-container">
+            <form onSubmit={handleUpdate} className="settings-form">
+                <div className="message-container">
+                    {loading && (
+                        <div className="loading-message">
+                            Chargement des paramètres...
+                        </div>
+                    )}
 
                     {successMessage && (
-                        <p style={{ color: "green" }}>
-                            {successMessage}
-                        </p>
+                        <div className="success-message">
+                            ✅ {successMessage}
+                        </div>
                     )}
 
                     {error && (
-                        <p style={{ color: "red" }}>
-                            {error}
-                        </p>
+                        <div className="error-message">
+                            ❌ {error}
+                        </div>
                     )}
-
-                    <h3>Nouveau</h3>
-
-                    <label htmlFor="">Couleur</label>
-                    <input type="text" value={couleurNouveau} onChange={(e) => setCouleurNouveau(e.target.value)}/>
-
-                    <label htmlFor="">Traduction</label>
-                    <input type="text" value={tradNouveau} onChange={(e) => setTradNouveau(e.target.value)}/>
                 </div>
 
-                <div>
-                    <h3>In progress</h3>
+                <div className="settings-grid">
+                    <div className="status-card">
+                        <h3>Nouveau</h3>
+                        <div className="form-group">
+                            <label>Couleur</label>
+                            <input 
+                                type="text" 
+                                className="form-control color-input"
+                                placeholder="#RRGGBB ou nom de couleur"
+                                value={couleurNouveau} 
+                                onChange={(e) => setCouleurNouveau(e.target.value)}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Traduction</label>
+                            <input 
+                                type="text" 
+                                className="form-control"
+                                placeholder="Ex: À faire"
+                                value={tradNouveau} 
+                                onChange={(e) => setTradNouveau(e.target.value)}
+                            />
+                        </div>
+                    </div>
 
-                    <label htmlFor="">Couleur</label>
-                    <input type="text" value={couleurProgress} onChange={e => setCouleurProgress(e.target.value)}/>
+                    <div className="status-card">
+                        <h3>In progress</h3>
+                        <div className="form-group">
+                            <label>Couleur</label>
+                            <input 
+                                type="text" 
+                                className="form-control color-input"
+                                placeholder="#RRGGBB ou nom de couleur"
+                                value={couleurProgress} 
+                                onChange={e => setCouleurProgress(e.target.value)}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Traduction</label>
+                            <input 
+                                type="text" 
+                                className="form-control"
+                                placeholder="Ex: En cours"
+                                value={tradProgress} 
+                                onChange={e => setTradProgress(e.target.value)}
+                            />
+                        </div>
+                    </div>
 
-                    <label htmlFor="">Traduction</label>
-                    <input type="text" value={tradProgress} onChange={e => setTradProgress(e.target.value)}/>
+                    <div className="status-card">
+                        <h3>Terminé</h3>
+                        <div className="form-group">
+                            <label>Couleur</label>
+                            <input 
+                                type="text" 
+                                className="form-control color-input"
+                                placeholder="#RRGGBB ou nom de couleur"
+                                value={couleurTermine} 
+                                onChange={e => setCouleurTermine(e.target.value)}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Traduction</label>
+                            <input 
+                                type="text" 
+                                className="form-control"
+                                placeholder="Ex: Fini"
+                                value={tradTermine} 
+                                onChange={e => setTradTermine(e.target.value)}
+                            />
+                        </div>
+                    </div>
                 </div>
 
-                <div>
-                    <h3>Terminé</h3>
-
-                    <label htmlFor="">Couleur</label>
-                    <input type="text" value={couleurTermine} onChange={e => setCouleurTermine(e.target.value)}/>
-
-                    <label htmlFor="">Traduction</label>
-                    <input type="text" value={tradTermine} onChange={e => setTradTermine(e.target.value)}/>
+                <div className="submit-section">
+                    <button 
+                        type="submit" 
+                        className={`submit-button ${loading ? 'loading' : ''}`}
+                        disabled={loading}
+                    >
+                        {loading ? 'Mise à jour...' : 'Confirmer les modifications'}
+                    </button>
                 </div>
-
-                <button type="submit">Confirmer</button>
             </form>
         </div>
     );
-}
+};
