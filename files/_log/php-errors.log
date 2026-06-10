@@ -439,3 +439,25 @@
   .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
   .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
 
+[2026-06-10 09:33:48] glpi.WARNING:   *** Warning: Undefined array key 0 at API.php line 2118
+  Backtrace :
+  .\src\Glpi\Api\API.php:2118                        
+  .\src\Glpi\Api\APIRest.php:380                     Glpi\Api\API->updateItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 09:33:48] glpi.WARNING:   *** Warning: Trying to access array offset on null at API.php line 2118
+  Backtrace :
+  .\src\Glpi\Api\API.php:2118                        
+  .\src\Glpi\Api\APIRest.php:380                     Glpi\Api\API->updateItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+

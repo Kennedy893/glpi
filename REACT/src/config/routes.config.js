@@ -7,6 +7,7 @@ import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { CreateTicketPage } from '../pages/ticket/CreateTicketPage';
 import { AssetsPage } from '../pages/asset/AssetsPage';
 import { KanbanPage } from '../pages/kanban/KanbanPage';
+import { KanbanSettingsPage } from '../pages/kanban/KanbanSettingsPage';
 
 // Configuration du menu (barre de navigation)
 export const menuConfig = [
@@ -27,6 +28,10 @@ export const menuConfig = [
     path: '/tickets',
   },
   {
+    label: 'Parametrage',
+    path: '/kanban-settings',
+  },
+  {
     label: 'Creer Ticket',
     path: '/frontoffice/create-ticket',
   },
@@ -38,6 +43,7 @@ export const menuConfig = [
     label: 'Representation',
     path: '/frontoffice/kanban',
   },
+  
 ];
 
 // Configuration des routes
@@ -73,6 +79,12 @@ export const routesConfig = [
     component: TicketsPage,
     protected: true,
     title: 'Gestion des tickets'
+  },
+  {
+    path: '/kanban-settings',
+    component: KanbanSettingsPage,
+    protected: true,
+    title: 'Parametrage de Kanban'
   },
   {
     path: '/frontoffice/create-ticket',

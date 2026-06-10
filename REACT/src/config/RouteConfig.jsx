@@ -10,6 +10,7 @@ import { DashboardPage } from '../pages/dashboard/DashboardPage';
 import { CreateTicketPage } from '../pages/ticket/CreateTicketPage';
 import { AssetsPage } from '../pages/asset/AssetsPage';
 import { KanbanPage } from '../pages/kanban/KanbanPage';
+import { KanbanSettingsPage } from '../pages/kanban/KanbanSettingsPage';
 
 const RouteConfig = () => {
   return (
@@ -64,6 +65,14 @@ const RouteConfig = () => {
         <ProtectedRoute>
           <BackofficeLayout>
             <TicketsPage />
+          </BackofficeLayout>
+        </ProtectedRoute>
+      } />
+
+      <Route path="/kanban-settings" element={
+        <ProtectedRoute>
+          <BackofficeLayout>
+            <KanbanSettingsPage />
           </BackofficeLayout>
         </ProtectedRoute>
       } />
