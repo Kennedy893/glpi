@@ -461,3 +461,401 @@
   .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
   .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
 
+[2026-06-10 16:16:40] glpi.CRITICAL:   *** Uncaught PHP Exception Error: "Attempt to assign property "_filename" on array" at APIRest.php line 566
+  Backtrace :
+  .\src\Glpi\Api\APIRest.php:566                     
+  .\src\Glpi\Api\APIRest.php:150                     Glpi\Api\APIRest->parseIncomingParams()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:17:03] glpi.CRITICAL:   *** Uncaught PHP Exception Error: "Attempt to assign property "_filename" on array" at APIRest.php line 566
+  Backtrace :
+  .\src\Glpi\Api\APIRest.php:566                     
+  .\src\Glpi\Api\APIRest.php:150                     Glpi\Api\APIRest->parseIncomingParams()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:17:04] glpi.CRITICAL:   *** Uncaught PHP Exception Error: "Attempt to assign property "_filename" on array" at APIRest.php line 566
+  Backtrace :
+  .\src\Glpi\Api\APIRest.php:566                     
+  .\src\Glpi\Api\APIRest.php:150                     Glpi\Api\APIRest->parseIncomingParams()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:17:04] glpi.CRITICAL:   *** Uncaught PHP Exception Error: "Attempt to assign property "_filename" on array" at APIRest.php line 566
+  Backtrace :
+  .\src\Glpi\Api\APIRest.php:566                     
+  .\src\Glpi\Api\APIRest.php:150                     Glpi\Api\APIRest->parseIncomingParams()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:30:19] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29911b4123d0.22416788PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:30:19] glpi.WARNING:   *** User Warning: MySQL query warnings:
+  SQL: INSERT INTO `glpi_documents` (`name`, `entities_id`, `is_recursive`, `documentcategories_id`, `date_creation`, `comment`, `users_id`, `tag`, `date_mod`) VALUES ('PC-ADM-001.png', '0', '0', '1', '2026-06-10T16:30:19.201Z', 'Image associée à Computer #614', '2', '786c4465-a6886e6c-6a29911b8266f1.20994250', '2026-06-10 16:30:19')
+  Warnings: 
+1265: Data truncated for column 'date_creation' at row 1 at DBmysql.php line 444
+  Backtrace :
+  .\src\DBmysql.php:444                              
+  .\src\DBmysql.php:1377                             DBmysql->doQuery()
+  .\src\CommonDBTM.php:778                           DBmysql->insert()
+  .\src\CommonDBTM.php:1382                          CommonDBTM->addToDB()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:30:19] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29911bc2abb6.72980989MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:30:19] glpi.WARNING:   *** User Warning: MySQL query warnings:
+  SQL: INSERT INTO `glpi_documents` (`name`, `entities_id`, `is_recursive`, `documentcategories_id`, `date_creation`, `comment`, `users_id`, `tag`, `date_mod`) VALUES ('MN-FORM-002.png', '0', '0', '1', '2026-06-10T16:30:19.704Z', 'Image associée à Monitor #50', '2', '786c4465-a6886e6c-6a29911bc4ff75.42311811', '2026-06-10 16:30:19')
+  Warnings: 
+1265: Data truncated for column 'date_creation' at row 1 at DBmysql.php line 444
+  Backtrace :
+  .\src\DBmysql.php:444                              
+  .\src\DBmysql.php:1377                             DBmysql->doQuery()
+  .\src\CommonDBTM.php:778                           DBmysql->insert()
+  .\src\CommonDBTM.php:1382                          CommonDBTM->addToDB()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:30:20] glpi.WARNING:   *** User Warning: MySQL query warnings:
+  SQL: INSERT INTO `glpi_documents` (`name`, `entities_id`, `is_recursive`, `documentcategories_id`, `date_creation`, `comment`, `users_id`, `mime`, `filename`, `filepath`, `sha1sum`, `tag`, `date_mod`) VALUES ('PC-LAB-002.jpeg', '0', '0', '1', '2026-06-10T16:30:19.917Z', 'Image associée à Computer #619', '2', 'image/jpeg', 'PC-LAB-002.jpeg', 'JPEG/f9/c2f562cc3a0397df67ded98eaa0220a8da89d2.JPEG', 'f9c2f562cc3a0397df67ded98eaa0220a8da89d2', '786c4465-a6886e6c-6a29911c039076.40933974', '2026-06-10 16:30:19')
+  Warnings: 
+1265: Data truncated for column 'date_creation' at row 1 at DBmysql.php line 444
+  Backtrace :
+  .\src\DBmysql.php:444                              
+  .\src\DBmysql.php:1377                             DBmysql->doQuery()
+  .\src\CommonDBTM.php:778                           DBmysql->insert()
+  .\src\CommonDBTM.php:1382                          CommonDBTM->addToDB()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:30:20] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29911c312e94.17270670PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:30:20] glpi.WARNING:   *** User Warning: MySQL query warnings:
+  SQL: INSERT INTO `glpi_documents` (`name`, `entities_id`, `is_recursive`, `documentcategories_id`, `date_creation`, `comment`, `users_id`, `tag`, `date_mod`) VALUES ('PC-COMPTA-001.png', '0', '0', '1', '2026-06-10T16:30:20.122Z', 'Image associée à Computer #616', '2', '786c4465-a6886e6c-6a29911c32cc05.06806956', '2026-06-10 16:30:20')
+  Warnings: 
+1265: Data truncated for column 'date_creation' at row 1 at DBmysql.php line 444
+  Backtrace :
+  .\src\DBmysql.php:444                              
+  .\src\DBmysql.php:1377                             DBmysql->doQuery()
+  .\src\CommonDBTM.php:778                           DBmysql->insert()
+  .\src\CommonDBTM.php:1382                          CommonDBTM->addToDB()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:34:18] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29920abb06d4.81391696PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:34:18] glpi.WARNING:   *** User Warning: MySQL query warnings:
+  SQL: INSERT INTO `glpi_documents` (`name`, `entities_id`, `is_recursive`, `documentcategories_id`, `date_creation`, `comment`, `users_id`, `tag`, `date_mod`) VALUES ('PC-ADM-001.png', '0', '0', '1', '2026-06-10T16:34:18.684Z', 'Image associée à Computer #623', '2', '786c4465-a6886e6c-6a29920abd2b08.88366152', '2026-06-10 16:34:18')
+  Warnings: 
+1265: Data truncated for column 'date_creation' at row 1 at DBmysql.php line 444
+  Backtrace :
+  .\src\DBmysql.php:444                              
+  .\src\DBmysql.php:1377                             DBmysql->doQuery()
+  .\src\CommonDBTM.php:778                           DBmysql->insert()
+  .\src\CommonDBTM.php:1382                          CommonDBTM->addToDB()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:34:18] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29920ae84298.52587040MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:34:18] glpi.WARNING:   *** User Warning: MySQL query warnings:
+  SQL: INSERT INTO `glpi_documents` (`name`, `entities_id`, `is_recursive`, `documentcategories_id`, `date_creation`, `comment`, `users_id`, `tag`, `date_mod`) VALUES ('MN-FORM-002.png', '0', '0', '1', '2026-06-10T16:34:18.876Z', 'Image associée à Monitor #51', '2', '786c4465-a6886e6c-6a29920aea06a2.79479010', '2026-06-10 16:34:18')
+  Warnings: 
+1265: Data truncated for column 'date_creation' at row 1 at DBmysql.php line 444
+  Backtrace :
+  .\src\DBmysql.php:444                              
+  .\src\DBmysql.php:1377                             DBmysql->doQuery()
+  .\src\CommonDBTM.php:778                           DBmysql->insert()
+  .\src\CommonDBTM.php:1382                          CommonDBTM->addToDB()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:34:19] glpi.WARNING:   *** User Warning: MySQL query warnings:
+  SQL: INSERT INTO `glpi_documents` (`name`, `entities_id`, `is_recursive`, `documentcategories_id`, `date_creation`, `comment`, `users_id`, `mime`, `filename`, `filepath`, `sha1sum`, `tag`, `date_mod`) VALUES ('PC-LAB-002.jpeg', '0', '0', '1', '2026-06-10T16:34:19.060Z', 'Image associée à Computer #628', '2', 'image/jpeg', 'PC-LAB-002.jpeg', 'JPEG/f9/c2f562cc3a0397df67ded98eaa0220a8da89d2.JPEG', 'f9c2f562cc3a0397df67ded98eaa0220a8da89d2', '786c4465-a6886e6c-6a29920b26b493.43837104', '2026-06-10 16:34:19')
+  Warnings: 
+1265: Data truncated for column 'date_creation' at row 1 at DBmysql.php line 444
+  Backtrace :
+  .\src\DBmysql.php:444                              
+  .\src\DBmysql.php:1377                             DBmysql->doQuery()
+  .\src\CommonDBTM.php:778                           DBmysql->insert()
+  .\src\CommonDBTM.php:1382                          CommonDBTM->addToDB()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:34:19] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29920b58dcb1.03299870PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:34:19] glpi.WARNING:   *** User Warning: MySQL query warnings:
+  SQL: INSERT INTO `glpi_documents` (`name`, `entities_id`, `is_recursive`, `documentcategories_id`, `date_creation`, `comment`, `users_id`, `tag`, `date_mod`) VALUES ('PC-COMPTA-001.png', '0', '0', '1', '2026-06-10T16:34:19.279Z', 'Image associée à Computer #625', '2', '786c4465-a6886e6c-6a29920b5a8191.96766449', '2026-06-10 16:34:19')
+  Warnings: 
+1265: Data truncated for column 'date_creation' at row 1 at DBmysql.php line 444
+  Backtrace :
+  .\src\DBmysql.php:444                              
+  .\src\DBmysql.php:1377                             DBmysql->doQuery()
+  .\src\CommonDBTM.php:778                           DBmysql->insert()
+  .\src\CommonDBTM.php:1382                          CommonDBTM->addToDB()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:39:58] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29935e4d3d53.54226973PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:39:58] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29935e943d82.88245197MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:39:59] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29935f03e6b3.38421789PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:51:10] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2995fee6b870.84501529PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:51:11] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2995ff20bbc6.34307566MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:51:11] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2995ff843a33.37860282PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:53:46] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29969aa381b8.61053580PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:53:46] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29969aceeff1.54658872MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-10 16:53:47] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a29969b3d7ee2.25792009PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+

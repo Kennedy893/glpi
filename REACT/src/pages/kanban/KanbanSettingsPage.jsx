@@ -76,11 +76,11 @@ export const KanbanSettingsPage = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Traduction</label>
+                            <label>Traduction Malagasy</label>
                             <input 
                                 type="text" 
                                 className="form-control"
-                                placeholder="Ex: À faire"
+                                placeholder="Ex: Vaovao"
                                 value={tradNouveau} 
                                 onChange={(e) => setTradNouveau(e.target.value)}
                             />
@@ -100,11 +100,11 @@ export const KanbanSettingsPage = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Traduction</label>
+                            <label>Traduction Malagasy</label>
                             <input 
                                 type="text" 
                                 className="form-control"
-                                placeholder="Ex: En cours"
+                                placeholder="Ex: Vao manao"
                                 value={tradProgress} 
                                 onChange={e => setTradProgress(e.target.value)}
                             />
@@ -124,11 +124,11 @@ export const KanbanSettingsPage = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label>Traduction</label>
+                            <label>Traduction Malagasy</label>
                             <input 
                                 type="text" 
                                 className="form-control"
-                                placeholder="Ex: Fini"
+                                placeholder="Ex: Vita"
                                 value={tradTermine} 
                                 onChange={e => setTradTermine(e.target.value)}
                             />
