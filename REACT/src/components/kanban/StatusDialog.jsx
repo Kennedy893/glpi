@@ -34,10 +34,10 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
 
   const handleConfirm = () => {
     // Validation
-    if (fields.includes('technicien') && !technicienId) {
-      setError('Veuillez sélectionner un technicien.');
-      return;
-    }
+    // if (fields.includes('technicien') && !technicienId) {
+    //   setError('Veuillez sélectionner un technicien.');
+    //   return;
+    // }
     if (fields.includes('solution') && !solution.trim()) {
       setError('Veuillez saisir une solution.');
       return;

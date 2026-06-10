@@ -6,13 +6,14 @@ import { TicketDetailsModal } from "../../components/ticket/TicketDetailsModal";
 import { Ticket } from "../../domain/models/Ticket"; // Importez votre classe Ticket
 import '../../assets/css/kanban/kanban.css';
 import { useKanban }          from "../../hooks/ticket/useKanban";
+import { StatusDialog } from "../../components/kanban/StatusDialog";
 
 export const KanbanPage = () => {
     // const { ticketsStatusMap, loading, error, addNewTicket } = usePresentation();
     const { ticketsStatusMap, loading, error, setTicketsStatusMap } = usePresentation();
     const [selectedTicket, setSelectedTicket] = useState(null);
 
-    // ✅ hook kanban — drag + dialogue
+    // hook kanban — drag + dialogue
     const {
         draggedId,
         onDragStart,
@@ -62,9 +63,9 @@ export const KanbanPage = () => {
                         status={group.statusLabel}
                         onTicketClick={handleTicketClick}  // Utilisez la fonction de conversion
                         onAddTicket={() => handleAddTicket(group.statusLabel)}
-                        onDragStart={onDragStart}         // ✅ nouveau
-                        onDrop={onDrop}                   // ✅ nouveau
-                        draggedId={draggedId}             // ✅ nouveau
+                        onDragStart={onDragStart}         // nouveau
+                        onDrop={onDrop}                   // nouveau
+                        draggedId={draggedId}             // nouveau
                     />
                 ))}
             </div>
@@ -78,7 +79,7 @@ export const KanbanPage = () => {
                 />
             )}
 
-            {/* ✅ Dialogue changement de statut */}
+            {/* Dialogue changement de statut */}
             {dialog.open && (
                 <StatusDialog
                 dialog={dialog}

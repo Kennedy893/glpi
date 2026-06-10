@@ -14,14 +14,22 @@ export const KanbanColumn = ({ title, tickets, onTicketClick, status, onDrop, on
     return (
     <div className="col-12 col-sm-6 col-md-4 col-lg-3 kanban-column-wrapper">
       <div className={`card kanban-column-card h-100 shadow-sm ${isDragOver ? 'drag-over' : ''}`}
-        onDragOver={(e) => { e.preventDefault(); setIsDragOver(true); }}
-        onDragLeave={() => setIsDragOver(false)}
-        onDrop={(e) => { setIsDragOver(false); onDrop(e, status); }} // ✅ zone de drop
+        onDragOver={(e) => { 
+          e.preventDefault(); // ← sans ça, onDrop ne se déclenche jamais
+          setIsDragOver(true);  // ← effet visuel sur la colonne
+        }}
+        onDragLeave={() => 
+          setIsDragOver(false)
+        }
+        onDrop={(e) => { 
+          setIsDragOver(false); 
+          onDrop(e, status); // ← déclenché quand l'utilisateur lâche
+        }} // zone de drop
       >
 
         {/* Header de la colonne avec compteur */}
         <div className="card-header d-flex justify-content-between align-items-center bg-white border-bottom-2 py-3">
-            <h5 className="card-title mb-0 text-dark fw-bold">{title}</h5>
+            <h5 className="card-title mb-0 text-dark fw-bold">{title}</h5><br />
             <span className="badge bg-primary rounded-pill px-2.5">{tickets.length}</span>
         </div>
 
@@ -32,10 +40,10 @@ export const KanbanColumn = ({ title, tickets, onTicketClick, status, onDrop, on
             tickets.map((ticket) => (
               <div
                 key={ticket.id}
-                draggable                                              // ✅ draggable
+                draggable                                              
                 onDragStart={(e) => {
-                  e.dataTransfer.setData('ticketId', String(ticket.id));
-                  onDragStart(ticket.id);                             // ✅ notifier le parent
+                  e.dataTransfer.setData('ticketId', String(ticket.id)); // stocke l'id dans le "presse-papier du drag"
+                  onDragStart(ticket.id); // notifie React pour griser la carte
                 }}
                 onClick={() => onTicketClick(ticket)}
                 className={`kanban-ticket-row d-flex align-items-center ${draggedId === ticket.id ? 'dragging' : ''}`}

@@ -5,15 +5,15 @@ import { TicketRepository } from '../../domain/repositories/TicketRepository';
 // ─── Config des dialogues selon la transition ─────────────
 // clé : "statusLabel_source -> statusLabel_cible"
 const DIALOG_CONFIG = {
-  'Nouveau->En cours': {
+  'Nouveau->In progress': {
     title:  "Assigner le ticket",
     fields: ['technicien'],
   },
-  'Nouveau->Résolu': {
+  'Nouveau->Terminé': {
     title:  "Résoudre le ticket",
     fields: ['technicien', 'solution'],
   },
-  'En cours->Résolu': {
+  'In progress->Terminé': {
     title:  "Saisir la solution",
     fields: ['solution'],
   },
@@ -46,10 +46,12 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
   // ── Drop sur une colonne ────────────────────────────────
   const onDrop = (e, targetStatusLabel) => {
     e.preventDefault();
+
+    // Récupérer l'id stocké dans dataTransfer
     const ticketId = parseInt(e.dataTransfer.getData('ticketId'));
     setDraggedId(null);
 
-    // Trouver le ticket et sa colonne source
+    // Trouver le ticket et sa colonne source dans le state
     let ticket       = null;
     let sourceLabel  = null;
 
@@ -62,13 +64,15 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
       }
     }
 
+    // Ignorer si même colonne
     if (!ticket || sourceLabel === targetStatusLabel) return;
 
-    const key    = `${sourceLabel}->${targetStatusLabel}`;
+    // Construire la clé de transition
+    const key    = `${sourceLabel}->${targetStatusLabel}`; // ex: "Nouveau->Résolu"
     const config = DIALOG_CONFIG[key];
 
     if (config) {
-      // Ouvrir le dialogue
+      // Ouvrir le dialogue (si necessaire)
       setDialog({
         open:      true,
         ticket,
@@ -102,14 +106,7 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
     }
 
     try {
-      // 1 — Mettre à jour le statut (+ technicien si fourni)
-      const updatePayload = { status: newStatusId };
-      if (extraData.technicienId) {
-        updatePayload.users_id_assign = extraData.technicienId;
-      }
-      await TicketRepository.updateTicket(ticket.id, updatePayload);
-
-      // 2 — Créer la solution si résolu
+      // 1 — Créer la solution si résolu
       if (newStatusId === 5 && extraData.solution?.trim()) {
         await TicketRepository.createSolution({
           itemtype: 'Ticket',
@@ -118,6 +115,15 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
           status:   1,
         });
       }
+
+      // 2 — Mettre à jour le statut (+ technicien si fourni)
+      const updatePayload = { 
+        status: newStatusId 
+      };
+      if (extraData.technicienId) {
+        updatePayload.users_id_assign = extraData.technicienId;
+      }
+      await TicketRepository.updateTicket(ticket.id, updatePayload);
 
       // 3 — Mise à jour locale sans refetch
       setTicketsStatusMap(prev => {
