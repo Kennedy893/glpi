@@ -1,8 +1,32 @@
 // components/AssetRow.jsx
+import { useEffect, useState } from 'react';
 import '../../assets/css/asset/asset-table.css';
 import { useNavigate } from 'react-router-dom';
+import { AssetRepository } from '../../domain/repositories/AssetRepository';
+import { AssetImage } from './AssetImage';
 
 export const AssetRow = ({ asset, onAssetClick }) => {
+
+  const [imageUrl, setImageUrl] = useState(null);
+  const [imageLoading, setImageLoading] = useState(true);
+
+  useEffect(() => {
+      loadAssetImage();
+  }, [asset.id]);
+
+  const loadAssetImage = async () => {
+      try {
+          const image = await AssetRepository.getAssetImage(asset.id, asset.type);
+          if (image && image.url) {
+              setImageUrl(image.url);
+          }
+      } catch (error) {
+          console.error('Erreur chargement image:', error);
+      } finally {
+          setImageLoading(false);
+      }
+  };
+
   const navigate = useNavigate();
 
   const handleRowClick = () => {
@@ -46,8 +70,14 @@ export const AssetRow = ({ asset, onAssetClick }) => {
 
   return (
     <tr className="asset-row" onClick={handleRowClick} style={{ cursor: 'pointer' }}>
-      {/* ID */}
-      <td className="col-id">#{asset.id}</td>
+      {/* Colonne image */}
+      <td className="col-image">
+      <AssetImage 
+          asset={asset} 
+          className="asset-thumbnail"
+          fallbackIcon={getTypeIcon(asset.type)}
+      />
+      </td>
       
       {/* Icône + Nom */}
       <td className="col-name">

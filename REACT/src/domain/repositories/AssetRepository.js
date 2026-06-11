@@ -163,4 +163,87 @@ export const AssetRepository = {
         };
         return endpoints[typeAsset] || null;
     },
+
+    // Récupérer la première image associée à un asset
+    // domain/repositories/AssetRepository.js
+
+// Récupérer la première image associée à un asset
+// domain/repositories/AssetRepository.js
+
+// Récupérer la première image associée à un asset
+async getAssetImage(assetId, assetType = 'Computer') {
+    try {
+        const sessionToken = apiClient.sessionToken;
+        const appToken = apiClient.appToken;
+        const baseUrl = apiClient.baseUrl;
+        
+        // 1. Chercher les documents associés à l'asset
+        const response = await apiClient.get(`Document_Item?expand=1&criteria[items_id]=${assetId}&criteria[itemtype]=${assetType}`);
+        
+        if (!response || response.length === 0) {
+            return null;
+        }
+        
+        // 2. Prendre le premier document
+        const firstDoc = response[0];
+        const documentId = firstDoc.documents_id;
+        
+        // 3. Récupérer les détails du document
+        const document = await apiClient.get(`Document/${documentId}`);
+        
+        if (!document) {
+            return null;
+        }
+        
+        // 4. 🔥 CRITIQUE: Utiliser directement l'API GLPI avec les tokens dans les headers
+        // Pas besoin de construire une URL avec paramètres, le session token est déjà dans apiClient
+        const downloadUrl = `${baseUrl}/Document/${documentId}/download`;
+        
+        return {
+            id: documentId,
+            name: document.name,
+            url: downloadUrl,
+            // On utilisera fetch directement pour l'image avec les bons headers
+            downloadUrl: downloadUrl
+        };
+        
+    } catch (error) {
+        console.error('[getAssetImage] Erreur:', error);
+        return null;
+    }
+},
+// Récupérer toutes les images d'un asset
+async getAssetImages(assetId, assetType = 'Computer') {
+    try {
+        const sessionToken = apiClient.sessionToken;
+        const appToken = apiClient.appToken;
+        const baseUrl = apiClient.baseUrl;
+        
+        const response = await apiClient.get(`Document_Item?expand=1&criteria[items_id]=${assetId}&criteria[itemtype]=${assetType}`);
+        
+        if (!response || response.length === 0) {
+            return [];
+        }
+        
+        const images = [];
+        for (const docItem of response) {
+            const document = await apiClient.get(`Document/${docItem.documents_id}`);
+            if (document && document.filepath) {
+                // 🔥 Ajouter les tokens dans l'URL
+                images.push({
+                    id: document.id,
+                    name: document.name,
+                    url: `${baseUrl}/Document/${document.id}/download?app_token=${appToken}&session_token=${sessionToken}`,
+                    filepath: document.filepath
+                });
+            }
+        }
+        
+        return images;
+        
+    } catch (error) {
+        console.error('[getAssetImages] Erreur:', error);
+        return [];
+    }
+}
 }

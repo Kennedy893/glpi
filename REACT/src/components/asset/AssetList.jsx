@@ -132,8 +132,8 @@ export const AssetList = ({ assets, onRefresh, onAssetClick }) => {
         <table className="asset-table">
           <thead>
             <tr>
-              <th className="col-id sortable" onClick={() => updateSort('id')}>
-                ID {sortConfig.key === 'id' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
+              <th className="col-id image">
+                Image
               </th>
               <th className="col-name sortable" onClick={() => updateSort('name')}>
                 Nom {sortConfig.key === 'name' && (sortConfig.direction === 'asc' ? '↑' : '↓')}
