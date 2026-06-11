@@ -6,6 +6,7 @@ import { useTicketCostImport } from '../hooks/import/useTicketCostImport';
 import { useImageImport } from '../hooks/import/useImageImport';
 import { useAssetsImage } from '../hooks/asset/useAssetsImage';
 import '../assets/css/import.css';
+import { useResetData } from '../hooks/reset/useResetData';
 
 export const ImportPage = () => {
   const [fileAsset,      setFileAsset]      = useState(null);
@@ -47,8 +48,11 @@ export const ImportPage = () => {
     progress:  progressImages,
   } = useImageImport();
 
-  const loading = loadingAsset || loadingTicket || loadingCost || loadingImages || loadingAssets;
-  const allLogs = [...logsAsset, ...logsTicket, ...logsCost, ...logsImages];
+  // RESET
+  const { resetData, loading: resetting, logs: resetLogs } = useResetData();
+
+  const loading = loadingAsset || loadingTicket || loadingCost || loadingImages || resetting;
+  const allLogs = [...logsAsset, ...logsTicket, ...logsCost, ...logsImages, ...resetLogs];
 
   // Progression globale
   const globalProgress = Math.round((progressAsset + progressTicket + progressCost + progressImages) / 4);
@@ -72,56 +76,67 @@ export const ImportPage = () => {
   // }, [loadingAsset, progressAsset, refreshAssets]);
   // pages/ImportPage.jsx
 
-const handleImportAll = async () => {
+  const handleImportAll = async () => {
     console.log('[ImportPage] Début import...');
     let freshAssets = [];
     
-    // 1. Importer les assets si un fichier est fourni
-    if (fileAsset) {
-      console.log('[ImportPage] Import des assets...');
-      await importAssets(fileAsset);
-      
-      // ✅ Attendre que les assets soient rafraîchis
-      console.log('[ImportPage] Rafraîchissement des assets...');
-      freshAssets = await refreshAssets();
-      
-      console.log('[ImportPage] Assets frais reçus:', freshAssets?.length || 0);
-      console.log('[ImportPage] Premiers assets:', freshAssets?.slice(0, 3));
-      
-      // Construire le mapping avec les assets frais
-      const freshAssetMap = (freshAssets || []).reduce((map, asset) => {
-        if (asset.name && asset.id) {
-          map[asset.name] = asset.id;
-          console.log(`[ImportPage] Mapping: ${asset.name} -> ${asset.id}`);
+    try {
+      // 1. Importer les assets si un fichier est fourni
+      if (fileAsset) {
+        console.log('[ImportPage] Import des assets...');
+        await importAssets(fileAsset);
+        
+        // Attendre que les assets soient rafraîchis
+        console.log('[ImportPage] Rafraîchissement des assets...');
+        freshAssets = await refreshAssets();
+        
+        console.log('[ImportPage] Assets frais reçus:', freshAssets?.length || 0);
+        console.log('[ImportPage] Premiers assets:', freshAssets?.slice(0, 3));
+        
+        // Construire le mapping avec les assets frais
+        const freshAssetMap = (freshAssets || []).reduce((map, asset) => {
+          if (asset.name && asset.id) {
+            map[asset.name] = asset.id;
+            console.log(`[ImportPage] Mapping: ${asset.name} -> ${asset.id}`);
+          }
+          return map;
+        }, {});
+        
+        console.log('[ImportPage] freshAssetMap construit:', Object.keys(freshAssetMap).length, 'entrées');
+        console.log('[ImportPage] Clés du mapping:', Object.keys(freshAssetMap));
+        
+        // 2. Importer les images avec le mapping frais
+        if (fileZipImages && Object.keys(freshAssetMap).length > 0) {
+          console.log('[ImportPage] Import des images avec mapping...');
+          await importImages(fileZipImages, freshAssetMap);
+        } else if (fileZipImages && Object.keys(freshAssetMap).length === 0) {
+          console.warn('[ImportPage] Pas de mapping disponible pour les images');
         }
-        return map;
-      }, {});
-      
-      console.log('[ImportPage] freshAssetMap construit:', Object.keys(freshAssetMap).length, 'entrées');
-      console.log('[ImportPage] Clés du mapping:', Object.keys(freshAssetMap));
-      
-      // 2. Importer les images avec le mapping frais
-      if (fileZipImages && Object.keys(freshAssetMap).length > 0) {
-        console.log('[ImportPage] Import des images avec mapping...');
-        await importImages(fileZipImages, freshAssetMap);
-      } else if (fileZipImages && Object.keys(freshAssetMap).length === 0) {
-        console.warn('[ImportPage] Pas de mapping disponible pour les images');
       }
-    }
-    
-    // 3. Importer les tickets
-    let table = null;
-    if (fileTicket) {
-      console.log('[ImportPage] Import des tickets...');
-      table = await importTickets(fileTicket);
-    }
-    
-    // 4. Importer les coûts des tickets
-    if (fileTicketCost && table) {
-      console.log('[ImportPage] Import des coûts...');
-      await importCosts(fileTicketCost, table);
+      
+      // 3. Importer les tickets
+      let table = null;
+      if (fileTicket) {
+        console.log('[ImportPage] Import des tickets...');
+        table = await importTickets(fileTicket);
+      }
+      
+      // 4. Importer les coûts des tickets
+      if (fileTicketCost && table) {
+        console.log('[ImportPage] Import des coûts...');
+        await importCosts(fileTicketCost, table);
+      }
+      alert('✅ Import réussi !');
+
+
+    } catch (error) {
+      console.error('Erreur:', error);
+      await resetData();
+      alert(`❌ Import annulé - Rollback effectué\n\nErreur: ${error.message}`);
+      await refreshAssets();
     }
   };
+
   const allFilesSelected = fileAsset && fileTicket && fileTicketCost && fileZipImages;
 
   const getLogClass = (log) => {
