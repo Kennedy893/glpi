@@ -19,7 +19,7 @@ export const KanbanSettingsPage = () => {
         if (settings && settings.columns) {
             const nouveau = settings.columns.find(col => col.statusId === 1);
             const progress = settings.columns.find(col => col.statusId === 2);
-            const termine = settings.columns.find(col => col.statusId === 5);
+            const termine = settings.columns.find(col => col.statusId === 6);
             
             if (nouveau) {
                 setCouleurNouveau(nouveau.color || '');
@@ -85,7 +85,7 @@ export const KanbanSettingsPage = () => {
         if (settings && settings.columns) {
             const nouveau = settings.columns.find(col => col.statusId === 1);
             const progress = settings.columns.find(col => col.statusId === 2);
-            const termine = settings.columns.find(col => col.statusId === 5);
+            const termine = settings.columns.find(col => col.statusId === 6);
             
             if (nouveau) {
                 setCouleurNouveau(nouveau.color || '');
@@ -130,7 +130,7 @@ export const KanbanSettingsPage = () => {
 
                 <div className="settings-grid">
                     <div className="status-card">
-                        <h3>Nouveau</h3>
+                        <h3>New</h3>
                         <div className="form-group">
                             <label>Couleur</label>
                             <input 
@@ -182,7 +182,7 @@ export const KanbanSettingsPage = () => {
                     </div>
 
                     <div className="status-card">
-                        <h3>Terminé</h3>
+                        <h3>Closed</h3>
                         <div className="form-group">
                             <label>Couleur</label>
                             <input 

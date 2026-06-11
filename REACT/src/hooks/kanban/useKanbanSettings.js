@@ -49,7 +49,7 @@ export const useKanbanSettings = () => {
             labelMg: updates.progress.labelMg !== undefined ? updates.progress.labelMg : col.labelMg
           };
         }
-        if (col.statusId === 5 && updates.termine) {
+        if (col.statusId === 6 && updates.termine) {
           return {
             ...col,
             statusLabel: updates.termine.trad !== undefined ? updates.termine.trad : col.statusLabel,

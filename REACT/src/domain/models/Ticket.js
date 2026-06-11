@@ -26,7 +26,8 @@ export class Ticket {
       2: 'En cours',
       3: 'Résolu',
       4: 'Fermé',
-      5: 'Annulé'
+      5: 'Annulé',
+      6: 'Fermé'
     };
     return statusMap[this.status] || 'Inconnu';
   }

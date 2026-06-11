@@ -62,7 +62,7 @@ export const KanbanPage = () => {
 
         const nouveau = settings.columns.find(c => c.statusId === 1);
         const progress = settings.columns.find(c => c.statusId === 2);
-        const termine = settings.columns.find(c => c.statusId === 5);
+        const termine = settings.columns.find(c => c.statusId === 6);
 
         if (nouveau) applyColumnTheme('col1', nouveau.color);
         if (progress) applyColumnTheme('col2', progress.color);

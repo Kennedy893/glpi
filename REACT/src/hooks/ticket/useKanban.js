@@ -5,15 +5,15 @@ import { TicketRepository } from '../../domain/repositories/TicketRepository';
 // ─── Config des dialogues selon la transition ─────────────
 // clé : "statusLabel_source -> statusLabel_cible"
 const DIALOG_CONFIG = {
-  'Nouveau->In progress': {
+  'New->In progress': {
     title:  "Assigner le ticket",
     fields: ['technicien'],
   },
-  'Nouveau->Terminé': {
+  'New->Closed': {
     title:  "Résoudre le ticket",
     fields: ['technicien', 'solution'],
   },
-  'In progress->Terminé': {
+  'In progress->Closed': {
     title:  "Saisir la solution",
     fields: ['solution'],
   },
@@ -21,9 +21,9 @@ const DIALOG_CONFIG = {
 
 // ─── Mapping statusLabel → statusId GLPI ─────────────────
 const STATUS_ID = {
-  'Nouveau':  1,
+  'New':  1,
   'In progress': 2,
-  'Terminé':   5,
+  'Closed':   6,
 };
 
 export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
@@ -107,7 +107,7 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
 
     try {
       // 1 — Créer la solution si résolu
-      if (newStatusId === 5 && extraData.solution?.trim()) {
+      if (newStatusId === 6 && extraData.solution?.trim()) {
         await TicketRepository.createSolution({
           itemtype: 'Ticket',
           items_id: ticket.id,

@@ -3,9 +3,9 @@ import { TicketRepository } from "../../domain/repositories/TicketRepository";
 
 // Configuration des statuts GLPI avec leurs IDs officiels
 const GLPI_STATUS_CONFIG = [
-    { id: 1, label: 'Nouveau' },
+    { id: 1, label: 'New' },
     { id: 2, label: 'In progress' },
-    { id: 5, label: 'Terminé' }, // Ou 6 pour Clos, selon tes besoins
+    { id: 6, label: 'Closed' }, // Ou 6 pour Clos, selon tes besoins
 ];
 
 export const usePresentation = () => {

@@ -56,7 +56,7 @@ export const KanbanColumn = ({ title, tickets, onTicketClick, status, onDrop, on
           )}
         </div>
 
-        {status === 'Nouveau' && (
+        {status === 'New' && (
           <div className="card-footer bg-white border-top-0 p-2">
             <button className="add-ticket-in-column-btn" onClick={onAddTicket}>
               Ajouter 1 ticket
