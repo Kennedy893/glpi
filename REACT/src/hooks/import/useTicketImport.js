@@ -25,11 +25,11 @@ export const useTicketImport = () => {
                 
                 // 1. Parsing fait main
                 const rawRows = parseCsv(text);
-                if (rawRows.length === 0) {
-                    addLog("❌ Le fichier CSV est vide ou invalide.");
-                    setLoading(false);
-                    return;
-                }
+                // if (rawRows.length === 0) {
+                //     addLog("❌ Le fichier CSV est vide ou invalide.");
+                //     setLoading(false);
+                //     return;
+                // }
 
                 addLog(`Analyse et validation de ${rawRows.length} lignes...`);
 
@@ -67,7 +67,7 @@ export const useTicketImport = () => {
                     'Monitor':         (name) => ImportAssetVerif.findMonitorByName(name),
                     // 'Printer':         (name) => ImportAssetVerif.findPrinterByName(name),
                     // 'NetworkEquipment':(name) => ImportAssetVerif.findNetworkEquipmentByName(name),
-                    // 'Phone':           (name) => ImportAssetVerif.findPhoneByName(name),
+                    'Phone':           (name) => ImportAssetVerif.findPhoneByName(name),
                     // 'Peripheral':      (name) => ImportAssetVerif.findPeripheralByName(name),
                 };
 

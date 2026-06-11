@@ -859,3 +859,507 @@
   .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
   .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
 
+[2026-06-11 07:24:04] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a62943b78b1.31280982PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:24:04] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a62949209d6.48099784MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:24:04] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a6294eb6a76.05518748PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:30:02] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a63fa8313e9.13308658PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:30:02] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a63fab6f502.94146918MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:30:03] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a63fb1d4e44.19685474PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:33:07] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a64b3457669.83546441PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:33:07] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a64b37d0913.14140996MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:33:07] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a64b3de6e40.55714686PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:59:34] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a6ae6b33138.52245133PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:59:34] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a6ae6dea766.57893322MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 07:59:35] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a6ae746b5e7.64141075PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:26:51] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a714bb73330.80138648PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:26:52] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a714be88057.90580112MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:26:53] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a714de0b588.64515007PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:30:14] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a7216547525.26946073PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:30:14] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a72167f3868.27313467MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:30:14] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a7216d4eb92.58097863PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:47:23] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a761b317818.04948011PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:47:23] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a761b5eef83.03535335MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:47:23] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a761bbd30c7.94307238PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:49:02] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a767ee15b48.46218431PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:49:03] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a767f1913c1.15318140MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:49:03] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a767f7f3764.30466570PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:58:19] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a78ab6f8c82.16432851PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:58:19] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a78ab9fe792.22750836MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 08:58:20] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a78ac041ea6.06617372PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 09:00:59] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a794b1ec5e2.49607576PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 09:00:59] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a794b4a7082.02814136MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 09:00:59] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a794baf1ea9.93076852PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 09:05:03] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a7a3fd80537.90865242PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 09:05:04] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a7a4012d756.67809877MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 09:05:04] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a7a4074d396.33476009PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 09:07:05] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a7ab99e4ce8.60403924PC-ADM-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 09:07:05] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a7ab9cabf35.33710344MN-FORM-002.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-11 09:07:06] glpi.WARNING:   *** User Warning: File ./files/_tmp/6a2a7aba3cc411.96156332PC-COMPTA-001.png not found. at Document.php line 1182
+  Backtrace :
+  .\src\Document.php:1182                            
+  .\src\Document.php:248                             Document::moveDocument()
+  .\src\CommonDBTM.php:1339                          Document->prepareInputForAdd()
+  .\src\Glpi\Api\API.php:1940                        CommonDBTM->add()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+

@@ -9,6 +9,7 @@ const TYPE_MAP = {
 const STATUS_MAP = {
   'New':        1,
   'Processing': 2,
+  'Assigned':   3,
   'Pending':    4,
   'Solved':     5,
   'Closed':     6,

@@ -8,8 +8,6 @@ const apiClient = getApiClient();
 export const ImageRepository = {
 
     // Lire et extraire un fichier ZIP
-    // domain/repositories/ImageRepository.js
-
     async readZipFile(file) {
         try {
             console.log('[readZipFile] Début lecture du ZIP:', file.name);

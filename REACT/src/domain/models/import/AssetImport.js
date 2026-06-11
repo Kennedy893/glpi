@@ -142,31 +142,31 @@ export const validateAndMapMaterielRow = (rawRow, index) => {
   const errors = [];
   const lineNum = index + 2;
 
-  // // 1. Nom (obligatoire)
-  // if (!rawRow.Name || rawRow.Name.trim() === '')
-  //   errors.push(`Ligne ${lineNum} : Le nom de l'équipement est obligatoire.`);
+  // 1. Nom (obligatoire)
+  if (!rawRow.Name || rawRow.Name.trim() === '')
+    errors.push(`Ligne ${lineNum} : Le nom de l'équipement est obligatoire.`);
 
-  // // 2. Type (obligatoire)
-  // if (!rawRow.Item_Type || rawRow.Item_Type.trim() === '')
-  //   errors.push(`Ligne ${lineNum} : Le type d'équipement est obligatoire.`);
-  // else if (!isValidType(rawRow.Item_Type))
-  //   errors.push(`Ligne ${lineNum} : Type "${rawRow.Item_Type}" non reconnu. Types valides : ${Object.keys(GLPI_TYPE_MAP).join(', ')}`);
+  // 2. Type (obligatoire)
+  if (!rawRow.Item_Type || rawRow.Item_Type.trim() === '')
+    errors.push(`Ligne ${lineNum} : Le type d'équipement est obligatoire.`);
+  else if (!isValidType(rawRow.Item_Type))
+    errors.push(`Ligne ${lineNum} : Type "${rawRow.Item_Type}" non reconnu. Types valides : ${Object.keys(GLPI_TYPE_MAP).join(', ')}`);
 
-  // // 3. Status (obligatoire)
-  // if (!rawRow.Status || rawRow.Status.trim() === '')
-  //   errors.push(`Ligne ${lineNum} : Le statut est obligatoire.`);
+  // 3. Status (obligatoire)
+  if (!rawRow.Status || rawRow.Status.trim() === '')
+    errors.push(`Ligne ${lineNum} : Le statut est obligatoire.`);
 
-  // // 4. Location (obligatoire)
-  // if (!rawRow.Location || rawRow.Location.trim() === '')
-  //   errors.push(`Ligne ${lineNum} : La localisation est obligatoire.`);
+  // 4. Location (obligatoire)
+  if (!rawRow.Location || rawRow.Location.trim() === '')
+    errors.push(`Ligne ${lineNum} : La localisation est obligatoire.`);
 
-  // // 5. Manufacturer (obligatoire)
-  // if (!rawRow.Manufacturer || rawRow.Manufacturer.trim() === '')
-  //   errors.push(`Ligne ${lineNum} : Le fabricant est obligatoire.`);
+  // 5. Manufacturer (obligatoire)
+  if (!rawRow.Manufacturer || rawRow.Manufacturer.trim() === '')
+    errors.push(`Ligne ${lineNum} : Le fabricant est obligatoire.`);
 
-  // // 6. Model (obligatoire)
-  // if (!rawRow.Model || rawRow.Model.trim() === '')
-  //   errors.push(`Ligne ${lineNum} : Le modèle est obligatoire.`);
+  // 6. Model (obligatoire)
+  if (!rawRow.Model || rawRow.Model.trim() === '')
+    errors.push(`Ligne ${lineNum} : Le modèle est obligatoire.`);
 
   // // 7. Inventory_Number (obligatoire)
   // if (!rawRow.Inventory_Number || rawRow.Inventory_Number.trim() === '')

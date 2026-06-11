@@ -27,11 +27,11 @@ export const useTicketCostImport = (refToGlpiId) => {
                     
                     // 1. Parsing fait main
                     const rawRows = parseCsv(text);
-                    if (rawRows.length === 0) {
-                        addLog("❌ Le fichier CSV est vide ou invalide.");
-                        setLoading(false);
-                        return;
-                    }
+                    // if (rawRows.length === 0) {
+                    //     addLog("❌ Le fichier CSV est vide ou invalide.");
+                    //     setLoading(false);
+                    //     return;
+                    // }
 
                     addLog(`Analyse et validation de ${rawRows.length} lignes...`);
 
