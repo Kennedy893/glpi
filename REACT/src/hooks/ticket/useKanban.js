@@ -23,6 +23,11 @@ const DIALOG_CONFIG = {
   },
 };
 
+// ─── Transitions interdites ─────────────────────────────
+const FORBIDDEN_TRANSITIONS = [
+  'Closed->In progress',  // Interdire Closed → In progress
+];
+
 // ─── Mapping statusLabel → statusId GLPI ─────────────────
 const STATUS_ID = {
   'New':  1,
@@ -80,6 +85,12 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
 
     // Construire la clé de transition
     const key    = `${sourceLabel}->${targetStatusLabel}`; // ex: "Nouveau->Résolu"
+    // if (FORBIDDEN_TRANSITIONS.includes(key)) {
+    //   console.warn(`🚫 Transition interdite: ${key}`);
+    //   // Optionnel: Afficher une notification à l'utilisateur
+    //   alert(`Impossible de déplacer un ticket de "${sourceLabel}" vers "${targetStatusLabel}"`);
+    //   return;
+    // }
     const config = DIALOG_CONFIG[key];
 
     if (config) {
