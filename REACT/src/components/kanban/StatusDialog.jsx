@@ -10,6 +10,7 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
 
   const [technicienId, setTechnicienId] = useState('');
   const [solution,     setSolution]     = useState('');
+  const [cause,     setCause]     = useState('');
   const [techniciens,  setTechniciens]  = useState([]);
   const [loadingTech,  setLoadingTech]  = useState(false);
   const [error,        setError]        = useState('');
@@ -42,8 +43,12 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
       setError('Veuillez saisir une solution.');
       return;
     }
+    if (fields.includes('cause') && !cause.trim()) {
+      setError('Veuillez saisir une cause.');
+      return;
+    }
     setError('');
-    onConfirm({ technicienId: technicienId ? parseInt(technicienId) : null, solution });
+    onConfirm({ technicienId: technicienId ? parseInt(technicienId) : null, solution, cause });
   };
 
   return (
@@ -108,6 +113,20 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
                 placeholder="Décrivez la solution apportée..."
                 value={solution}
                 onChange={e => setSolution(e.target.value)}
+              />
+            </div>
+          )}
+
+          {/* Champ cause */}
+          {fields.includes('cause') && (
+            <div style={s.field}>
+              <label style={s.label}>Cause *</label>
+              <textarea
+                style={s.textarea}
+                rows={4}
+                placeholder="Décrivez la cause..."
+                value={cause}
+                onChange={e => setCause(e.target.value)}
               />
             </div>
           )}

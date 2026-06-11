@@ -17,6 +17,10 @@ const DIALOG_CONFIG = {
     title:  "Saisir la solution",
     fields: ['solution'],
   },
+  'Closed->New': {
+    title:  "Saisir la cause",
+    fields: ['cause'],
+  },
 };
 
 // ─── Mapping statusLabel → statusId GLPI ─────────────────
@@ -24,6 +28,13 @@ const STATUS_ID = {
   'New':  1,
   'In progress': 2,
   'Closed':   6,
+};
+
+// ─── Mapping statusId → statusLabel ─────────────────
+const STATUS_LABEL = {
+  1: 'New',
+  2: 'In progress',
+  6: 'Closed',
 };
 
 export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
@@ -87,8 +98,8 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
   };
 
   // ── Confirmation du dialogue ────────────────────────────
-  const confirmDialog = async ({ technicienId, solution }) => {
-    await applyStatusChange(dialog.ticket, dialog.newStatus, { technicienId, solution });
+  const confirmDialog = async ({ technicienId, solution, cause }) => {
+    await applyStatusChange(dialog.ticket, dialog.newStatus, { technicienId, solution, cause });
     closeDialog();
   };
 
@@ -100,10 +111,16 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
   // ── Appels API + mise à jour locale ────────────────────
   const applyStatusChange = async (ticket, targetStatusLabel, extraData) => {
     const newStatusId = STATUS_ID[targetStatusLabel];
+    const currentStatusId = ticket.status;
+    const currentStatusLabel = STATUS_LABEL[currentStatusId];
+
     if (!newStatusId) {
       console.error('[useKanban] statusId introuvable pour', targetStatusLabel);
       return;
     }
+
+    console.log('EXTRAAAAAA', extraData.cause);
+    
 
     try {
       // 1 — Créer la solution si résolu
@@ -113,6 +130,16 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
           items_id: ticket.id,
           content:  extraData.solution.trim(),
           status:   1,
+        });
+      }
+
+      if (newStatusId === 1 &&  currentStatusId === 6 && extraData.cause?.trim()) {
+        console.log('tayyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+        
+        await TicketRepository.createCause({
+          itemtype: 'Ticket',
+          items_id: ticket.id,
+          content:  extraData.cause.trim()
         });
       }
 

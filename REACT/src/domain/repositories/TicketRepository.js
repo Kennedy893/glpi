@@ -172,4 +172,9 @@ export const TicketRepository = {
     const response = await apiClient.post('ITILSolution', { input: data });
     return response?.id ?? null;
   },
+
+  async createCause(data) {
+    const response = await apiClient.post('ITILFollowup', { input: data });
+    return response?.id ?? null;
+  },
 }

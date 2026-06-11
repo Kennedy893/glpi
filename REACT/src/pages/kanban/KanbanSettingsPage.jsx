@@ -47,19 +47,19 @@ export const KanbanSettingsPage = () => {
         if (couleurNouveau || tradNouveau) {
             updates.nouveau = {};
             if (couleurNouveau) updates.nouveau.couleur = couleurNouveau;
-            if (tradNouveau) updates.nouveau.trad = tradNouveau;
+            if (tradNouveau) updates.nouveau.labelMg = tradNouveau;
         }
         
         if (couleurProgress || tradProgress) {
             updates.progress = {};
             if (couleurProgress) updates.progress.couleur = couleurProgress;
-            if (tradProgress) updates.progress.trad = tradProgress;
+            if (tradProgress) updates.progress.labelMg = tradProgress;
         }
         
         if (couleurTermine || tradTermine) {
             updates.termine = {};
             if (couleurTermine) updates.termine.couleur = couleurTermine;
-            if (tradTermine) updates.termine.trad = tradTermine;
+            if (tradTermine) updates.termine.labelMg = tradTermine;
         }
 
         // Vérifier si au moins un champ a été modifié
