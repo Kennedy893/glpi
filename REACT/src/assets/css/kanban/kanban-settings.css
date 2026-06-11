@@ -325,3 +325,77 @@
   vertical-align: middle;
   border: 1px solid #ddd;
 }
+
+/* kanban-settings.css */
+.form-group {
+    position: relative;
+}
+
+.color-preview {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    margin-left: 10px;
+    vertical-align: middle;
+    border: 1px solid #ddd;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.color-input {
+    width: 60px !important;
+    height: 40px;
+    cursor: pointer;
+}
+
+.submit-section {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+.reset-button {
+    padding: 10px 20px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.reset-button:hover {
+    background: #5a6268;
+}
+
+.reset-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.success-message {
+    background: #d4edda;
+    color: #155724;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.error-message {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+}
+
+.loading-message {
+    background: #e2e3e5;
+    color: #383d41;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    text-align: center;
+}
