@@ -139,10 +139,26 @@ export const ImportPage = () => {
 
   const allFilesSelected = fileAsset && fileTicket && fileTicketCost && fileZipImages;
 
+  // const getLogClass = (log) => {
+  //   if (log.includes('❌')) return 'error';
+  //   if (log.includes('✅')) return 'success';
+  //   if (log.includes('⚠️')) return 'warning';
+  //   return 'info';
+  // };
+
   const getLogClass = (log) => {
-    if (log.includes('❌')) return 'error';
-    if (log.includes('✅')) return 'success';
-    if (log.includes('⚠️')) return 'warning';
+    // Si log est un objet (venant de useResetData)
+    if (typeof log === 'object' && log.type) {
+      return log.type; // 'info', 'success', 'error', 'warning'
+    }
+    
+    // Si log est une chaîne (venant des autres hooks)
+    if (typeof log === 'string') {
+      if (log.includes('❌')) return 'error';
+      if (log.includes('✅')) return 'success';
+      if (log.includes('⚠️')) return 'warning';
+    }
+    
     return 'info';
   };
 
@@ -223,14 +239,36 @@ export const ImportPage = () => {
       <div className="logs-section">
         <h3 className="logs-title">Logs de l'opération</h3>
         <div className="logs-box">
-          {allLogs.length === 0
-            ? <span className="logs-empty">En attente de fichiers...</span>
-            : allLogs.map((log, i) => (
+          {allLogs.length === 0 ? (
+            <span>Aucun log</span>
+          ) : (
+            allLogs.map((log, i) => {
+              // Gérer les deux formats de log
+              let logText = '';
+              let logTime = '';
+              
+              if (typeof log === 'object' && log.message) {
+                // Format de useResetData
+                logText = log.message;
+                logTime = log.time ? `[${log.time}]` : '';
+              } else if (typeof log === 'string') {
+                // Format des autres hooks
+                logText = log;
+                // Extraire l'heure si présente au début de la chaîne
+                const timeMatch = log.match(/^\[([^\]]+)\]/);
+                logTime = timeMatch ? `[${timeMatch[1]}]` : '';
+                // Enlever l'heure du message si elle existe
+                logText = log.replace(/^\[[^\]]+\]\s*/, '');
+              }
+              
+              return (
                 <div key={i} className={`log-line ${getLogClass(log)}`}>
-                  {log}
+                  {logTime && <span className="log-time">{logTime}</span>}
+                  <span className="log-message">{logText}</span>
                 </div>
-              ))
-          }
+              );
+            })
+          )}
         </div>
       </div>
     </div>

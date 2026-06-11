@@ -14,7 +14,7 @@ export const useTicketImport = () => {
     };
 
     const importCsv = (file) => {
-        return new Promise((resolve) => {
+        return new Promise((resolve, reject) => {
             const reader = new FileReader();
             const localRefToGlpiId = {}; // ← table locale
 
@@ -51,6 +51,7 @@ export const useTicketImport = () => {
                     addLog("❌ Échec de la validation du fichier. Corrigez les erreurs suivantes :");
                     allErrors.forEach(err => addLog(err));
                     setLoading(false);
+                    reject(new Error('Validation échouée'));  // ← reject
                     return;
                 }
 
@@ -134,6 +135,7 @@ export const useTicketImport = () => {
                 return refToGlpiId;
             } catch (err) {
                 addLog(`❌ Erreur critique lors du traitement : ${err.message}`);
+                reject(err);  // ← reject
             } finally {
                 setLoading(false);
             }
@@ -141,6 +143,7 @@ export const useTicketImport = () => {
 
         reader.onerror = () => {
             addLog("❌ Erreur lors de la lecture physique du fichier.");
+            reject(new Error('Erreur lecture fichier'));  // ← reject
             setLoading(false);
         };
 

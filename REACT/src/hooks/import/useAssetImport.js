@@ -54,6 +54,7 @@ export const useAssetImporter = () => {
           if (allErrors.length > 0) {
             addLog("❌ Échec de la validation du fichier. Corrigez les erreurs suivantes :");
             allErrors.forEach(err => addLog(err));
+            reject(new Error('Erreur de validation'));  // ← reject
             setLoading(false);
             return;
           }
@@ -62,6 +63,7 @@ export const useAssetImporter = () => {
 
           // 3. Intégration séquentielle GLPI
           const totalRows = validatedRows.length;
+          let hasError = false;
           
           for (let i = 0; i < totalRows; i++) {
             const asset = validatedRows[i];
@@ -148,16 +150,25 @@ export const useAssetImporter = () => {
               // const itemDeviceOD = await ImportAssetRepository.createItemOS(asset, computerId, deviceOSId);
             } catch (error) {
               addLog(`❌ Erreur lors de l'intégration de ${assetLogName} : ${error.message || error}`);
+              hasError = true;
+              reject(new Error(`Erreur sur ${asset.name}: ${error.message}`));  // ← reject
+              return;
             }
 
             setProgress(Math.round(((i + 1) / totalRows) * 100));
           }
 
-          addLog("🏁 Processus d'importation terminé.");
-          resolve(); // ✅ signale la fin réelle
+          // addLog("🏁 Processus d'importation terminé.");
+          if (!hasError) {
+            addLog("🏁 Import terminé.");
+            resolve({ success: true, count: validatedRows.length });  // ← resolve avec données
+          }
+
+          // resolve(); // ✅ signale la fin réelle
         } catch (err) {
           addLog(`❌ Erreur critique lors du traitement : ${err.message}`);
-          resolve(); // resolve même en cas d'erreur pour ne pas bloquer la chaîne
+          // resolve(); // resolve même en cas d'erreur pour ne pas bloquer la chaîne
+          reject(err);
         } finally {
           setLoading(false);
         }
@@ -166,7 +177,8 @@ export const useAssetImporter = () => {
       reader.onerror = () => {
         addLog("❌ Erreur lors de la lecture physique du fichier.");
         setLoading(false);
-        resolve(); // ne pas rejeter pour ne pas bloquer la chaîne
+        // resolve(); // ne pas rejeter pour ne pas bloquer la chaîne
+        reject(new Error('Erreur de lecture fichier'));  // ← reject
       };
 
       // Déclenche la lecture du fichier en texte UTF-8

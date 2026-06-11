@@ -52,7 +52,8 @@ export const useTicketCostImport = (refToGlpiId) => {
                     if (allErrors.length > 0) {
                         addLog("❌ Échec de la validation du fichier. Corrigez les erreurs suivantes :");
                         allErrors.forEach(err => addLog(err));
-                        setLoading(false);
+                        reject(new Error('Validation échouée'));
+                        // setLoading(false);
                         return;
                     }
 
@@ -70,6 +71,8 @@ export const useTicketCostImport = (refToGlpiId) => {
                             const glpiTicketId = refToGlpiId[ticketCost.numTicket];
                             if (!glpiTicketId || glpiTicketId === 0 || glpiTicketId === '') {
                                 console.log("ERREUR glpiTicketId");
+                                reject(new Error(`Ticket ${ticketCost.numTicket} introuvable`));
+                                return;
                             }
 
                             const ticketCostId = await ImportTicketCostRepository.createTicketCost({
@@ -80,14 +83,20 @@ export const useTicketCostImport = (refToGlpiId) => {
                             })
                         } catch (error) {
                             addLog(`❌ Erreur pour Num_Ticket=${ticketCost.numTicket} : ${error.message || error}`);
+                            reject(new Error(`Erreur sur ticket ${ticketCost.numTicket}: ${error.message}`));
+                            return;
                         }
+                        setProgress(Math.round(((i + 1) / totalRows) * 100));
                     }
-                    addLog("🏁 Processus d'importation terminé.");
-                    resolve(); // signale la fin réelle
-                    // return refToGlpiId;
+                    addLog("🏁 Import des coûts terminé.");
+                    // addLog(`✅ Coût créé (ID: ${ticketCostId})`);
+                    resolve({ success: true, count: totalRows });
+                    // resolve(); // signale la fin réelle
+                    
                 } catch (err) {
                     addLog(`❌ Erreur critique lors du traitement : ${err.message}`);
-                    resolve(); // resolve même en cas d'erreur pour ne pas bloquer la chaîne
+                    // resolve(); // resolve même en cas d'erreur pour ne pas bloquer la chaîne
+                    reject(err);
                 } finally {
                     setLoading(false);
                 }
@@ -96,7 +105,8 @@ export const useTicketCostImport = (refToGlpiId) => {
             reader.onerror = () => {
                 addLog("❌ Erreur lors de la lecture physique du fichier.");
                 setLoading(false);
-                resolve(); // ne pas rejeter pour ne pas bloquer la chaîne
+                // resolve(); // ne pas rejeter pour ne pas bloquer la chaîne
+                reject(new Error('Erreur lecture fichier'));
             };
 
             // Déclenche la lecture du fichier en texte UTF-8
