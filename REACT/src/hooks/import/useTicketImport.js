@@ -95,27 +95,74 @@ export const useTicketImport = () => {
                         console.log(refToGlpiId);
 
                         // 2- Lien Ticket<->Asset
-                        for (const item of ticket.items) {
-                            try {
-                                // Trouver l'asset par nom (pas getOrCreate !)
-                                const findFn = FIND_ASSET_FN[item.itemtype];
-                                if (!findFn) {
-                                    addLog(`⚠️ Type "${item.itemtype}" non géré — asset ${item.name} ignoré.`);
-                                continue;
-                                }
+                        // for (const item of ticket.items) {
+                        //     try {
+                        //         // Trouver l'asset par nom (pas getOrCreate !)
+                        //         const findFn = FIND_ASSET_FN[item.itemtype];
+                        //         if (!findFn) {
+                        //             addLog(`⚠️ Type "${item.itemtype}" non géré — asset ${item.name} ignoré.`);
+                        //         continue;
+                        //         }
 
-                                // FindID By Name
-                                const assetId = await findFn(item.name);
-                                if (!assetId) {
-                                    addLog(`⚠️ Asset "${item.name}" introuvable dans GLPI — lien ignoré.`);
+                        //         // FindID By Name
+                        //         const assetId = await findFn(item.name);
+                        //         if (!assetId) {
+                        //             addLog(`⚠️ Asset "${item.name}" introuvable dans GLPI — lien ignoré.`);
+                        //             continue;
+                        //         }
+
+                        //         // POST /Item_Ticket — le vrai lien
+                        //         await ImportTicketRepository.createItemTicket({
+                        //             tickets_id: ticketId,
+                        //             itemtype:   item.itemtype,
+                        //             items_id:   assetId
+                        //         });
+
+                        //         addLog(`🔗 Lien créé : ${item.itemtype} "${item.name}" → Ticket ${ticketId}`);
+
+                        //     } catch (itemError) {
+                        //         addLog(`⚠️ Erreur lien asset ${item.name} : ${itemError.message}`);
+                        //     }
+                        // }
+
+                        // APRÈS (déduplication automatique)
+                        const uniqueItems = [];
+                        const seen = new Set();
+
+                        for (const item of ticket.items) {
+                            const key = `${item.name}|${item.itemtype}`;
+                            if (!seen.has(key)) {
+                                seen.add(key);
+                                uniqueItems.push(item);
+                            }
+                        }
+
+                        if (uniqueItems.length !== ticket.items.length) {
+                            addLog(`⚠️ Doublons détectés pour le ticket ${ticket.refTicket} - ${ticket.items.length - uniqueItems.length} doublons supprimés`);
+                        }
+
+                        // 3. Lier les assets uniques
+                        for (const item of uniqueItems) {
+                            try {
+                                // Récupérer la fonction de recherche selon le type
+                                const findFn = FIND_ASSET_FN[item.itemtype];
+                                
+                                if (!findFn) {
+                                    addLog(`⚠️ Type "${item.itemtype}" non géré — asset ${item.name} ignoré`);
                                     continue;
                                 }
 
-                                // POST /Item_Ticket — le vrai lien
+                                const assetId = await findFn(item.name);
+                                
+                                if (!assetId) {
+                                    addLog(`⚠️ Asset "${item.name}" introuvable dans GLPI — lien ignoré`);
+                                    continue;
+                                }
+
                                 await ImportTicketRepository.createItemTicket({
                                     tickets_id: ticketId,
-                                    itemtype:   item.itemtype,
-                                    items_id:   assetId
+                                    itemtype: item.itemtype,
+                                    items_id: assetId
                                 });
 
                                 addLog(`🔗 Lien créé : ${item.itemtype} "${item.name}" → Ticket ${ticketId}`);
@@ -124,6 +171,7 @@ export const useTicketImport = () => {
                                 addLog(`⚠️ Erreur lien asset ${item.name} : ${itemError.message}`);
                             }
                         }
+
                         
                     } catch (error) {
                         addLog(`❌ Erreur lors de l'intégration de ${ticketLogName} : ${error.message || error}`);
