@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { TicketRepository } from "../../domain/repositories/TicketRepository";
+import { KanbanSettingsRepository } from "../../domain/repositories/KanbanSettingsRepository";
 
 // Configuration des statuts GLPI avec leurs IDs officiels
 const GLPI_STATUS_CONFIG = [
@@ -20,12 +21,36 @@ export const usePresentation = () => {
             setError('');
 
             try {
+                // 🚀 1. Charger les paramètres Kanban (couleurs et traductions)
+                let settings = null;
+                try {
+                    settings = await KanbanSettingsRepository.getSettings();
+                } catch (err) {
+                    console.warn('[usePresentation] Impossible de charger les settings:', err);
+                }
+
+                // Créer un map statusId -> labelMg depuis les settings
+                const labelMgMap = {};
+                if (settings?.columns) {
+                    settings.columns.forEach(col => {
+                        labelMgMap[col.statusId] = col.labelMg || col.statusLabel;
+                    });
+                }
+
+                // Valeurs par défaut si les settings ne sont pas disponibles
+                const defaultLabels = {
+                    1: 'Vaovao',      // New
+                    2: 'Vao manao',   // In progress
+                    6: 'Vita'         // Closed
+                };
+
                 // 🚀 Parallélisation des appels API pour chaque statut configuré
                 const promises = GLPI_STATUS_CONFIG.map(async (statusObj) => {
                     const tickets = await TicketRepository.getTicketsByStatus(statusObj.id);
                     return {
                         statusId: statusObj.id,
                         statusLabel: statusObj.label,
+                        labelMg: labelMgMap[statusObj.id] || defaultLabels[statusObj.id] || statusObj.label,
                         tickets: tickets // Le tableau de tickets renvoyé par ton repository,
                     };
                 });

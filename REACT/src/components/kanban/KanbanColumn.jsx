@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import '../../assets/css/kanban/kanban.css'
 import { useState } from 'react';
 
-export const KanbanColumn = ({ title, tickets, onTicketClick, status, onDrop, onDragStart, draggedId }) => {
+export const KanbanColumn = ({ title, labelMg, tickets, onTicketClick, status, onDrop, onDragStart, draggedId }) => {
     const navigate = useNavigate();
 
     const [isDragOver, setIsDragOver] = useState(false);
@@ -29,7 +29,7 @@ export const KanbanColumn = ({ title, tickets, onTicketClick, status, onDrop, on
 
         {/* Header de la colonne avec compteur */}
         <div className="card-header d-flex justify-content-between align-items-center bg-white border-bottom-2 py-3">
-            <h5 className="card-title mb-0 text-dark fw-bold">{title}</h5><br />
+            <h5 className="card-title mb-0 text-dark fw-bold">{title} ({labelMg})</h5><br />
             <span className="badge bg-primary rounded-pill px-2.5">{tickets.length}</span>
         </div>
 

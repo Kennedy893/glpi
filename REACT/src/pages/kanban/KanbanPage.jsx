@@ -82,6 +82,7 @@ export const KanbanPage = () => {
                     <KanbanColumn 
                         key={group.statusId} 
                         title={group.statusLabel} 
+                        labelMg={group.labelMg}
                         tickets={group.tickets}
                         status={group.statusLabel}
                         onTicketClick={handleTicketClick}  // Utilisez la fonction de conversion
