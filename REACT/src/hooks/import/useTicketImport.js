@@ -31,6 +31,31 @@ export const useTicketImport = () => {
                 //     return;
                 // }
 
+                // Vérifier les doublons de Ref_Ticket
+                const seenRefs = new Set();
+                const duplicateRefs = [];
+
+                rawRows.forEach((row, index) => {
+                    const ref = row.Ref_Ticket?.trim();
+                    if (ref) {
+                        if (seenRefs.has(ref)) {
+                            duplicateRefs.push({ ref, line: index + 2 });
+                        } else {
+                            seenRefs.add(ref);
+                        }
+                    }
+                });
+
+                if (duplicateRefs.length > 0) {
+                    addLog("❌ Échec de la validation : Références de tickets dupliquées");
+                    duplicateRefs.forEach(dup => {
+                        addLog(`   Référence "${dup.ref}" apparaît en double (ligne ${dup.line})`);
+                    });
+                    reject(new Error('Références de tickets dupliquées'));
+                    return;
+                }
+                
+
                 addLog(`Analyse et validation de ${rawRows.length} lignes...`);
 
                 // 2. Phase de Validation
