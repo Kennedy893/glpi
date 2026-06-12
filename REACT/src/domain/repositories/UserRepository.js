@@ -7,7 +7,7 @@ const apiClient = getApiClient();
 export const UserRepository = {
     async getTechniciens() {
         // Profil technicien = id 4 en général — à adapter selon votre GLPI
-        const response = await apiClient.get('User?range=0-100&searchText[profiles_id]=4');
+        const response = await apiClient.get('User?range=0-100&searchText[profiles_id]=0');
         return Array.isArray(response) ? response : [];
     },
 }

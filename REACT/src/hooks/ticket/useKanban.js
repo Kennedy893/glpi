@@ -144,6 +144,7 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
         });
       }
 
+      // 2 — Créer la cause si réouverture (Closed -> New)
       if (newStatusId === 1 &&  currentStatusId === 6 && extraData.cause?.trim()) {
         console.log('tayyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
         
@@ -154,7 +155,18 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
         });
       }
 
-      // 2 — Mettre à jour le statut (+ technicien si fourni)
+      // 3 — Ajouter le technicien dans Ticket_User si passage à "En cours" (status 2)
+      if (newStatusId === 2 && extraData.technicienId) {
+        console.log('👤 Ajout du technicien au ticket (Ticket_User)');
+        
+        await TicketRepository.addUserToTicket(
+          ticket.id, 
+          extraData.technicienId, 
+          2  // type 2 = technicien assigné (assigned)
+        );
+      }
+
+      // 4 — Mettre à jour le statut (+ technicien si fourni)
       const updatePayload = { 
         status: newStatusId 
       };

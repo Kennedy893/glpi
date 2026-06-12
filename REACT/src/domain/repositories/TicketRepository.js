@@ -177,4 +177,16 @@ export const TicketRepository = {
     const response = await apiClient.post('ITILFollowup', { input: data });
     return response?.id ?? null;
   },
+
+  async addUserToTicket(ticketId, userId, type = 2) {
+    // type : 1 = demandeur (requester), 2 = technicien assigné (assigned), 3 = observateur (observer)
+    const data = {
+      tickets_id: ticketId,
+      users_id: userId,
+      type: type
+    };
+    
+    const response = await apiClient.post('Ticket_User', { input: data });
+    return response?.id ?? null;
+  },
 }

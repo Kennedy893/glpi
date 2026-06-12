@@ -46,17 +46,17 @@ export const DashboardPage = () => {
                 <div className="stat-label">Écrans</div>
             </div>
 
-            <div className="stat-card">
+            {/* <div className="stat-card">
                 <div className="stat-icon">🖨️</div>
                 <div className="stat-value">{nbPrinters}</div>
                 <div className="stat-label">Imprimantes</div>
-            </div>
+            </div> */}
 
-            <div className="stat-card">
+            {/* <div className="stat-card">
                 <div className="stat-icon">🌐</div>
                 <div className="stat-value">{nbNetworkEquipments}</div>
                 <div className="stat-label">Équipements réseau</div>
-            </div>
+            </div> */}
 
             <div className="stat-card">
                 <div className="stat-icon">📱</div>
@@ -64,11 +64,11 @@ export const DashboardPage = () => {
                 <div className="stat-label">Téléphones</div>
             </div>
 
-            <div className="stat-card">
+            {/* <div className="stat-card">
                 <div className="stat-icon">🖱️</div>
                 <div className="stat-value">{nbPeripherals}</div>
                 <div className="stat-label">Périphériques</div>
-            </div>
+            </div> */}
 
             <div className="stat-card total-card">
                 <div className="stat-icon">🏆</div>
