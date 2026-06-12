@@ -145,6 +145,24 @@ export const useAssetImporter = () => {
 
                   addLog(`✅ Succès pour ${assetLogName} (ID : ${monitorId})`);
               }
+
+              else if (asset.glpiType === 'Phone') {
+                  // Règle : Model
+                  const modelId = await ImportAssetVerif.getOrCreatePhoneModel(asset.modele)
+
+                  // Règle : Creation Phone (CORRIGÉ)
+                  const phoneId = await ImportAssetRepository.createPhone({
+                      "name":                asset.name,
+                      "otherserial":         asset.inventoryNumber,
+                      "manufacturers_id":    manufacturerId,
+                      "phonemodels_id":      modelId,      // Changé: phonemodels_id au lieu de monitormodels_id
+                      "states_id":           stateId,
+                      "locations_id":        locationId,
+                      "users_id":            userId || 0
+                  });
+
+                  addLog(`✅ Succès pour ${assetLogName} (ID : ${phoneId})`);  // Changé: phoneId
+              }
               
               // Regle : liaison avec ItemOS
               // const itemDeviceOD = await ImportAssetRepository.createItemOS(asset, computerId, deviceOSId);

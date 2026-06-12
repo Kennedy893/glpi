@@ -390,5 +390,65 @@ export const ImportAssetRepository = {
         
         throw error;
     }
-  }
+  },
+
+  // --- PHONES --- 
+  // --- PHONES --- 
+    async createPhone(phoneData) {
+        console.log('[createPhone] phoneData =', phoneData);
+
+        try {
+            // 1. Préparer le payload avec toutes les données nécessaires
+            const payload = {
+                input: [phoneData]  // ← IMPORTANT: tableau avec un objet
+            };
+
+            console.log('[createPhone] Payload envoyé =', JSON.stringify(payload, null, 2));
+
+            // 2. Envoyer la requête (CORRIGÉ: Phone au lieu de Monitor)
+            const response = await apiClient.post('Phone', payload);
+
+            console.log('[createPhone] Réponse création phone =', response);
+
+            // 3. Extraire l'ID créé (gérer différents formats de réponse)
+            let phoneId = null;
+            if (response && response.id) {
+                phoneId = response.id;
+            } else if (response && response[0] && response[0].id) {
+                phoneId = response[0].id;
+            } else if (response && response.data && response.data.id) {
+                phoneId = response.data.id;
+            }
+
+            if (!phoneId) {
+                console.error('Format de réponse inattendu:', response);
+                throw new Error('Impossible de récupérer l\'ID du phone créé');
+            }
+
+            console.log('[createPhone] Phone créé avec succès, ID =', phoneId);
+            return phoneId;
+
+        } catch (error) {
+            console.error('[createPhone] Erreur détaillée:', error);
+            
+            // Afficher plus de détails sur l'erreur API
+            if (error.response) {
+                console.error('Status:', error.response.status);
+                console.error('Data:', error.response.data);
+                
+                // Message d'erreur plus explicite
+                if (error.response.data && error.response.data.message) {
+                    throw new Error(`GLPI: ${error.response.data.message}`);
+                } else if (error.response.data && error.response.data[0]) {
+                    throw new Error(`GLPI: ${error.response.data[0].message}`);
+                } else {
+                    throw new Error(`Erreur GLPI (${error.response.status}): ${JSON.stringify(error.response.data)}`);
+                }
+            }
+            
+            throw error;
+        }
+    },
+
+
 }

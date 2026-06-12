@@ -165,6 +165,14 @@ export const ImportAssetVerif = {
         });
     },
 
+    // Wrapper pour PhoneModel (comportement original)
+    async getOrCreatePhoneModel(name) {
+        return this.getOrCreateEntity(name, {
+            entityType: 'PhoneModel',
+            searchField: 'name'
+        });
+    },
+
     // Wrapper pour State (comportement original)
     async getOrCreateState(name) {
         return this.getOrCreateEntity(name, {
