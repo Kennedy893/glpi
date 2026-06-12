@@ -104,7 +104,7 @@ const isValidPrice = (priceStr) => {
  * Valide le type d'équipement
  */
 const isValidType = (type) => {
-  const validTypes = ['Computer', 'Monitor', 'Ordinateur', 'Serveur', 'Imprimante', 'Écran', 'Ecran', 'Switch', 'Routeur', 'Téléphone'];
+  const validTypes = ['Computer', 'Monitor', 'Ordinateur', 'Serveur', 'Imprimante', 'Écran', 'Ecran', 'Switch', 'Routeur', 'Phone', 'Printer', 'Peripheral', 'NetworkEquipment'];
   return validTypes.includes(type);
 };
 

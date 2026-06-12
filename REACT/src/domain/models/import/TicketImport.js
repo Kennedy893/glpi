@@ -9,9 +9,11 @@ const TYPE_MAP = {
 const STATUS_MAP = {
   'New':        1,
   'Processing': 2,
+  'In Progress': 2,
   'Assigned':   3,
   'Pending':    4,
   'Solved':     5,
+  'Resolved':   5,
   'Closed':     6,
 };
 
@@ -21,6 +23,7 @@ const PRIORITY_MAP = {
   'Medium':    3,
   'High':      4,
   'Very High': 5,
+  'Critical':  5,
   'Major':     6,
 };
 
@@ -30,6 +33,7 @@ export const ITEM_PREFIX_MAP = {
   'MN':  'Monitor',
   'PR':  'Printer',
   'NE':  'NetworkEquipment',
+  'AP':  'NetworkEquipment',
   'PH':  'Phone',
   'PE':  'Peripheral',
 };

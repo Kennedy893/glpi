@@ -102,10 +102,10 @@ export const useAssetImporter = () => {
                   const computerId = await ImportAssetRepository.createComputer({
                       "name":                asset.name,
                       "otherserial":         asset.inventoryNumber,
-                      "manufacturers_id":    manufacturerId,
+                      "manufacturers_id":    manufacturerId || 0,
                       "computermodels_id":   modelId,
-                      "states_id":           stateId,
-                      "locations_id":        locationId,
+                      "states_id":           stateId || 0,
+                      "locations_id":        locationId || 0,
                       "users_id":            userId || 0
                   });
 
@@ -131,10 +131,10 @@ export const useAssetImporter = () => {
                   const monitorId = await ImportAssetRepository.createMonitor({
                       "name":                asset.name,
                       "otherserial":         asset.inventoryNumber,
-                      "manufacturers_id":    manufacturerId,
+                      "manufacturers_id":    manufacturerId || 0,
                       "monitormodels_id":    modelId,
-                      "states_id":           stateId,
-                      "locations_id":        locationId,
+                      "states_id":           stateId || 0,
+                      "locations_id":        locationId || 0,
                       "users_id":            userId || 0
                   });
 
@@ -154,16 +154,52 @@ export const useAssetImporter = () => {
                   const phoneId = await ImportAssetRepository.createPhone({
                       "name":                asset.name,
                       "otherserial":         asset.inventoryNumber,
-                      "manufacturers_id":    manufacturerId,
+                      "manufacturers_id":    manufacturerId || 0,
                       "phonemodels_id":      modelId,      // Changé: phonemodels_id au lieu de monitormodels_id
-                      "states_id":           stateId,
-                      "locations_id":        locationId,
+                      "states_id":           stateId || 0,
+                      "locations_id":        locationId || 0,
                       "users_id":            userId || 0
                   });
 
                   addLog(`✅ Succès pour ${assetLogName} (ID : ${phoneId})`);  // Changé: phoneId
               }
-              
+
+              else if (asset.glpiType === 'Peripheral') {
+                // Règle : Model
+                const modelId = await ImportAssetVerif.getOrCreatePeripheralModel(asset.modele);
+
+                // Règle : Creation Peripheral
+                const peripheralId = await ImportAssetRepository.createPeripheral({
+                    "name":                asset.name,
+                    "otherserial":         asset.inventoryNumber,
+                    "manufacturers_id":    manufacturerId || 0,
+                    "peripheralmodels_id": modelId,
+                    "states_id":           stateId || 0,
+                    "locations_id":        locationId || 0,
+                    "users_id":            userId || 0
+                });
+
+                addLog(`✅ Succès pour ${assetLogName} (ID : ${peripheralId})`);
+              }
+
+              else if (asset.glpiType === 'NetworkEquipment') {
+                  // Règle : Model
+                  const modelId = await ImportAssetVerif.getOrCreateNetworkEquipmentModel(asset.modele);
+
+                  // Règle : Creation NetworkEquipment
+                  const networkId = await ImportAssetRepository.createNetworkEquipment({
+                      "name":                asset.name,
+                      "otherserial":         asset.inventoryNumber,
+                      "manufacturers_id":    manufacturerId || 0,
+                      "networkequipmentmodels_id": modelId,
+                      "states_id":           stateId || 0,
+                      "locations_id":        locationId || 0,
+                      "users_id":            userId || 0
+                  });
+
+                  addLog(`✅ Succès pour ${assetLogName} (ID : ${networkId})`);
+              }
+                
               // Regle : liaison avec ItemOS
               // const itemDeviceOD = await ImportAssetRepository.createItemOS(asset, computerId, deviceOSId);
             } catch (error) {

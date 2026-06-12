@@ -393,7 +393,6 @@ export const ImportAssetRepository = {
   },
 
   // --- PHONES --- 
-  // --- PHONES --- 
     async createPhone(phoneData) {
         console.log('[createPhone] phoneData =', phoneData);
 
@@ -437,6 +436,116 @@ export const ImportAssetRepository = {
                 console.error('Data:', error.response.data);
                 
                 // Message d'erreur plus explicite
+                if (error.response.data && error.response.data.message) {
+                    throw new Error(`GLPI: ${error.response.data.message}`);
+                } else if (error.response.data && error.response.data[0]) {
+                    throw new Error(`GLPI: ${error.response.data[0].message}`);
+                } else {
+                    throw new Error(`Erreur GLPI (${error.response.status}): ${JSON.stringify(error.response.data)}`);
+                }
+            }
+            
+            throw error;
+        }
+    },
+
+    // --- PERIPHERALS --- 
+async createPeripheral(peripheralData) {
+    console.log('[createPeripheral] peripheralData =', peripheralData);
+
+    try {
+        // 1. Préparer le payload avec toutes les données nécessaires
+        const payload = {
+            input: [peripheralData]  // Tableau avec un objet
+        };
+
+        console.log('[createPeripheral] Payload envoyé =', JSON.stringify(payload, null, 2));
+
+        // 2. Envoyer la requête
+        const response = await apiClient.post('Peripheral', payload);
+
+        console.log('[createPeripheral] Réponse création périphérique =', response);
+
+        // 3. Extraire l'ID créé
+        let peripheralId = null;
+        if (response && response.id) {
+            peripheralId = response.id;
+        } else if (response && response[0] && response[0].id) {
+            peripheralId = response[0].id;
+        } else if (response && response.data && response.data.id) {
+            peripheralId = response.data.id;
+        }
+
+        if (!peripheralId) {
+            console.error('Format de réponse inattendu:', response);
+            throw new Error('Impossible de récupérer l\'ID du périphérique créé');
+        }
+
+        console.log('[createPeripheral] Périphérique créé avec succès, ID =', peripheralId);
+        return peripheralId;
+
+    } catch (error) {
+        console.error('[createPeripheral] Erreur détaillée:', error);
+        
+        if (error.response) {
+            console.error('Status:', error.response.status);
+            console.error('Data:', error.response.data);
+            
+            if (error.response.data && error.response.data.message) {
+                throw new Error(`GLPI: ${error.response.data.message}`);
+            } else if (error.response.data && error.response.data[0]) {
+                throw new Error(`GLPI: ${error.response.data[0].message}`);
+            } else {
+                throw new Error(`Erreur GLPI (${error.response.status}): ${JSON.stringify(error.response.data)}`);
+            }
+        }
+        
+        throw error;
+    }
+},
+
+    // --- NETWORK EQUIPMENTS --- 
+    async createNetworkEquipment(networkData) {
+        console.log('[createNetworkEquipment] networkData =', networkData);
+
+        try {
+            // 1. Préparer le payload avec toutes les données nécessaires
+            const payload = {
+                input: [networkData]  // Tableau avec un objet
+            };
+
+            console.log('[createNetworkEquipment] Payload envoyé =', JSON.stringify(payload, null, 2));
+
+            // 2. Envoyer la requête
+            const response = await apiClient.post('NetworkEquipment', payload);
+
+            console.log('[createNetworkEquipment] Réponse création équipement réseau =', response);
+
+            // 3. Extraire l'ID créé
+            let networkId = null;
+            if (response && response.id) {
+                networkId = response.id;
+            } else if (response && response[0] && response[0].id) {
+                networkId = response[0].id;
+            } else if (response && response.data && response.data.id) {
+                networkId = response.data.id;
+            }
+
+            if (!networkId) {
+                console.error('Format de réponse inattendu:', response);
+                throw new Error('Impossible de récupérer l\'ID de l\'équipement réseau créé');
+            }
+
+            console.log('[createNetworkEquipment] Équipement réseau créé avec succès, ID =', networkId);
+            return networkId;
+
+        } catch (error) {
+            console.error('[createNetworkEquipment] Erreur détaillée:', error);
+            
+            if (error.response) {
+                console.error('Status:', error.response.status);
+                console.error('Data:', error.response.data);
+                
                 if (error.response.data && error.response.data.message) {
                     throw new Error(`GLPI: ${error.response.data.message}`);
                 } else if (error.response.data && error.response.data[0]) {
