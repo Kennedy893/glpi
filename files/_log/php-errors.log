@@ -27869,3 +27869,52 @@
   .\src\Glpi\Kernel\Kernel.php:300                   Symfony\Component\EventDispatcher\EventDispatcher->dispatch()
   .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
 
+[2026-06-12 07:21:48] glpi.CRITICAL:   *** Uncaught PHP Exception TypeError: "CommonDBTM::can(): Argument #3 ($input) must be of type ?array, int given, called in .\src\Glpi\Api\API.php on line 1922" at CommonDBTM.php line 2950
+  Backtrace :
+  .\src\CommonDBTM.php:2950                          
+  .\src\Glpi\Api\API.php:1922                        CommonDBTM->can()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-12 07:27:27] glpi.WARNING:   *** Warning: Array to string conversion at CommonDBTM.php line 341
+  Backtrace :
+  .\src\CommonDBTM.php:341                           
+  .\src\CommonDBConnexity.php:265                    CommonDBTM->getFromDB()
+  .\src\CommonDBConnexity.php:166                    CommonDBConnexity::getItemFromArray()
+  .\src\CommonDBConnexity.php:428                    CommonDBConnexity->getConnexityItem()
+  .\src\CommonDBRelation.php:511                     CommonDBConnexity->canConnexityItem()
+  .\src\CommonDBRelation.php:661                     CommonDBRelation->canRelationItem()
+  .\src\CommonDBTM.php:2982                          CommonDBRelation->canCreateItem()
+  .\src\Glpi\Api\API.php:1922                        CommonDBTM->can()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-12 07:27:27] glpi.WARNING:   *** Warning: Array to string conversion at Toolbox.php line 2131
+  Backtrace :
+  .\src\Toolbox.php:2131                             
+  .\src\CommonDBTM.php:348                           Toolbox::cleanInteger()
+  .\src\CommonDBConnexity.php:265                    CommonDBTM->getFromDB()
+  .\src\CommonDBConnexity.php:166                    CommonDBConnexity::getItemFromArray()
+  .\src\CommonDBConnexity.php:428                    CommonDBConnexity->getConnexityItem()
+  .\src\CommonDBRelation.php:511                     CommonDBConnexity->canConnexityItem()
+  .\src\CommonDBRelation.php:661                     CommonDBRelation->canRelationItem()
+  .\src\CommonDBTM.php:2982                          CommonDBRelation->canCreateItem()
+  .\src\Glpi\Api\API.php:1922                        CommonDBTM->can()
+  .\src\Glpi\Api\APIRest.php:347                     Glpi\Api\API->createItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+

@@ -178,7 +178,7 @@ export const TicketRepository = {
     return response?.id ?? null;
   },
 
-  async addUserToTicket(ticketId, userId, type = 2) {
+  async addUserToTicket(ticketId, userId, type = 1) {
     // type : 1 = demandeur (requester), 2 = technicien assigné (assigned), 3 = observateur (observer)
     const data = {
       tickets_id: ticketId,

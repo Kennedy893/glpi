@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useAssetsByType } from '../../hooks/asset/useAssetsByType';
 import { useCreateTicket } from '../../hooks/ticket/useCreateTicket';
+import { useUsers } from '../../hooks/user/useUsers';
 
 const TICKET_TYPES = [{ value: 1, label: 'Incident' }, { value: 2, label: 'Demande' }];
 const TICKET_PRIORITIES = [
@@ -31,6 +32,9 @@ export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess 
     loading: loadingAssets, error: errorAssets,
   } = useAssetsByType();
 
+  // Users
+  const { users } = useUsers();
+
   // map direct depuis le hook — pas de useState séparé
   const assetsByType = {
     Computer:         computers        || [],
@@ -41,7 +45,7 @@ export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess 
     Peripheral:       peripherals      || [],
   };
 
-  const [form, setForm] = useState({ type: 1, priority: 3, status: 1, titre: '', description: '', date: null });
+  const [form, setForm] = useState({ type: 1, priority: 3, status: 1, titre: '', description: '', date: null, userId: 0 });
 
   // Types dont la liste est "ouverte" (déroulée)
   const [openTypes, setOpenTypes]         = useState({});
@@ -128,7 +132,8 @@ export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess 
         form.description,
         form.status,
         form.priority,
-        selectedAssets
+        selectedAssets,
+        form.userId
       ) 
 
       setSuccess(true);
@@ -206,6 +211,13 @@ export const CreateTicketPage = ({ ticketRepository, assetRepository, onSuccess 
               value={form.titre}
               onChange={e => setForm(f => ({ ...f, titre: e.target.value }))}
             />
+          </Field>
+
+          <Field label="Demandeur *">
+            <select style={s.select} value={form.userId}
+                onChange={e => setForm(f => ({ ...f, userId: Number(e.target.value) }))}>
+                {users.map(p => <option key={p.value} value={p.id}>{p.name}</option>)}
+              </select>
           </Field>
 
           <Field label="Description *">
