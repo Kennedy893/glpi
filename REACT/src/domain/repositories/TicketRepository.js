@@ -189,4 +189,37 @@ export const TicketRepository = {
     const response = await apiClient.post('Ticket_User', { input: data });
     return response?.id ?? null;
   },
+
+  async getItemsByTicket(ticketId) {
+    try {
+      // ✅ sous-endpoint du ticket — seule méthode fiable pour filtrer
+      const response = await apiClient.get(`Ticket/${ticketId}/Item_Ticket`);
+
+      if (!response || response.length === 0) return [];
+
+      const items = await Promise.all(
+        response.map(async (link) => {
+          try {
+            const item = await apiClient.get(`${link.itemtype}/${link.items_id}`);
+            if (!item) return null;
+            return {
+              id:          item.id,
+              name:        item.name,
+              type:        link.itemtype,
+              serial:      item.serial      || null,
+              otherserial: item.otherserial || null,
+            };
+          } catch {
+            return null;
+          }
+        })
+      );
+
+      return items.filter(Boolean); // ✅ retirer les null si un item a planté
+
+    } catch (error) {
+      console.error('[TicketRepository] getItemsByTicket error:', error);
+      return [];
+    }
+  }
 }

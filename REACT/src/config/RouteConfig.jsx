@@ -11,6 +11,7 @@ import { CreateTicketPage } from '../pages/ticket/CreateTicketPage';
 import { AssetsPage } from '../pages/asset/AssetsPage';
 import { KanbanPage } from '../pages/kanban/KanbanPage';
 import { KanbanSettingsPage } from '../pages/kanban/KanbanSettingsPage';
+import { SuperCostListPage } from '../pages/superCost/SuperCostListPage';
 
 const RouteConfig = () => {
   return (
@@ -33,6 +34,12 @@ const RouteConfig = () => {
       <Route path="/frontoffice/kanban" element={
         <BackofficeLayout>
             <KanbanPage />
+        </BackofficeLayout>
+      } />
+
+      <Route path="/frontoffice/couts" element={
+        <BackofficeLayout>
+            <SuperCostListPage />
         </BackofficeLayout>
       } />
       

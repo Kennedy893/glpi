@@ -8,6 +8,7 @@ import { CreateTicketPage } from '../pages/ticket/CreateTicketPage';
 import { AssetsPage } from '../pages/asset/AssetsPage';
 import { KanbanPage } from '../pages/kanban/KanbanPage';
 import { KanbanSettingsPage } from '../pages/kanban/KanbanSettingsPage';
+import { SuperCostListPage } from '../pages/superCost/SuperCostListPage';
 
 // Configuration du menu (barre de navigation)
 export const menuConfig = [
@@ -42,6 +43,10 @@ export const menuConfig = [
   {
     label: 'Representation',
     path: '/frontoffice/kanban',
+  },
+  {
+    label: 'Couts',
+    path: '/frontoffice/couts',
   },
   
 ];
@@ -101,6 +106,12 @@ export const routesConfig = [
   {
     path: '/frontoffice/kanban',
     component: KanbanPage,
+    protected: false,
+    title: 'Representation des tickets'
+  },
+  {
+    path: '/frontoffice/couts',
+    component: SuperCostListPage,
     protected: false,
     title: 'Representation des tickets'
   },

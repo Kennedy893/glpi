@@ -1,0 +1,65 @@
+.supercost-container {
+    padding: 2rem;
+    background: #f5f7fa;
+    min-height: 100vh;
+}
+
+.supercost-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.supercost-header h1 {
+    margin: 0;
+    color: #1a202c;
+}
+
+.refresh-btn {
+    padding: 0.5rem 1rem;
+    background: #667eea;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.supercost-table-wrapper {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.supercost-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.supercost-table th {
+    background: #667eea;
+    color: white;
+    padding: 1rem;
+    text-align: left;
+}
+
+.supercost-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.supercost-table tr:hover {
+    background: #f7fafc;
+}
+
+.loading, .error, .empty-state {
+    text-align: center;
+    padding: 2rem;
+    background: white;
+    border-radius: 12px;
+}
+
+.error {
+    color: #e53e3e;
+}

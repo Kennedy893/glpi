@@ -245,5 +245,35 @@ async getAssetImages(assetId, assetType = 'Computer') {
         console.error('[getAssetImages] Erreur:', error);
         return [];
     }
-}
+},
+
+// Récupérer un asset par son ID (quel que soit son type)
+    async getAssetById(assetId) {
+        try {
+            // GLPI: il faut connaître le type d'asset pour faire la requête
+            // Solution 1: Essayer tous les types (plus lent)
+            const assetTypes = ['Computer', 'Monitor', 'Phone', 'Printer', 'NetworkEquipment'];
+            
+            for (const type of assetTypes) {
+                try {
+                    const response = await apiClient.get(`${type}/${assetId}`);
+                    if (response && response.id) {
+                        return {
+                            ...response,
+                            itemtype: type
+                        };
+                    }
+                } catch (err) {
+                    // Type incorrect, continuer
+                }
+            }
+            
+            console.warn(`Asset ${assetId} non trouvé`);
+            return null;
+            
+        } catch (error) {
+            console.error('[AssetRepository] getAssetById error:', error);
+            return null;
+        }
+    },
 }

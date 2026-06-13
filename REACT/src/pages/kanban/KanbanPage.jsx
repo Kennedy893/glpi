@@ -106,9 +106,9 @@ export const KanbanPage = () => {
             {/* Dialogue changement de statut */}
             {dialog.open && (
                 <StatusDialog
-                dialog={dialog}
-                onConfirm={confirmDialog}
-                onCancel={closeDialog}
+                    dialog={dialog}
+                    onConfirm={confirmDialog}
+                    onCancel={closeDialog}
                 />
             )}
         </div>

@@ -1,6 +1,9 @@
 // components/kanban/StatusDialog.jsx
 import { useState, useEffect } from 'react';
 import { UserRepository } from '../../domain/repositories/UserRepository';
+import { useDernierSuperCost } from '../../hooks/superCost/useDernierSuperCost';
+import { TicketCostRepository } from '../../domain/repositories/TicketCostRepository';
+import { SuperCostRepository } from '../../domain/repositories/SuperCostRepository';
 
 const PRIORITY_LABELS = { 1:'Très basse', 2:'Basse', 3:'Moyenne', 4:'Haute', 5:'Très haute', 6:'Majeure' };
 const TYPE_LABELS     = { 1:'Incident', 2:'Demande' };
@@ -10,10 +13,23 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
 
   const [technicienId, setTechnicienId] = useState('');
   const [solution,     setSolution]     = useState('');
-  const [cause,     setCause]     = useState('');
+  const [cause,        setCause]        = useState('');
+  const [pourcentageReouverture, setPourcentageReouverture] = useState(0);
+  const [superCost,    setSuperCost]    = useState('');  // ← Changé: string vide au lieu de 0
   const [techniciens,  setTechniciens]  = useState([]);
   const [loadingTech,  setLoadingTech]  = useState(false);
   const [error,        setError]        = useState('');
+
+  const { dernierSuperCosts } = useDernierSuperCost(ticket.id);
+
+  // const handleReouverture = async () => {
+  //   const coutReouverture = dernierSuperCosts.map(sc => (
+  //     coutFinal = parseFloat(sc.cout || 0) * parseFloat(pourcentageReouverture || 0) / 100,
+  //     await SuperCostRepository.updateReouverture(ticket.id)
+  //   ))
+
+
+  // };
 
   // Charger les techniciens si le champ est requis
   useEffect(() => {
@@ -35,10 +51,10 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
 
   const handleConfirm = () => {
     // Validation
-    // if (fields.includes('technicien') && !technicienId) {
-    //   setError('Veuillez sélectionner un technicien.');
-    //   return;
-    // }
+    if (fields.includes('technicien') && !technicienId) {
+      setError('Veuillez sélectionner un technicien.');
+      return;
+    }
     if (fields.includes('solution') && !solution.trim()) {
       setError('Veuillez saisir une solution.');
       return;
@@ -47,12 +63,21 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
       setError('Veuillez saisir une cause.');
       return;
     }
+    if (fields.includes('superCost') && (!superCost || parseFloat(superCost) <= 0)) {
+      setError('Veuillez saisir un superCost valide (supérieur à 0).');
+      return;
+    }
     setError('');
-    onConfirm({ technicienId: technicienId ? parseInt(technicienId) : null, solution, cause });
+    
+    onConfirm({ 
+      technicienId: technicienId ? parseInt(technicienId) : null, 
+      solution, 
+      cause, 
+      superCost: superCost ? parseFloat(superCost) : 0  // ← Convertir en nombre
+    });
   };
 
   return (
-    // Overlay
     <div style={s.overlay} onClick={onCancel}>
       <div style={s.modal} onClick={e => e.stopPropagation()}>
 
@@ -114,6 +139,44 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
                 value={solution}
                 onChange={e => setSolution(e.target.value)}
               />
+            </div>
+          )}
+
+          {/* Champ superCost */}
+          {fields.includes('superCost') && (
+            <div style={s.field}>
+              <label style={s.label}>SuperCost * (en Ar)</label>
+              <input
+                type="number"
+                style={s.input}
+                placeholder="Ex: 2000"
+                value={superCost}
+                onChange={e => setSuperCost(e.target.value)}
+                min="0"
+                step="100"
+              />
+              <small style={s.hint}>Montant en Ariary (Ar)</small>
+            </div>
+          )}
+
+          {/* Champ pourcentageReouverture */}
+          {fields.includes('pourcentageReouverture') && (
+            <div>
+            <div style={s.field}>
+              <label style={s.label}>Pourcentage Reouverture *</label>
+              <input
+                type="number"
+                style={s.input}
+                placeholder="Ex: 2000"
+                value={pourcentageReouverture}
+                onChange={e => setPourcentageReouverture(e.target.value)}
+                min="0"
+                step="100"
+              />%
+            </div>
+            <div>
+              <button>Reouverture</button>
+            </div>
             </div>
           )}
 
@@ -190,6 +253,11 @@ const s = {
     padding: '0.5rem 0.75rem', fontSize: 14, borderRadius: 7,
     border: '1px solid #ddd', background: '#fff',
     color: '#111', width: '100%', cursor: 'pointer',
+  },
+  input: {  // ← Ajout du style pour l'input
+    padding: '0.5rem 0.75rem', fontSize: 14, borderRadius: 7,
+    border: '1px solid #ddd', background: '#fff',
+    color: '#111', width: '100%',
   },
   textarea: {
     padding: '0.5rem 0.75rem', fontSize: 14, borderRadius: 7,

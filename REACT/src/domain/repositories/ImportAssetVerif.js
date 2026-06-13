@@ -5,99 +5,197 @@ const apiClient = getApiClient();
 
 export const ImportAssetVerif = {
     // Fonction generalisée
-    async getOrCreateEntity(name, config = {}) {
-        const {
-            entityType = 'Manufacturer',           // Type d'entité (Manufacturer, DeviceMemory, etc.)
-            searchField = 'name',               // Champ pour la recherche exacte
-            createField = 'name',               // Champ pour la création
-            searchParams = {},                  // Paramètres de recherche supplémentaires
-            createData = {},                    // Données supplémentaires pour la création
-            expand = 1                          // Paramètre expand
-        } = config;
+    // async getOrCreateEntity(name, config = {}) {
+    //     const {
+    //         entityType = 'Manufacturer',           // Type d'entité (Manufacturer, DeviceMemory, etc.)
+    //         searchField = 'name',               // Champ pour la recherche exacte
+    //         createField = 'name',               // Champ pour la création
+    //         searchParams = {},                  // Paramètres de recherche supplémentaires
+    //         createData = {},                    // Données supplémentaires pour la création
+    //         expand = 1                          // Paramètre expand
+    //     } = config;
 
-        console.log(`[getOrCreate${entityType}] ${searchField} =`, name);
+    //     console.log(`[getOrCreate${entityType}] ${searchField} =`, name);
 
-        if (!name || name.trim() === '') {
-            console.log(`[getOrCreate${entityType}] Pas de valeur, retour null`);
-            return null;
-        }
+    //     if (!name || name.trim() === '') {
+    //         console.log(`[getOrCreate${entityType}] Pas de valeur, retour null`);
+    //         return null;
+    //     }
 
-        try {
-            // 1. Rechercher l'entité existante
-            console.log(`[getOrCreate${entityType}] Recherche...`);
+    //     try {
+    //         // 1. Rechercher l'entité existante
+    //         console.log(`[getOrCreate${entityType}] Recherche...`);
             
-            // Construire l'URL de recherche dynamiquement
-            let searchUrl = `${entityType}?searchText=${encodeURIComponent(name)}`;
-            if (expand) searchUrl += `&expand=${expand}`;
+    //         // Construire l'URL de recherche dynamiquement
+    //         let searchUrl = `${entityType}?searchText=${encodeURIComponent(name)}`;
+    //         if (expand) searchUrl += `&expand=${expand}`;
             
-            // Ajouter des paramètres de recherche supplémentaires
-            for (const [key, value] of Object.entries(searchParams)) {
-                searchUrl += `&${key}=${encodeURIComponent(value)}`;
-            }
+    //         // Ajouter des paramètres de recherche supplémentaires
+    //         for (const [key, value] of Object.entries(searchParams)) {
+    //             searchUrl += `&${key}=${encodeURIComponent(value)}`;
+    //         }
             
-            const response = await apiClient.get(searchUrl);
+    //         const response = await apiClient.get(searchUrl);
             
-            console.log(`[getOrCreate${entityType}] Résultat recherche =`, response);
+    //         console.log(`[getOrCreate${entityType}] Résultat recherche =`, response);
 
-            // Vérifier si des résultats existent et faire une correspondance EXACTE
-            if (response && Array.isArray(response) && response.length > 0) {
-                // Chercher une correspondance exacte sur le champ spécifié
-                const exactMatch = response.find(entity => entity[searchField] === name);
+    //         // Vérifier si des résultats existent et faire une correspondance EXACTE
+    //         if (response && Array.isArray(response) && response.length > 0) {
+    //             // Chercher une correspondance exacte sur le champ spécifié
+    //             const exactMatch = response.find(entity => entity[searchField] === name);
                 
-                if (exactMatch) {
-                    console.log(`[getOrCreate${entityType}] Entité trouvée (exacte), id =`, exactMatch.id);
-                    return exactMatch.id;
-                } else {
-                    console.log(`[getOrCreate${entityType}] Pas de correspondance exacte trouvée parmi`, response.length, 'résultats');
-                }
-            }
+    //             if (exactMatch) {
+    //                 console.log(`[getOrCreate${entityType}] Entité trouvée (exacte), id =`, exactMatch.id);
+    //                 return exactMatch.id;
+    //             } else {
+    //                 console.log(`[getOrCreate${entityType}] Pas de correspondance exacte trouvée parmi`, response.length, 'résultats');
+    //             }
+    //         }
 
-            // 2. Créer l'entité si non trouvée
-            console.log(`[getOrCreate${entityType}] Création...`);
+    //         // 2. Créer l'entité si non trouvée
+    //         console.log(`[getOrCreate${entityType}] Création...`);
             
-            // Construire l'objet de création
-            const creationInput = {
-                [createField]: name,
-                is_recursive: 0,
-                comment: `Créé automatiquement depuis l'import CSV`,
-                ...createData
-            };
+    //         // Construire l'objet de création
+    //         const creationInput = {
+    //             [createField]: name,
+    //             is_recursive: 0,
+    //             comment: `Créé automatiquement depuis l'import CSV`,
+    //             ...createData
+    //         };
             
-            const createResponse = await apiClient.post(entityType, {
-                input: creationInput
-            });
+    //         const createResponse = await apiClient.post(entityType, {
+    //             input: creationInput
+    //         });
 
-            console.log(`[getOrCreate${entityType}] Réponse création =`, createResponse);
+    //         console.log(`[getOrCreate${entityType}] Réponse création =`, createResponse);
 
-            // Extraire l'ID créé (gérer différents formats)
-            let createdId = null;
-            if (createResponse && createResponse.id) {
-                createdId = createResponse.id;
-            } else if (createResponse && createResponse[0] && createResponse[0].id) {
-                createdId = createResponse[0].id;
-            } else if (createResponse && createResponse.data && createResponse.data.id) {
-                createdId = createResponse.data.id;
-            }
+    //         // Extraire l'ID créé (gérer différents formats)
+    //         let createdId = null;
+    //         if (createResponse && createResponse.id) {
+    //             createdId = createResponse.id;
+    //         } else if (createResponse && createResponse[0] && createResponse[0].id) {
+    //             createdId = createResponse[0].id;
+    //         } else if (createResponse && createResponse.data && createResponse.data.id) {
+    //             createdId = createResponse.data.id;
+    //         }
 
-            if (createdId) {
-                console.log(`[getOrCreate${entityType}] Entité créée avec succès, id =`, createdId);
-                return createdId;
+    //         if (createdId) {
+    //             console.log(`[getOrCreate${entityType}] Entité créée avec succès, id =`, createdId);
+    //             return createdId;
+    //         } else {
+    //             console.error(`[getOrCreate${entityType}] Format de réponse inattendu:`, createResponse);
+    //             return null;
+    //         }
+
+    //     } catch (error) {
+    //         console.error(`[getOrCreate${entityType}] Erreur détaillée:`, error);
+            
+    //         if (error.response) {
+    //             console.error('Status:', error.response.status);
+    //             console.error('Data:', error.response.data);
+    //         }
+            
+    //         return null;
+    //     }
+    // },
+    // Fonction généralisée
+async getOrCreateEntity(name, config = {}) {
+    const {
+        entityType = 'Manufacturer',           // Type d'entité (Manufacturer, DeviceMemory, etc.)
+        searchField = 'name',               // Champ pour la recherche exacte
+        createField = 'name',               // Champ pour la création
+        searchParams = {},                  // Paramètres de recherche supplémentaires
+        createData = {},                    // Données supplémentaires pour la création
+        expand = 1                          // Paramètre expand
+    } = config;
+
+    console.log(`[getOrCreate${entityType}] ${searchField} =`, name);
+
+    // ✅ Vérification améliorée : retourne null immédiatement si name est invalide
+    if (!name || typeof name !== 'string' || name.trim() === '') {
+        console.log(`[getOrCreate${entityType}] Nom invalide (${name}), retour null`);
+        return null;
+    }
+
+    // Nettoyer le nom
+    const cleanName = name.trim();
+
+    try {
+        // 1. Rechercher l'entité existante
+        console.log(`[getOrCreate${entityType}] Recherche de "${cleanName}"...`);
+        
+        // Construire l'URL de recherche dynamiquement
+        let searchUrl = `${entityType}?searchText=${encodeURIComponent(cleanName)}`;
+        if (expand) searchUrl += `&expand=${expand}`;
+        
+        // Ajouter des paramètres de recherche supplémentaires
+        for (const [key, value] of Object.entries(searchParams)) {
+            searchUrl += `&${key}=${encodeURIComponent(value)}`;
+        }
+        
+        const response = await apiClient.get(searchUrl);
+        
+        console.log(`[getOrCreate${entityType}] Résultat recherche =`, response);
+
+        // Vérifier si des résultats existent et faire une correspondance EXACTE
+        if (response && Array.isArray(response) && response.length > 0) {
+            // Chercher une correspondance exacte sur le champ spécifié
+            const exactMatch = response.find(entity => entity[searchField] === cleanName);
+            
+            if (exactMatch) {
+                console.log(`[getOrCreate${entityType}] Entité trouvée (exacte), id =`, exactMatch.id);
+                return exactMatch.id;
             } else {
-                console.error(`[getOrCreate${entityType}] Format de réponse inattendu:`, createResponse);
-                return null;
+                console.log(`[getOrCreate${entityType}] Pas de correspondance exacte trouvée parmi`, response.length, 'résultats');
             }
+        }
 
-        } catch (error) {
-            console.error(`[getOrCreate${entityType}] Erreur détaillée:`, error);
-            
-            if (error.response) {
-                console.error('Status:', error.response.status);
-                console.error('Data:', error.response.data);
-            }
-            
+        // 2. Créer l'entité si non trouvée
+        console.log(`[getOrCreate${entityType}] Création de "${cleanName}"...`);
+        
+        // Construire l'objet de création
+        const creationInput = {
+            [createField]: cleanName,
+            is_recursive: 0,
+            comment: `Créé automatiquement depuis l'import CSV`,
+            ...createData
+        };
+        
+        const createResponse = await apiClient.post(entityType, {
+            input: creationInput
+        });
+
+        console.log(`[getOrCreate${entityType}] Réponse création =`, createResponse);
+
+        // Extraire l'ID créé (gérer différents formats)
+        let createdId = null;
+        if (createResponse && createResponse.id) {
+            createdId = createResponse.id;
+        } else if (createResponse && createResponse[0] && createResponse[0].id) {
+            createdId = createResponse[0].id;
+        } else if (createResponse && createResponse.data && createResponse.data.id) {
+            createdId = createResponse.data.id;
+        }
+
+        if (createdId) {
+            console.log(`[getOrCreate${entityType}] Entité créée avec succès, id =`, createdId);
+            return createdId;
+        } else {
+            console.error(`[getOrCreate${entityType}] Format de réponse inattendu:`, createResponse);
             return null;
         }
-    },
+
+    } catch (error) {
+        console.error(`[getOrCreate${entityType}] Erreur détaillée:`, error);
+        
+        if (error.response) {
+            console.error('Status:', error.response.status);
+            console.error('Data:', error.response.data);
+        }
+        
+        return null;
+    }
+},
 
     // Trouver un Computer par son nom
     async findComputerByName(name) {
@@ -169,6 +267,22 @@ export const ImportAssetVerif = {
     async getOrCreatePhoneModel(name) {
         return this.getOrCreateEntity(name, {
             entityType: 'PhoneModel',
+            searchField: 'name'
+        });
+    },
+
+    // Wrapper pour NetworkEquipmentModel (comportement original)
+    async getOrCreateNetworkEquipmentModel(name) {
+        return this.getOrCreateEntity(name, {
+            entityType: 'NetworkEquipmentModel',
+            searchField: 'name'
+        });
+    },
+
+    // Wrapper pour PeripheralModel (comportement original)
+    async getOrCreatePeripheralModel(name) {
+        return this.getOrCreateEntity(name, {
+            entityType: 'PeripheralModel',
             searchField: 'name'
         });
     },

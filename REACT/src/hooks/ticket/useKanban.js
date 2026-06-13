@@ -1,6 +1,7 @@
 // hooks/ticket/useKanban.js
 import { useState } from 'react';
 import { TicketRepository } from '../../domain/repositories/TicketRepository';
+import { SuperCostRepository } from '../../domain/repositories/SuperCostRepository';
 
 // ─── Config des dialogues selon la transition ─────────────
 // clé : "statusLabel_source -> statusLabel_cible"
@@ -11,15 +12,19 @@ const DIALOG_CONFIG = {
   },
   'New->Closed': {
     title:  "Résoudre le ticket",
-    fields: ['technicien', 'solution'],
+    fields: ['technicien', 'solution', 'superCost'],
   },
   'In progress->Closed': {
     title:  "Saisir la solution",
-    fields: ['solution'],
+    fields: ['solution', 'superCost'],
   },
   'Closed->New': {
     title:  "Saisir la cause",
     fields: ['cause'],
+  },
+  'Closed->In progress': {
+    title:  "Reouverture/Annuler",
+    fields: ['pourcentageReouverture'],
   },
 };
 
@@ -109,8 +114,8 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
   };
 
   // ── Confirmation du dialogue ────────────────────────────
-  const confirmDialog = async ({ technicienId, solution, cause }) => {
-    await applyStatusChange(dialog.ticket, dialog.newStatus, { technicienId, solution, cause });
+  const confirmDialog = async ({ technicienId, solution, cause, superCost, pourcentageReouverture }) => {
+    await applyStatusChange(dialog.ticket, dialog.newStatus, { technicienId, solution, cause, superCost, pourcentageReouverture });
     closeDialog();
   };
 
@@ -139,14 +144,37 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
         await TicketRepository.createSolution({
           itemtype: 'Ticket',
           items_id: ticket.id,
-          content:  extraData.solution.trim(),
-          status:   1,
+          content: extraData.solution.trim(),
+          status: 1,
         });
+
+        // Récupérer les items du ticket
+        const items = await TicketRepository.getItemsByTicket(ticket.id);
+        const nbItems = items.length;
+
+        if (nbItems > 0 && extraData.superCost && parseFloat(extraData.superCost) > 0) {
+          const costPerItem = parseFloat(extraData.superCost) / nbItems;
+          
+          // Créer un supercost pour chaque item
+          const createPromises = items.map((item) => 
+            SuperCostRepository.createSuperCost({
+              ticketId: ticket.id,
+              itemId: item.id,
+              cost: costPerItem
+            })
+          );
+          
+          // Attendre que toutes les créations soient terminées
+          await Promise.all(createPromises);
+          
+          console.log(`💰 ${nbItems} SuperCost(s) créé(s) pour le ticket ${ticket.id}`);
+        } else if (nbItems === 0) {
+          console.warn(`⚠️ Aucun item trouvé pour le ticket ${ticket.id}`);
+        }
       }
 
       // 2 — Créer la cause si réouverture (Closed -> New)
       if (newStatusId === 1 &&  currentStatusId === 6 && extraData.cause?.trim()) {
-        console.log('tayyyyyyyyyyyyyyyyyyyyyyyyyyyyyy');
         
         await TicketRepository.createCause({
           itemtype: 'Ticket',
