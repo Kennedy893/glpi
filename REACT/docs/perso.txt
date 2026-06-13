@@ -1,0 +1,22 @@
+- filtrage requete
+    const allLinks = await apiClient.get(`Item_Ticket?range=0-999`);
+    const itemTickets = allLinks.filter(link => link.items_id === itemId);
+
+- alternative a MAP
+    for (const item of items) {
+        try {
+            // Récupérer le coût GLPI pour cet item
+            const glpiCosts = await TicketCostRepository.getTotalCostByItemId(item.id);
+            
+            // Créer le SuperCost
+            await SuperCostRepository.createSuperCost({
+                ticketId: ticket.id,
+                itemId: item.id,
+                cost: costPerItem,
+                categorie: item.itemType || item.type,
+                coutglpi: glpiCosts.total_cost || 0
+            });
+        } catch (error) {
+            console.error(`Erreur pour l'item ${item.id}:`, error);
+        }
+    }

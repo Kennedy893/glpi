@@ -107,13 +107,6 @@ export const TicketDetailsModal = ({ ticket, onClose, formatDate }) => {
                     </thead>
                     <tbody>
                       {costs.map((cost, index) => {
-                        // const total = (parseFloat(cost.cost_time || 0) + 
-                        //               parseFloat(cost.cost_fixed || 0) + 
-                        //               parseFloat(cost.cost_material || 0)).toFixed(2);
-
-                        const total = (parseFloat(cost.cost_fixed || 0) +
-                                      parseFloat((cost.actiontime || 0 ) / 3600) * parseFloat(cost.cost_time || 0) + 
-                                      parseFloat(cost.cost_material || 0)).toFixed(2);
                         return (
                           <tr key={index}>
                             <td>{index + 1}</td>
@@ -121,7 +114,7 @@ export const TicketDetailsModal = ({ ticket, onClose, formatDate }) => {
                             <td>{parseFloat(cost.cost_time || 0).toFixed(2)}</td>
                             <td>{parseFloat(cost.cost_fixed || 0).toFixed(2)}</td>
                             <td>{parseFloat(cost.cost_material || 0).toFixed(2)}</td>
-                            <td className="total-cell">{total} €</td>
+                            <td>{parseFloat(cost.total_cost || 0).toFixed(2)}</td>
                           </tr>
                         );
                       })}
@@ -132,17 +125,7 @@ export const TicketDetailsModal = ({ ticket, onClose, formatDate }) => {
                         <td><strong>{costs.reduce((sum, c) => sum + parseFloat(c.cost_time || 0), 0).toFixed(2)} €</strong></td>
                         <td><strong>{costs.reduce((sum, c) => sum + parseFloat(c.cost_fixed || 0), 0).toFixed(2)} €</strong></td>
                         <td><strong>{costs.reduce((sum, c) => sum + parseFloat(c.cost_material || 0), 0).toFixed(2)} €</strong></td>
-                        <td className="total-cell"><strong>
-                          {costs.reduce((sum, c) => sum + 
-                            parseFloat(c.cost_time || 0) + 
-                            parseFloat(c.cost_fixed || 0) + 
-                            parseFloat(c.cost_material || 0), 0).toFixed(2)} €
-
-                          {costs.reduce((sum, c) => sum + 
-                            parseFloat(c.cost_time || 0) + 
-                            parseFloat(c.cost_fixed || 0) + 
-                            parseFloat(c.cost_material || 0), 0).toFixed(2)} €
-                        </strong></td>
+                        <td><strong>{costs.reduce((sum, c) => sum + parseFloat(c.total_cost || 0), 0).toFixed(2)} €</strong></td>
                       </tr>
                     </tfoot>
                   </table>

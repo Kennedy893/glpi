@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import { TicketRepository } from '../../domain/repositories/TicketRepository';
 import { SuperCostRepository } from '../../domain/repositories/SuperCostRepository';
+import { TicketCostRepository } from '../../domain/repositories/TicketCostRepository';
 
 // ─── Config des dialogues selon la transition ─────────────
 // clé : "statusLabel_source -> statusLabel_cible"
@@ -152,23 +153,31 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
         const items = await TicketRepository.getItemsByTicket(ticket.id);
         const nbItems = items.length;
 
-        if (nbItems > 0 && extraData.superCost && parseFloat(extraData.superCost) > 0) {
+        if (nbItems > 0 && extraData.superCost && parseFloat(extraData.superCost) > 0) 
+        {
           const costPerItem = parseFloat(extraData.superCost) / nbItems;
           
           // Créer un supercost pour chaque item
-          const createPromises = items.map((item) => 
-            SuperCostRepository.createSuperCost({
-              ticketId: ticket.id,
-              itemId: item.id,
-              cost: costPerItem
-            })
-          );
-          
-          // Attendre que toutes les créations soient terminées
-          await Promise.all(createPromises);
+          for (const item of items) {
+              try {
+                  // Récupérer le coût GLPI pour cet item
+                  const glpiCosts = await TicketCostRepository.getTotalCostByItemId(item.id);
+                  
+                  // Créer le SuperCost
+                  await SuperCostRepository.createSuperCost({
+                      ticketId: ticket.id,
+                      itemId: item.id,
+                      cost: costPerItem,
+                      categorie: item.itemType || item.type,
+                      coutglpi: glpiCosts.total_cost || 0
+                  });
+              } catch (error) {
+                  console.error(`Erreur pour l'item ${item.id}:`, error);
+              }
+          }
           
           console.log(`💰 ${nbItems} SuperCost(s) créé(s) pour le ticket ${ticket.id}`);
-        } else if (nbItems === 0) {
+      } else if (nbItems === 0) {
           console.warn(`⚠️ Aucun item trouvé pour le ticket ${ticket.id}`);
         }
       }
