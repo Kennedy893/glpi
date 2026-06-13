@@ -1,7 +1,7 @@
 - filtrage requete
     const allLinks = await apiClient.get(`Item_Ticket?range=0-999`);
     const itemTickets = allLinks.filter(link => link.items_id === itemId);
-
+--------------------------------------------------------------
 - alternative a MAP
     for (const item of items) {
         try {
@@ -20,3 +20,65 @@
             console.error(`Erreur pour l'item ${item.id}:`, error);
         }
     }
+-------------------------------------------------------------
+- useEffect
+    Permet d'exécuter du code en dehors du rendu : appels API, abonnements, manipulation du DOM, timers...
+    Il s'exécute après le rendu, et le tableau de dépendances contrôle quand il se relance :
+
+useState → "j'ai une valeur qui peut changer"
+useEffect → "je dois faire quelque chose en dehors du rendu" (API call, timer, event listener)
+useCallback → "j'ai une fonction que je ne veux pas recréer à chaque rendu"
+useMemo → mémoïse une valeur calculée (comme useCallback mais pour les données, pas les fonctions)
+useRef → garde une référence mutable qui ne déclenche pas de re-rendu (accès au DOM, timer IDs, valeurs précédentes)
+
+    *UTILISATIONS DE USEEFFECT
+        -> Dès que tu veux faire quelque chose après le rendu, ou en réaction à un changement.
+        // ✅ Charger des données au montage
+        useEffect(() => { fetchData(); }, []);
+
+        // ✅ Réagir à un changement de valeur
+        useEffect(() => { document.title = `Page ${page}`; }, [page]);
+
+        // ✅ Abonnement + cleanup
+        useEffect(() => {
+            const sub = socket.subscribe(channel);
+            return () => sub.unsubscribe(); // cleanup au démontage
+        }, [channel]);
+
+        Ne pas utiliser quand :
+        // ❌ Pour transformer des données — fais-le directement dans le rendu
+        useEffect(() => {
+            setFullName(firstName + ' ' + lastName); // inutile
+        }, [firstName, lastName]);
+
+        // ✅ À la place :
+        const fullName = firstName + ' ' + lastName; // calculé directement
+
+    *UTILISATIONS DE USECALLBACK 
+        Seulement dans 2 cas précis :   
+            Cas 1 — La fonction est dans les dépendances d'un useEffect
+                // Sans useCallback → boucle infinie
+                const loadItems = useCallback(async () => {
+                    const data = await fetch(...);
+                    setItems(data);
+                }, []); // stable → useEffect ne boucle pas
+
+                useEffect(() => { loadItems(); }, [loadItems]);
+
+            Cas 2 — La fonction est passée à un composant enfant mémoïsé (React.memo)
+                // Sans useCallback → l'enfant se re-rend à chaque fois même si rien n'a changé
+                const handleDelete = useCallback((id) => {
+                    setItems(prev => prev.filter(i => i.id !== id));
+                }, []); // stable → MyList ne se re-rend pas inutilement
+
+                return <MyList items={items} onDelete={handleDelete} />;
+                // où MyList = React.memo(({ items, onDelete }) => ...)
+
+            Ne pas utiliser partout "par précaution" :
+                // ❌ Inutile — cette fonction n'est pas une dépendance ni passée à un enfant mémoïsé
+                const handleClick = useCallback(() => {
+                    setCount(c => c + 1);
+                }, []); // overhead pour rien
+
+                // ✅ Simple et suffisant :
+                const handleClick = () => setCount(c => c + 1);

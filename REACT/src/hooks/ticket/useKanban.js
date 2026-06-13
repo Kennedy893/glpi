@@ -161,7 +161,7 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
           for (const item of items) {
               try {
                   // Récupérer le coût GLPI pour cet item
-                  const glpiCosts = await TicketCostRepository.getTotalCostByItemId(item.id);
+                  const glpiCosts = await TicketCostRepository.getCostByTicketAndItem(ticket.id, item.id);
                   
                   // Créer le SuperCost
                   await SuperCostRepository.createSuperCost({
