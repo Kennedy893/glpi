@@ -21,7 +21,7 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
   const [loadingTech,  setLoadingTech]  = useState(false);
   const [error,        setError]        = useState('');
 
-  const { annuler, messagefinal, nombre_modifies } = useAnnulerCosts();
+  const { annuler, messagefinal, nombre_modifies } = useAnnulerCosts(ticket.id);
 
   // Charger les techniciens si le champ est requis
   useEffect(() => {

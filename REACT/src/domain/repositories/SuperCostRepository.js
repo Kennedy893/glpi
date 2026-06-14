@@ -99,14 +99,26 @@ export const SuperCostRepository = {
     },
 
     // Annuler derniers superCosts
-    async annulerLastSuperCosts() {
+    async annulerLastSuperCosts(ticketId) {
         try {
-            const response = await fetch(`${BASE_URL}/annuler/last`, {
-                method: 'POST'
+            const response = await fetch(`${BASE_URL}/annuler/last/${ticketId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
             });
 
             if (!response.ok) {
-                throw new Error(`Erreur HTTP: ${response.status}`);
+                // Essayer de récupérer le message d'erreur du backend
+                let errorMessage = `Erreur HTTP: ${response.status}`;
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.message || errorMessage;
+                } catch (e) {
+                    // Si la réponse n'est pas du JSON
+                    errorMessage = `Erreur HTTP: ${response.status} ${response.statusText}`;
+                }
+                throw new Error(errorMessage);
             }
 
             return await response.json();

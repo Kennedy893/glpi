@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { SuperCostRepository } from "../../domain/repositories/SuperCostRepository";
 
-export const useAnnulerCosts = () => {
-    const [loading, setLoading] = useState(true);
+export const useAnnulerCosts = (ticketId) => {
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [nombre_modifies, setNombre_modifies] = useState(0);
     const [message, setMessage] = useState('');
@@ -13,7 +13,7 @@ export const useAnnulerCosts = () => {
         setError('');      // ← Réinitialiser l'erreur
 
         try {
-            const response = await SuperCostRepository.annulerLastSuperCosts();
+            const response = await SuperCostRepository.annulerLastSuperCosts(ticketId);
 
             setNombre_modifies(response?.nombre_modifies);
             setMessage(response?.message);
