@@ -2,7 +2,7 @@
 import React from 'react';
 
 const formatCurrency = (amount) => {
-    return `${amount || 0} Ar`;
+    return `${amount || 0}`;
 };
 
 export const SuperCostTable = ({ stats }) => {
@@ -16,9 +16,10 @@ export const SuperCostTable = ({ stats }) => {
                 <thead>
                     <tr>
                         <th>Type d'item</th>
-                        <th>Coût GLPI</th>
+                        <th>Cout GLPI</th>
                         <th>SuperCost</th>
-                        <th>Coût Total</th>
+                        <th>Cout Reouverture</th>
+                        <th>Cout Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -29,6 +30,7 @@ export const SuperCostTable = ({ stats }) => {
                             </td>
                             <td>{formatCurrency(item.totalGlpi)}</td>
                             <td>{formatCurrency(item.totalSuper)}</td>
+                            <td>{formatCurrency(item.totalReouverture)}</td>
                             <td><strong>{formatCurrency(item.totalGeneral)}</strong></td>
                         </tr>
                     ))}
@@ -38,6 +40,7 @@ export const SuperCostTable = ({ stats }) => {
                         <td><strong>Total</strong></td>
                         <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalGlpi, 0))}</td>
                         <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalSuper, 0))}</td>
+                        <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalReouverture, 0))}</td>
                         <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalGeneral, 0))}</td>
                     </tr>
                 </tfoot>

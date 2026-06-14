@@ -14,7 +14,7 @@ export const SuperCostListPage = () => {
     return (
         <div className="supercost-container">
             <div className="supercost-header">
-                <h1>Liste des Items</h1>
+                <h1>Liste des couts</h1>
             </div>
             
             <SuperCostTable stats={stats} />

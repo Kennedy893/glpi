@@ -170,7 +170,6 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
                       itemId: item.id,
                       cost: costPerItem || 0,
                       categorie: item.itemType || item.type
-                      // coutglpi: glpiCosts.total_cost || 0
                   });
 
                   // Créer le Cout glpi
@@ -188,17 +187,53 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
           console.log(`💰 ${nbItems} SuperCost(s) créé(s) pour le ticket ${ticket.id}`);
       } else if (nbItems === 0) {
           console.warn(`⚠️ Aucun item trouvé pour le ticket ${ticket.id}`);
-        }
+      }
       }
 
       // 2 — Créer la cause si réouverture (Closed -> New)
       if (newStatusId === 1 &&  currentStatusId === 6 && extraData.cause?.trim()) {
-        
         await TicketRepository.createCause({
           itemtype: 'Ticket',
           items_id: ticket.id,
           content:  extraData.cause.trim()
         });
+      }
+
+      // 2.1 — Créer le cout de réouverture (Closed -> In progress)
+      if (newStatusId === 2 &&  currentStatusId === 6 && extraData.pourcentageReouverture) 
+      {
+        console.log(extraData.pourcentageReouverture);
+        
+        // Récupérer les items du ticket
+        const items = await TicketRepository.getItemsByTicket(ticket.id);
+        const nbItems = items.length;
+        const superCost = await SuperCostRepository.getLastSuperCost(ticket.id);
+        console.log(superCost);
+        
+
+        if (nbItems > 0 && extraData.pourcentageReouverture && parseFloat(extraData.pourcentageReouverture) > 0) 
+        {
+          const cost = parseFloat(superCost[0].cout || 0) * extraData.pourcentageReouverture / 100;
+          
+          // Créer un supercost pour chaque item
+          for (const item of items) {
+              try {
+                  // Créer le Cout glpi
+                  await SuperCostRepository.createReouvertureCost({
+                      ticketId: ticket.id,
+                      itemId: item.id,
+                      cost: cost || 0,
+                      categorie: item.itemType || item.type
+                  });
+              } catch (error) {
+                  console.error(`Erreur pour l'item ${item.id}:`, error);
+              }
+          }
+          
+          console.log(`💰 ${nbItems} Reouverture créée pour le ticket ${ticket.id}`);
+        } else if (nbItems === 0) {
+          console.warn(`⚠️ Aucun item trouvé pour le ticket ${ticket.id}`);
+        }
       }
 
       // 3 — Ajouter le technicien dans Ticket_User si passage à "En cours" (status 2)
@@ -221,7 +256,7 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
       }
       await TicketRepository.updateTicket(ticket.id, updatePayload);
 
-      // 3 — Mise à jour locale sans refetch
+      // 5 — Mise à jour locale sans refetch
       setTicketsStatusMap(prev => {
         // Retirer le ticket de sa colonne source
         const withoutTicket = prev.map(group => ({

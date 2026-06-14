@@ -1,6 +1,7 @@
 const BASE_URL = 'http://localhost:8081/api/super-cost';
 
 export const SuperCostRepository = {
+    
     async createSuperCost(data) {
         try {
             const response = await fetch(`${BASE_URL}/create/super`, {
@@ -125,6 +126,47 @@ export const SuperCostRepository = {
         } catch (error) {
             console.error(`Erreur POST /api/super-cost/annuler/last:`, error);
             return;
+        }
+    },
+
+    // Creer un cout de reouverture
+    async createReouvertureCost(data) {
+        try {
+            const response = await fetch(`${BASE_URL}/create/reouverture`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+
+            return await response.json();
+            } catch (error) {
+            console.error('Erreur POST /api/reouvertureCost:', error);
+            throw error;
+        }
+    },
+
+    // Recuperer le dernier superCost
+    async getLastSuperCost(ticketId) {
+        try {
+            const response = await fetch(`${BASE_URL}/last/${ticketId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error(`Erreur GET /api/super-cost/last/${ticketId}:`, error);
+            return [];
         }
     }
     

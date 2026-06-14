@@ -15,7 +15,7 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
   const [solution,     setSolution]     = useState('');
   const [cause,        setCause]        = useState('');
   const [boutonAnnuler, setBoutonAnnuler] = useState('');
-  const [pourcentageReouverture, setPourcentageReouverture] = useState(0);
+  const [pourcentageReouverture, setPourcentageReouverture] = useState('');
   const [superCost,    setSuperCost]    = useState('');  // ← Changé: string vide au lieu de 0
   const [techniciens,  setTechniciens]  = useState([]);
   const [loadingTech,  setLoadingTech]  = useState(false);
@@ -59,13 +59,18 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
       setError('Veuillez saisir un superCost valide (supérieur à 0).');
       return;
     }
+    // if (fields.includes('pourcentageReouverture') && (!pourcentageReouverture || parseFloat(pourcentageReouverture) <= 0)) {
+    //   setError('Veuillez saisir un superCost valide (supérieur à 0).');
+    //   return;
+    // }
     setError('');
     
     onConfirm({ 
       technicienId: technicienId ? parseInt(technicienId) : null, 
       solution, 
       cause, 
-      superCost: superCost ? parseFloat(superCost) : 0  // ← Convertir en nombre
+      superCost: superCost ? parseFloat(superCost) : 0,  // ← Convertir en nombre
+      pourcentageReouverture: pourcentageReouverture ? parseFloat(pourcentageReouverture) : 0
     });
   };
 
