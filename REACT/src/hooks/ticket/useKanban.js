@@ -167,9 +167,17 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
                   await SuperCostRepository.createSuperCost({
                       ticketId: ticket.id,
                       itemId: item.id,
-                      cost: costPerItem,
-                      categorie: item.itemType || item.type,
-                      coutglpi: glpiCosts.total_cost || 0
+                      cost: costPerItem || 0,
+                      categorie: item.itemType || item.type
+                      // coutglpi: glpiCosts.total_cost || 0
+                  });
+
+                  // Créer le Cout glpi
+                  await SuperCostRepository.createGlpiCost({
+                      ticketId: ticket.id,
+                      itemId: item.id,
+                      cost: glpiCosts.total_cost || 0,
+                      categorie: item.itemType || item.type
                   });
               } catch (error) {
                   console.error(`Erreur pour l'item ${item.id}:`, error);

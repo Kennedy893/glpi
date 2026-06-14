@@ -92,41 +92,42 @@ export const TicketCostRepository = {
 
     // Nouveau : coût d'un item pour UN ticket précis
     async getCostByTicketAndItem(ticketId, itemId) {
-    try {
-        // Vérifier que cet item est bien lié à ce ticket
-        const allLinks = await apiClient.get(`Ticket/${ticketId}/Item_Ticket`);
-        const isLinked = allLinks.some(link => link.items_id === itemId);
+        try {
+            // Vérifier que cet item est bien lié à ce ticket
+            const allLinks = await apiClient.get(`Ticket/${ticketId}/Item_Ticket`);
+            const isLinked = allLinks.some(link => link.items_id === itemId);
 
-        if (!isLinked) {
-        return { ticketId, itemId, cost_time: 0, cost_fixed: 0, cost_material: 0, total_cost: 0 };
+            // Raha tsisy ticket lié amle item
+            if (!isLinked) {
+                return { ticketId, itemId, cost_time: 0, cost_fixed: 0, cost_material: 0, total_cost: 0 };
+            }
+
+            // Récupérer les coûts de CE ticket uniquement
+            const costs = await this.getCostTicket(ticketId);
+
+            if (!costs || costs.length === 0) {
+                return { ticketId, itemId, cost_time: 0, cost_fixed: 0, cost_material: 0, total_cost: 0 };
+            }
+
+            // Additionner les coûts de ce ticket
+            const totalCostTime     = costs.reduce((sum, c) => sum + (c.cost_time     || 0), 0);
+            const totalCostFixed    = costs.reduce((sum, c) => sum + (c.cost_fixed    || 0), 0);
+            const totalCostMaterial = costs.reduce((sum, c) => sum + (c.cost_material || 0), 0);
+            const totalAll          = costs.reduce((sum, c) => sum + (c.total_cost    || 0), 0);
+
+            return {
+                ticketId,
+                itemId,
+                cost_time:     totalCostTime,
+                cost_fixed:    totalCostFixed,
+                cost_material: totalCostMaterial,
+                total_cost:    parseFloat(totalAll.toFixed(2)),
+            };
+
+        } catch (error) {
+            console.error('[getCostByTicketAndItem] Erreur:', error.message);
+            return { ticketId, itemId, cost_time: 0, cost_fixed: 0, cost_material: 0, total_cost: 0 };
         }
-
-        // Récupérer les coûts de CE ticket uniquement
-        const costs = await this.getCostTicket(ticketId);
-
-        if (!costs || costs.length === 0) {
-        return { ticketId, itemId, cost_time: 0, cost_fixed: 0, cost_material: 0, total_cost: 0 };
-        }
-
-        // Additionner les coûts de ce ticket
-        const totalCostTime     = costs.reduce((sum, c) => sum + (c.cost_time     || 0), 0);
-        const totalCostFixed    = costs.reduce((sum, c) => sum + (c.cost_fixed    || 0), 0);
-        const totalCostMaterial = costs.reduce((sum, c) => sum + (c.cost_material || 0), 0);
-        const totalAll          = costs.reduce((sum, c) => sum + (c.total_cost    || 0), 0);
-
-        return {
-            ticketId,
-            itemId,
-            cost_time:     totalCostTime,
-            cost_fixed:    totalCostFixed,
-            cost_material: totalCostMaterial,
-            total_cost:    parseFloat(totalAll.toFixed(2)),
-        };
-
-    } catch (error) {
-        console.error('[getCostByTicketAndItem] Erreur:', error.message);
-        return { ticketId, itemId, cost_time: 0, cost_fixed: 0, cost_material: 0, total_cost: 0 };
-    }
     },
 
 };

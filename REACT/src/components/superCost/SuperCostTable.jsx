@@ -28,7 +28,7 @@ export const SuperCostTable = ({ stats }) => {
                                 <strong>{item.categorie}</strong>
                             </td>
                             <td>{formatCurrency(item.totalGlpi)}</td>
-                            <td>{formatCurrency(item.totalCout)}</td>
+                            <td>{formatCurrency(item.totalSuper)}</td>
                             <td><strong>{formatCurrency(item.totalGeneral)}</strong></td>
                         </tr>
                     ))}
@@ -37,7 +37,7 @@ export const SuperCostTable = ({ stats }) => {
                     <tr>
                         <td><strong>Total</strong></td>
                         <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalGlpi, 0))}</td>
-                        <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalCout, 0))}</td>
+                        <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalSuper, 0))}</td>
                         <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalGeneral, 0))}</td>
                     </tr>
                 </tfoot>

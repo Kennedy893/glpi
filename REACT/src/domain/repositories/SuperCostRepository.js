@@ -3,7 +3,26 @@ const BASE_URL = 'http://localhost:8081/api/super-cost';
 export const SuperCostRepository = {
     async createSuperCost(data) {
         try {
-            const response = await fetch(BASE_URL, {
+            const response = await fetch(`${BASE_URL}/create/super`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+
+            return await response.json();
+            } catch (error) {
+            console.error('Erreur POST /api/superCost:', error);
+            throw error;
+        }
+    },
+
+    async createGlpiCost(data) {
+        try {
+            const response = await fetch(`${BASE_URL}/create/glpi`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
