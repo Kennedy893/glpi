@@ -1,9 +1,9 @@
 // components/kanban/StatusDialog.jsx
 import { useState, useEffect } from 'react';
 import { UserRepository } from '../../domain/repositories/UserRepository';
-import { useDernierSuperCost } from '../../hooks/superCost/useDernierSuperCost';
 import { TicketCostRepository } from '../../domain/repositories/TicketCostRepository';
 import { SuperCostRepository } from '../../domain/repositories/SuperCostRepository';
+import { useAnnulerCosts } from '../../hooks/superCost/useAnnulerCosts';
 
 const PRIORITY_LABELS = { 1:'Très basse', 2:'Basse', 3:'Moyenne', 4:'Haute', 5:'Très haute', 6:'Majeure' };
 const TYPE_LABELS     = { 1:'Incident', 2:'Demande' };
@@ -14,22 +14,14 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
   const [technicienId, setTechnicienId] = useState('');
   const [solution,     setSolution]     = useState('');
   const [cause,        setCause]        = useState('');
+  const [boutonAnnuler, setBoutonAnnuler] = useState('');
   const [pourcentageReouverture, setPourcentageReouverture] = useState(0);
   const [superCost,    setSuperCost]    = useState('');  // ← Changé: string vide au lieu de 0
   const [techniciens,  setTechniciens]  = useState([]);
   const [loadingTech,  setLoadingTech]  = useState(false);
   const [error,        setError]        = useState('');
 
-  const { dernierSuperCosts } = useDernierSuperCost(ticket.id);
-
-  // const handleReouverture = async () => {
-  //   const coutReouverture = dernierSuperCosts.map(sc => (
-  //     coutFinal = parseFloat(sc.cout || 0) * parseFloat(pourcentageReouverture || 0) / 100,
-  //     await SuperCostRepository.updateReouverture(ticket.id)
-  //   ))
-
-
-  // };
+  const { annuler, messagefinal, nombre_modifies } = useAnnulerCosts();
 
   // Charger les techniciens si le champ est requis
   useEffect(() => {
@@ -76,6 +68,11 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
       superCost: superCost ? parseFloat(superCost) : 0  // ← Convertir en nombre
     });
   };
+
+  const handleAnnuler = async () => {
+    await annuler();
+    alert(messagefinal);
+  }
 
   return (
     <div style={s.overlay} onClick={onCancel}>
@@ -158,6 +155,12 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
               <small style={s.hint}>Montant en Ariary (Ar)</small>
             </div>
           )}
+
+          {fields.includes('boutonAnnuler') && 
+            <div style={s.field}>
+              <button onClick={handleAnnuler}>Annuler</button>
+            </div>
+          }
 
           {/* Champ pourcentageReouverture */}
           {fields.includes('pourcentageReouverture') && (

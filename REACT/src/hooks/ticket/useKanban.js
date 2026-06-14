@@ -25,7 +25,7 @@ const DIALOG_CONFIG = {
   },
   'Closed->In progress': {
     title:  "Reouverture/Annuler",
-    fields: ['pourcentageReouverture'],
+    fields: ['boutonAnnuler', 'pourcentageReouverture'],
   },
 };
 
@@ -115,8 +115,8 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
   };
 
   // ── Confirmation du dialogue ────────────────────────────
-  const confirmDialog = async ({ technicienId, solution, cause, superCost, pourcentageReouverture }) => {
-    await applyStatusChange(dialog.ticket, dialog.newStatus, { technicienId, solution, cause, superCost, pourcentageReouverture });
+  const confirmDialog = async ({ technicienId, solution, cause, superCost, boutonAnnuler, pourcentageReouverture }) => {
+    await applyStatusChange(dialog.ticket, dialog.newStatus, { technicienId, solution, cause, superCost, boutonAnnuler, pourcentageReouverture });
     closeDialog();
   };
 
@@ -141,7 +141,8 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
 
     try {
       // 1 — Créer la solution si résolu
-      if (newStatusId === 6 && extraData.solution?.trim()) {
+      if (newStatusId === 6 && extraData.solution?.trim()) 
+      {
         await TicketRepository.createSolution({
           itemtype: 'Ticket',
           items_id: ticket.id,

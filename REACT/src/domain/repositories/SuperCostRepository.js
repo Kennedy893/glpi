@@ -98,28 +98,11 @@ export const SuperCostRepository = {
         }
     },
 
-    // async updateReouverture(data, ticketId, itemId) {
-    //     try {
-    //         const response = await fetch(`${BASE_URL}/update/${ticketId}/${itemId}`, {
-    //             method: 'PUT',
-    //             headers: { 'Content-Type': 'application/json' },
-    //             body: JSON.stringify(data)
-    //         }),
-    //         return response;
-    //     } catch (error) {
-    //         console.error(`Erreur PUT ${endpoint}:`, error);
-    //         throw error;   
-    //     }
-    // }
-
-    async updateReouverture(data, ticketId, itemId) {
+    // Annuler derniers superCosts
+    async annulerLastSuperCosts() {
         try {
-            const endpoint = `${BASE_URL}/update/${ticketId}/${itemId}`;
-            
-            const response = await fetch(endpoint, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+            const response = await fetch(`${BASE_URL}/annuler/last`, {
+                method: 'POST'
             });
 
             if (!response.ok) {
@@ -127,10 +110,9 @@ export const SuperCostRepository = {
             }
 
             return await response.json();
-            
         } catch (error) {
-            console.error(`Erreur PUT ${BASE_URL}/update/${ticketId}/${itemId}:`, error);
-            throw error;
+            console.error(`Erreur POST /api/super-cost/annuler/last:`, error);
+            return;
         }
     }
     

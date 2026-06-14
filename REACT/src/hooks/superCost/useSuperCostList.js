@@ -1,4 +1,3 @@
-// hooks/supercost/useSuperCostList.js
 import { useState, useEffect, useCallback } from 'react';
 import { SuperCostRepository } from '../../domain/repositories/SuperCostRepository';
 import { AssetRepository } from '../../domain/repositories/AssetRepository';
