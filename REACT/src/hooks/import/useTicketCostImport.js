@@ -2,8 +2,11 @@ import { useState } from "react";
 import { validateAndMapTicketCostRow } from "../../domain/models/import/TicketCostImport";
 import { ImportTicketCostRepository } from "../../domain/repositories/ImportTicketCostRepository";
 import { parseCsv } from "../../domain/models/utils/CsvParser";
+import { TicketRepository } from "../../domain/repositories/TicketRepository";
+import { TicketCostRepository } from "../../domain/repositories/TicketCostRepository";
+import { SuperCostRepository } from "../../domain/repositories/SuperCostRepository";
 
-export const useTicketCostImport = (refToGlpiId) => {
+export const useTicketCostImport = () => {
     const [loading, setLoading] = useState(false);
     const [logs, setLogs] = useState([]);
     const [progress, setProgress] = useState(0);
@@ -25,77 +28,121 @@ export const useTicketCostImport = (refToGlpiId) => {
                     const text = e.target.result;
                     addLog("Lecture du fichier CSV...");
                     
-                    // 1. Parsing fait main
                     const rawRows = parseCsv(text);
-                    // if (rawRows.length === 0) {
-                    //     addLog("❌ Le fichier CSV est vide ou invalide.");
-                    //     setLoading(false);
-                    //     return;
-                    // }
 
                     addLog(`Analyse et validation de ${rawRows.length} lignes...`);
 
-                    // 2. Phase de Validation
+                    // Phase de Validation
                     const validatedRows = [];
                     const allErrors = [];
 
                     rawRows.forEach((rawRow, index) => {
                         const { data, errors } = validateAndMapTicketCostRow(rawRow, index);
                         if (errors.length > 0) {
-                        allErrors.push(...errors);
+                            allErrors.push(...errors);
                         } else {
-                        validatedRows.push(data);
+                            validatedRows.push(data);
                         }
                     });
 
-                    // S'il y a la moindre erreur de validation, on stoppe tout avant d'appeler GLPI
                     if (allErrors.length > 0) {
                         addLog("❌ Échec de la validation du fichier. Corrigez les erreurs suivantes :");
                         allErrors.forEach(err => addLog(err));
                         reject(new Error('Validation échouée'));
-                        // setLoading(false);
                         return;
                     }
 
                     addLog("✅ Validation réussie. Début de l'intégration GLPI...");
 
-                    // 3. Intégration séquentielle GLPI
+                    // === 1. Créer tous les TicketCost dans GLPI ===
                     const totalRows = validatedRows.length;
+                    const ticketCostsByTicket = {}; // Regrouper les coûts par ticket
 
                     for (let i = 0; i < totalRows; i++) {
                         const ticketCost = validatedRows[i];
-                        const ticketCostLogName = `${ticketCost.name} ${ticketCost.numTicket}`;
 
                         try {
-                            // Résolution directe depuis la table en mémoire
                             const glpiTicketId = refToGlpiId[ticketCost.numTicket];
-                            if (!glpiTicketId || glpiTicketId === 0 || glpiTicketId === '') {
-                                console.log("ERREUR glpiTicketId");
-                                reject(new Error(`Ticket ${ticketCost.numTicket} introuvable`));
-                                return;
+                            if (!glpiTicketId) {
+                                addLog(`❌ Ticket ${ticketCost.numTicket} introuvable dans le mapping`);
+                                continue;
                             }
 
-                            const ticketCostId = await ImportTicketCostRepository.createTicketCost({
+                            // Créer le TicketCost dans GLPI
+                            await ImportTicketCostRepository.createTicketCost({
                                 "tickets_id": glpiTicketId,
                                 "actiontime": ticketCost.actiontime,
                                 "cost_time": ticketCost.cost_time,
                                 "cost_fixed": ticketCost.cost_fixed
-                            })
+                            });
+
+                            // Regrouper les coûts par ticket
+                            if (!ticketCostsByTicket[glpiTicketId]) {
+                                ticketCostsByTicket[glpiTicketId] = {
+                                    ticketId: glpiTicketId,
+                                    costs: []
+                                };
+                            }
+                            ticketCostsByTicket[glpiTicketId].costs.push(ticketCost);
+
+                            addLog(`✅ TicketCost créé pour le ticket ${glpiTicketId}`);
+
                         } catch (error) {
                             addLog(`❌ Erreur pour Num_Ticket=${ticketCost.numTicket} : ${error.message || error}`);
-                            reject(new Error(`Erreur sur ticket ${ticketCost.numTicket}: ${error.message}`));
-                            return;
                         }
-                        setProgress(Math.round(((i + 1) / totalRows) * 100));
+                        setProgress(Math.round(((i + 1) / totalRows) * 50)); // 50% pour la création des TicketCost
                     }
+
+                    // === 2. Insérer dans SQLite (SuperCost) UNE FOIS par ticket ===
+                    addLog("📦 Insertion des SuperCosts dans SQLite...");
+                    
+                    const ticketIds = Object.keys(ticketCostsByTicket);
+                    let totalSuperCostsCreated = 0;
+
+                    for (const ticketId of ticketIds) {
+                        const ticketData = ticketCostsByTicket[ticketId];
+                        const glpiTicketId = parseInt(ticketId);
+
+                        try {
+                            // Récupérer les items du ticket
+                            const items = await TicketRepository.getItemsByTicket(glpiTicketId);
+                            
+                            if (items.length > 0) {
+
+                                // Créer un SuperCost pour chaque item avec le coût total
+                                for (const item of items) {
+                                    try {
+                                        const glpiCosts = await TicketCostRepository.getCostByTicketAndItem(glpiTicketId, item.id);
+                                        await SuperCostRepository.createGlpiCost({
+                                            ticketId: glpiTicketId,
+                                            itemId: item.id,
+                                            cost: glpiCosts.total_cost, // ← Coût total du ticket
+                                            categorie: item.itemType || item.type || 'Unknown'
+                                        });
+                                        totalSuperCostsCreated++;
+                                    } catch (error) {
+                                        console.error(`Erreur pour l'item ${item.id}:`, error);
+                                    }
+                                }
+                                
+                                addLog(`💰 ${items.length} SuperCost(s) créé(s) pour le ticket ${glpiTicketId} (coût total: ${totalCost})`);
+                            } else {
+                                addLog(`⚠️ Aucun item trouvé pour le ticket ${glpiTicketId}`);
+                            }
+
+                        } catch (error) {
+                            addLog(`❌ Erreur lors de l'insertion SQLite pour le ticket ${glpiTicketId}: ${error.message}`);
+                        }
+                        
+                        setProgress(50 + Math.round(((ticketIds.indexOf(ticketId) + 1) / ticketIds.length) * 50));
+                    }
+
                     addLog("🏁 Import des coûts terminé.");
-                    // addLog(`✅ Coût créé (ID: ${ticketCostId})`);
-                    resolve({ success: true, count: totalRows });
-                    // resolve(); // signale la fin réelle
+                    addLog(`✅ ${totalSuperCostsCreated} SuperCost(s) créé(s) au total.`);
+                    resolve({ success: true, count: totalRows, superCostsCreated: totalSuperCostsCreated });
                     
                 } catch (err) {
                     addLog(`❌ Erreur critique lors du traitement : ${err.message}`);
-                    // resolve(); // resolve même en cas d'erreur pour ne pas bloquer la chaîne
                     reject(err);
                 } finally {
                     setLoading(false);
@@ -105,11 +152,9 @@ export const useTicketCostImport = (refToGlpiId) => {
             reader.onerror = () => {
                 addLog("❌ Erreur lors de la lecture physique du fichier.");
                 setLoading(false);
-                // resolve(); // ne pas rejeter pour ne pas bloquer la chaîne
                 reject(new Error('Erreur lecture fichier'));
             };
 
-            // Déclenche la lecture du fichier en texte UTF-8
             reader.readAsText(file, 'UTF-8');
         });
     }

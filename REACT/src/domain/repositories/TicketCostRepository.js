@@ -90,7 +90,7 @@ export const TicketCostRepository = {
         }
     },
 
-    // Nouveau : coût d'un item pour UN ticket précis
+    // Cout d'un item pour UN ticket précis
     async getCostByTicketAndItem(ticketId, itemId) {
         try {
             // Vérifier que cet item est bien lié à ce ticket

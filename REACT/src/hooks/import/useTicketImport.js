@@ -4,6 +4,8 @@ import { validateAndMapTicketRow } from "../../domain/models/import/TicketImport
 import { ImportTicketRepository } from "../../domain/repositories/ImportTicketRepository";
 import { ImportAssetVerif } from '../../domain/repositories/ImportAssetVerif';
 
+const REF_TO_GLPI_STORAGE_KEY = 'refToGlpiMapping';
+
 export const useTicketImport = () => {
     const [loading, setLoading] = useState(false);
     const [logs, setLogs] = useState([]);
@@ -203,6 +205,19 @@ export const useTicketImport = () => {
                     }
                     setProgress(Math.round(((i + 1) / totalRows) * 100));
                 }
+
+                // STOCKER DANS LOCALSTORAGE LA CORRESPONDANCE
+                try {
+                    // Récupérer l'ancien mapping s'il existe
+                    const existingMapping = JSON.parse(localStorage.getItem(REF_TO_GLPI_STORAGE_KEY) || '{}');
+                    // Fusionner les deux mappings
+                    const mergedMapping = { ...existingMapping, ...refToGlpiId };
+                    localStorage.setItem(REF_TO_GLPI_STORAGE_KEY, JSON.stringify(mergedMapping));
+                    addLog(`✅ Correspondances sauvegardées dans localStorage (${Object.keys(refToGlpiId).length} nouvelles entrées)`);
+                } catch (storageError) {
+                    addLog(`⚠️ Erreur lors de la sauvegarde dans localStorage: ${storageError.message}`);
+                }
+
                 addLog("🏁 Processus d'importation terminé.");
                 resolve(refToGlpiId); // ✅ retourne la table via resolve
                 return refToGlpiId;

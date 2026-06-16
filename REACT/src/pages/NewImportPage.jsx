@@ -4,15 +4,14 @@ import { useNewImport } from "../hooks/import/useNewImport";
 export const NewImportPage = () => {
 
     const [file,      setFile]      = useState(null);
+    
+    // const refToGlpiId = {
+    //     "1": 214,
+    //     "2": 215
+    // };
 
-    // const refToGlpiId = {};
-    // refToGlpiId["1"] = 208;
-    // refToGlpiId["2"] = 209;
-
-    const refToGlpiId = {
-        "1": 214,
-        "2": 215
-    };
+    const resLocal = localStorage.getItem('refToGlpiMapping');
+    const refToGlpiId = resLocal ? JSON.parse(resLocal) : {};
 
     const {
         importCsv: importCsv,
