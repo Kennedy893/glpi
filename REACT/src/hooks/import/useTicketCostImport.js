@@ -54,7 +54,7 @@ export const useTicketCostImport = () => {
 
                     addLog("✅ Validation réussie. Début de l'intégration GLPI...");
 
-                    // === 1. Créer tous les TicketCost dans GLPI ===
+                    // 1. Créer tous les TicketCost dans GLPI 
                     const totalRows = validatedRows.length;
                     const ticketCostsByTicket = {}; // Regrouper les coûts par ticket
 
@@ -93,7 +93,7 @@ export const useTicketCostImport = () => {
                         setProgress(Math.round(((i + 1) / totalRows) * 50)); // 50% pour la création des TicketCost
                     }
 
-                    // === 2. Insérer dans SQLite (SuperCost) UNE FOIS par ticket ===
+                    // 2. Insérer dans SQLite (SuperCost) UNE FOIS par ticket
                     addLog("📦 Insertion des SuperCosts dans SQLite...");
                     
                     const ticketIds = Object.keys(ticketCostsByTicket);

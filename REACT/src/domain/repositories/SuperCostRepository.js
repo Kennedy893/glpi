@@ -168,6 +168,24 @@ export const SuperCostRepository = {
             console.error(`Erreur GET /api/super-cost/last/${ticketId}:`, error);
             return [];
         }
+    },
+
+    // Supprimer toutes les données de la table SuperCost
+    async deleteAll() {
+        try {
+            const response = await fetch(`${BASE_URL}/all`, {
+                method: 'DELETE'
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+
+            return response;
+            } catch (error) {
+            console.error('Erreur DELETE /api/all:', error);
+            throw error;
+        }
     }
     
 }

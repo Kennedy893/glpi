@@ -1,8 +1,10 @@
 import { useResetData } from "../hooks/reset/useResetData";
 import '../assets/css/reset.css';
+import { useDeleteAll } from "../hooks/superCost/useDeleteAll";
 
 export const ResetPage = () => {
   const { resetData, loading, logs, stats, clearLogs } = useResetData();
+  const { deleteAll } = useDeleteAll();
 
   const handleReset = async () => {
     if (window.confirm(
@@ -11,6 +13,7 @@ export const ResetPage = () => {
       "Êtes-vous absolument sûr de vouloir continuer ?"
     )) {
       await resetData();
+      await deleteAll();
     }
   };
 
