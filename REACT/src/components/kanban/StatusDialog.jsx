@@ -74,10 +74,20 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
     });
   };
 
-  const handleAnnuler = async () => {
-    await annuler();
-    alert(messagefinal);
-  }
+  // const handleAnnuler = async () => {
+  //   await annuler();
+  //   alert(messagefinal);
+  // }
+  // Utiliser useEffect pour détecter quand messagefinal change
+useEffect(() => {
+    if (messagefinal) {
+        alert(messagefinal);
+    }
+}, [messagefinal]);  // ← Se déclenche quand messagefinal change
+
+const handleAnnuler = async () => {
+    await annuler();  // L'alert se déclenchera automatiquement après la mise à jour
+}
 
   return (
     <div style={s.overlay} onClick={onCancel}>

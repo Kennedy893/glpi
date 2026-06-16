@@ -97,7 +97,7 @@ export const usePresentation = () => {
         }
     };
 
-    // 💡 Ne pas oublier de retourner les états et données pour les utiliser dans ton composant UI
+    // Ne pas oublier de retourner les états et données pour les utiliser dans ton composant UI
     return {
         ticketsStatusMap,
         loading,

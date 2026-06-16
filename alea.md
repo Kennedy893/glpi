@@ -7,15 +7,22 @@ rah ticket iray misy pc 2 => cout/2
 
 cout tany am import | cout 
 
-PC | cout glpi | super cost | total
-
-
-la suite du sujet c'est :
-- ajouter un champ "superCost" quand on glisse vers "terminé" et ce superCost doit etre inseré dans sqlite (l'app spring-boot qui expose l'endpoint de creation)
-- ensuite on cree une nouvelle page de liste des items (qui contient les colonnes : itemName, cout de glpi, le supercost et le cout total)
-Alors la table SuperCost doit avoir : ticketId, ItemId et cout
+colonnes affichena : PC | cout glpi | super cost | total
 
 Get-ChildItem C:\aaa -Recurse -File |
 Where-Object {$_.LastWriteTime -gt (Get-Date).AddMinutes(-30)} |
 Sort-Object LastWriteTime -Descending |
 Select-Object LastWriteTime, FullName
+
+Get-ChildItem C:\wamp64\www\glpi -Recurse -File |
+Where-Object {$_.LastWriteTime -gt (Get-Date).AddMinutes(-30)} |
+Sort-Object LastWriteTime -Descending |
+Select-Object LastWriteTime, FullName
+
+-------------------------------------------------------
+
+- page vaovao fanaovana import
+atao am import = ireo mouvements nitranga
+csv 3 colonnes : ticket|mvt|valeur : 2|open|5 : ticket num 2 atao reopen, 5%;
+2|cancel| : annulena ilay ticket num 2; 2|close|100 : terminé avec cost=100
+- any amle tableau => cliquer cat laptop (avec 2 items) => item 1 : reouverture = ..., item 2 = ..... <=> details par item

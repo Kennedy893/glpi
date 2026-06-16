@@ -12,6 +12,7 @@ import { AssetsPage } from '../pages/asset/AssetsPage';
 import { KanbanPage } from '../pages/kanban/KanbanPage';
 import { KanbanSettingsPage } from '../pages/kanban/KanbanSettingsPage';
 import { SuperCostListPage } from '../pages/superCost/SuperCostListPage';
+import { NewImportPage } from '../pages/NewImportPage';
 
 const RouteConfig = () => {
   return (
@@ -40,6 +41,12 @@ const RouteConfig = () => {
       <Route path="/frontoffice/couts" element={
         <BackofficeLayout>
             <SuperCostListPage />
+        </BackofficeLayout>
+      } />
+
+      <Route path="/new-import" element={
+        <BackofficeLayout>
+            <NewImportPage />
         </BackofficeLayout>
       } />
       

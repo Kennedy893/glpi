@@ -71,6 +71,14 @@ useRef → garde une référence mutable qui ne déclenche pas de re-rendu (acc�
                     setItems(prev => prev.filter(i => i.id !== id));
                 }, []); // stable → MyList ne se re-rend pas inutilement
 
+                const handleDelete = useCallback((idToDelete) => {
+                    setItems((previousItems) => {
+                        return previousItems.filter((item) => {
+                            return item.id !== idToDelete;
+                        });
+                    });
+                }, []);
+
                 return <MyList items={items} onDelete={handleDelete} />;
                 // où MyList = React.memo(({ items, onDelete }) => ...)
 
