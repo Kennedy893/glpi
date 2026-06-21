@@ -29,7 +29,7 @@ export const SuperCostRepository = {
                 body: JSON.stringify(data),
             });
 
-            if (!response.ok) {
+            if (!response.ok || response === null) {
                 throw new Error(`Erreur HTTP: ${response.status}`);
             }
 
@@ -170,6 +170,72 @@ export const SuperCostRepository = {
         }
     },
 
+    // Recuperer le premier superCost
+    async getFirstSuperCost(ticketId) {
+        try {
+            const response = await fetch(`${BASE_URL}/first/${ticketId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error(`Erreur GET /api/super-cost/last/${ticketId}:`, error);
+            return [];
+        }
+    },
+
+    // SOMME
+    // Recuperer le dernier superCost
+    async getSumSuperCost(ticketId) {
+        try {
+            const response = await fetch(`${BASE_URL}/sum/${ticketId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+            
+            const data = await response.json();
+            console.log('Données reçues:', data); // Maintenant c'est le vrai tableau
+            return data;
+        } catch (error) {
+            console.error(`Erreur GET /api/super-cost/somme/${ticketId}:`, error);
+            return [];
+        }
+    },
+
+    // AVG
+    async getAvgSuperCost(ticketId) {
+        try {
+            const response = await fetch(`${BASE_URL}/avg/${ticketId}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`Erreur HTTP: ${response.status}`);
+            }
+
+            return await response.json();
+        } catch (error) {
+            console.error(`Erreur GET /api/super-cost/last/${ticketId}:`, error);
+            return [];
+        }
+    },
+
     // Supprimer toutes les données de la table SuperCost
     async deleteAll() {
         try {
@@ -185,6 +251,25 @@ export const SuperCostRepository = {
             } catch (error) {
             console.error('Erreur DELETE /api/all:', error);
             throw error;
+        }
+    },
+
+    // Get by categorie
+    async getByCategorie(categorie) {
+        try {
+            const response = await fetch(`${BASE_URL}/${categorie}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+            console.log('[SuperCostRepository] getByCategorie:', data);
+            return data;
+        } catch (error) {
+            console.log(error);
+            return [];
         }
     }
     

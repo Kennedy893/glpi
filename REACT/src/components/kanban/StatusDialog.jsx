@@ -18,6 +18,7 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
   const [pourcentageReouverture, setPourcentageReouverture] = useState('');
   const [superCost,    setSuperCost]    = useState('');  // ← Changé: string vide au lieu de 0
   const [techniciens,  setTechniciens]  = useState([]);
+  const [mode, setMode] = useState('');
   const [loadingTech,  setLoadingTech]  = useState(false);
   const [error,        setError]        = useState('');
 
@@ -70,7 +71,8 @@ export const StatusDialog = ({ dialog, onConfirm, onCancel }) => {
       solution, 
       cause, 
       superCost: superCost ? parseFloat(superCost) : 0,  // ← Convertir en nombre
-      pourcentageReouverture: pourcentageReouverture ? parseFloat(pourcentageReouverture) : 0
+      pourcentageReouverture: pourcentageReouverture ? parseFloat(pourcentageReouverture) : 0,
+      mode: mode
     });
   };
 
@@ -192,8 +194,36 @@ const handleAnnuler = async () => {
                 step="100"
               />%
             </div>
-            <div>
+            {/* <div>
               <button>Reouverture</button>
+            </div> */}
+            </div>
+          )}
+
+          {/* Select mode */}
+          {fields.includes('mode') && (
+            <div>
+            <div style={s.field}>
+              <label style={s.label}>Mode *</label>
+              <select
+                style={s.select}
+                value={mode}
+                onChange={e => setMode(e.target.value)}
+              >
+                <option value="">-- Sélectionner un mode --</option>
+                  <option value={1}>
+                    mode 1
+                  </option>
+                  <option value={2}>
+                    mode 2
+                  </option>
+                  <option value={3}>
+                    mode 3
+                  </option>
+                  <option value={4}>
+                    mode 4
+                  </option>
+              </select>
             </div>
             </div>
           )}

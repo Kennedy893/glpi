@@ -1,0 +1,14 @@
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\KanbanSettingsApplication.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\dto\KanbanSettingsDTO.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\dto\SuperCostSummaryDTO.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\dto\CategorieStatsDTO.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\service\KanbanSettingsService.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\config\CorsConfig.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\controller\KanbanSettingsController.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\entity\KanbanColumn.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\controller\SuperCostController.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\entity\SuperCost.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\repository\SuperCostRepository.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\repository\KanbanColumnRepository.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\dto\SuperCostDTO.java
+C:\wamp64\www\glpi\demo\src\main\java\com\example\demo\service\SuperCostService.java

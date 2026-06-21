@@ -95,7 +95,7 @@ export const useNewImport =  (refToGlpiId) => {
                     const items = await TicketRepository.getItemsByTicket(glpiTicketId);
                     const nbItems = items.length;
 
-                    if (nbItems > 0 && ligne.valeur && parseFloat(ligne.valeur) > 0) 
+                    if (nbItems > 0) 
                     {
                         const costPerItem = parseFloat(ligne.valeur) / nbItems;
 
@@ -115,12 +115,12 @@ export const useNewImport =  (refToGlpiId) => {
                                 
 
                                 // Créer le Cout glpi
-                                await SuperCostRepository.createGlpiCost({
-                                    ticketId: glpiTicketId,
-                                    itemId: item.id,
-                                    cost: glpiCosts.total_cost || 0,
-                                    categorie: item.itemType || item.type
-                                });
+                                // await SuperCostRepository.createGlpiCost({
+                                //     ticketId: glpiTicketId,
+                                //     itemId: item.id,
+                                //     cost: glpiCosts.total_cost || 0,
+                                //     categorie: item.itemType || item.type
+                                // });
                             } catch (error) {
                                 console.error(`Erreur pour l'item ${item.id}:`, error);
                             }
@@ -135,11 +135,50 @@ export const useNewImport =  (refToGlpiId) => {
                     const nbItems = items.length;
                     const superCost = await SuperCostRepository.getLastSuperCost(glpiTicketId);
                     console.log(superCost);
+
+                    const firstSuperCost = await SuperCostRepository.getFirstSuperCost(glpiTicketId);
+
+                    const sumSP = await SuperCostRepository.getSumSuperCost(glpiTicketId);
+                    let coutSomme = 0;
+                    if (Array.isArray(sumSP) && sumSP.length > 0) {
+                        coutSomme = sumSP[0][3] || 0;
+                        console.log('💰 Premier cout:', coutSomme);
+                    } else {
+                        console.log('Aucune donnée');
+                    }
+
+                    const averageSP = await SuperCostRepository.getAvgSuperCost(glpiTicketId);
+                    let coutAvg = 0;
+                    if (Array.isArray(averageSP) && averageSP.length > 0) {
+                        coutAvg = averageSP[0][3] || 0;
+                        console.log('💰 Premier cout:', coutAvg);
+                    } else {
+                        console.log('Aucune donnée');
+                    }
                     
-                    if (nbItems > 0 && ligne.valeur && parseFloat(ligne.valeur) > 0) 
+                    let cost = 0;
+                    if (nbItems > 0 && ligne.valeur && parseFloat(ligne.valeur) >= 0) 
                     {
-                        const cost = parseFloat(superCost[0].cout || 0) * ligne.valeur / 100;
-                        
+                        // 1- COUT FARANY
+                        if (ligne.mode === '1') {
+                            cost = parseFloat(superCost[0].cout || 0) * ligne.valeur / 100;  
+                        }
+
+                        // 2- COUT VOALOHANY
+                        else if (ligne.mode === '2') {
+                            cost = parseFloat(firstSuperCost[0].cout || 0) * ligne.valeur / 100;
+                        }
+
+                        // 3- MOYENNE DES COUTS
+                        else if (ligne.mode === '3') {
+                            cost = parseFloat(coutAvg || 0) * ligne.valeur / 100;
+                        }
+
+                        // 4- SOMME DES COUTS
+                        else if (ligne.mode === '4') {
+                            cost = parseFloat(coutSomme || 0) / nbItems * ligne.valeur / 100;
+                        }
+
                         // Créer un supercost pour chaque item
                         for (const item of items) {
                             try {

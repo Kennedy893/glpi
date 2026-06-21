@@ -1,11 +1,20 @@
 // components/supercost/SuperCostTable.jsx
-import React from 'react';
+import React, { useState } from 'react';
+import { DetailsByCategorie } from './DetailsByCategorie';
 
 const formatCurrency = (amount) => {
     return `${amount || 0}`;
 };
 
 export const SuperCostTable = ({ stats }) => {
+    const [showModal, setShowModal] = useState(false);
+    const [categorie, setCategorie] = useState('');
+
+    const handleRowClick = (categorie) => {
+        setCategorie(categorie);
+        setShowModal(true);
+    };
+    
     if (stats.length === 0) {
         return <div className="empty-state">Aucun super cost enregistré</div>;
     }
@@ -25,13 +34,13 @@ export const SuperCostTable = ({ stats }) => {
                 <tbody>
                     {stats.map((item) => (
                         <tr key={item.categorie}>
-                            <td>
+                            <td onClick={() => handleRowClick(item.categorie)}  style={{ cursor: 'pointer' }}>
                                 <strong>{item.categorie}</strong>
                             </td>
                             <td>{formatCurrency(item.totalGlpi)}</td>
                             <td>{formatCurrency(item.totalSuper)}</td>
                             <td>{formatCurrency(item.totalReouverture)}</td>
-                            <td><strong>{formatCurrency(item.totalGeneral)}</strong></td>
+                            <td style={{ backgroundColor: "yellow" }}><strong>{formatCurrency(item.totalGeneral)}</strong></td>
                         </tr>
                     ))}
                 </tbody>
@@ -41,10 +50,18 @@ export const SuperCostTable = ({ stats }) => {
                         <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalGlpi, 0))}</td>
                         <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalSuper, 0))}</td>
                         <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalReouverture, 0))}</td>
-                        <td>{formatCurrency(stats.reduce((sum, i) => sum + i.totalGeneral, 0))}</td>
+                        <td style={{ backgroundColor: "yellow" }}>{formatCurrency(stats.reduce((sum, i) => sum + i.totalGeneral, 0))}</td>
                     </tr>
                 </tfoot>
             </table>
+
+            {showModal && (
+                <DetailsByCategorie
+                    categorie={categorie}
+                    onClose={() => setShowModal(false)}
+                />
+            )}
         </div>
+        
     );
 };

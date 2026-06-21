@@ -276,4 +276,34 @@ async getAssetImages(assetId, assetType = 'Computer') {
             return null;
         }
     },
+
+    async getAssetByIdAndType(assetId, itemType) {
+        try {
+            // const assetTypes = ['Computer', 'Monitor', 'Phone', 'Printer', 'NetworkEquipment'];
+            
+            // for (const type of assetTypes) {
+                try {
+                    const response = await apiClient.get(`${itemType}/${assetId}`);
+                    if (response && response.id) {
+                        console.log(response);
+                        
+                        return {
+                            ...response,
+                            itemtype: itemType
+                        };
+                    }
+                } catch (err) {
+                    console.log('[getAssetByIdAndType] erreur = ', err);
+                    
+                }
+            // }
+            
+            console.warn(`Asset ${assetId} non trouvé`);
+            return null;
+            
+        } catch (error) {
+            console.error('[AssetRepository] getAssetById error:', error);
+            return null;
+        }
+    },
 }

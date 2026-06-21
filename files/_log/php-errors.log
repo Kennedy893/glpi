@@ -27918,3 +27918,47 @@
   .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
   .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
 
+[2026-06-16 18:15:55] glpi.WARNING:   *** Warning: unserialize(): Error at offset 49094 of 49109 bytes at DefaultMarshaller.php line 74
+  Backtrace :
+  ...mfony\cache\Marshaller\DefaultMarshaller.php:74 
+  ...dor\symfony\cache\Traits\FilesystemTrait.php:68 Symfony\Component\Cache\Marshaller\DefaultMarshaller->unmarshall()
+  ...mfony\cache\Traits\AbstractAdapterTrait.php:193 Symfony\Component\Cache\Adapter\FilesystemAdapter->doFetch()
+  .\vendor\symfony\cache\Psr16Cache.php:90           Symfony\Component\Cache\Adapter\AbstractAdapter->getItem()
+  .\src\Glpi\Cache\SimpleCache.php:46                Symfony\Component\Cache\Psr16Cache->get()
+  .\src\DbUtils.php:450                              Glpi\Cache\SimpleCache->get()
+  .\src\DbUtils.php:535                              DbUtils->fixItemtypeCase()
+  .\src\DbUtils.php:555                              DbUtils->getClassForItemtype()
+  .\src\autoload\dbutils-aliases.php:171             DbUtils->getItemForItemtype()
+  .\src\ITILSolution.php:136                         getItemForItemtype()
+  .\src\CommonDBTM.php:355                           ITILSolution->post_getFromDB()
+  .\src\Glpi\Api\API.php:2173                        CommonDBTM->getFromDB()
+  .\src\Glpi\Api\APIRest.php:390                     Glpi\Api\API->deleteItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+
+[2026-06-16 18:15:55] glpi.WARNING:   *** Failed to fetch key "{key}": Failed to unserialize values.
+  Backtrace :
+  ...mfony\cache\Marshaller\DefaultMarshaller.php:83 
+  ...dor\symfony\cache\Traits\FilesystemTrait.php:68 Symfony\Component\Cache\Marshaller\DefaultMarshaller->unmarshall()
+  ...mfony\cache\Traits\AbstractAdapterTrait.php:193 Symfony\Component\Cache\Adapter\FilesystemAdapter->doFetch()
+  .\vendor\symfony\cache\Psr16Cache.php:90           Symfony\Component\Cache\Adapter\AbstractAdapter->getItem()
+  .\src\Glpi\Cache\SimpleCache.php:46                Symfony\Component\Cache\Psr16Cache->get()
+  .\src\DbUtils.php:450                              Glpi\Cache\SimpleCache->get()
+  .\src\DbUtils.php:535                              DbUtils->fixItemtypeCase()
+  .\src\DbUtils.php:555                              DbUtils->getClassForItemtype()
+  .\src\autoload\dbutils-aliases.php:171             DbUtils->getItemForItemtype()
+  .\src\ITILSolution.php:136                         getItemForItemtype()
+  .\src\CommonDBTM.php:355                           ITILSolution->post_getFromDB()
+  .\src\Glpi\Api\API.php:2173                        CommonDBTM->getFromDB()
+  .\src\Glpi\Api\APIRest.php:390                     Glpi\Api\API->deleteItems()
+  .\src\Glpi\Controller\ApiRestController.php:59     Glpi\Api\APIRest->call()
+  .\vendor\symfony\http-kernel\HttpKernel.php:101    Glpi\Controller\ApiRestController->Glpi\Controller\{closure}()
+  ...ymfony\http-foundation\StreamedResponse.php:106 Symfony\Component\HttpKernel\HttpKernel::Symfony\Component\HttpKernel\{closure}()
+  .\vendor\symfony\http-foundation\Response.php:423  Symfony\Component\HttpFoundation\StreamedResponse->sendContent()
+  .\src\Glpi\Kernel\Kernel.php:295                   Symfony\Component\HttpFoundation\Response->send()
+  .\public\index.php:73                              Glpi\Kernel\Kernel->sendResponse()
+

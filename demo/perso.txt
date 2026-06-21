@@ -1,0 +1,359 @@
+@Query("SELECT new com.example.demo.dto.CategorieStatsDTO(" +
+       "s.categorie, " +
+       "SUM(CASE WHEN s.type_cout = 1 THEN s.cout ELSE 0 END), " +
+       "SUM(CASE WHEN s.type_cout = 2 THEN s.cout ELSE 0 END)) " +
+       "FROM SuperCost s " +
+       "GROUP BY s.categorie")
+List<CategorieStatsDTO> getCoutStatsByCategorie();
+
+
+id	categorie	cout	type_cout
+1	Computer	100	    1 (superCost)
+2	Computer	50	    1 (superCost)
+3	Computer	80	    2 (coutglpi)
+4	Computer	120	    2 (coutglpi)
+5	Monitor	    200	    1 (superCost)
+6	Monitor	    50	    2 (coutglpi)
+
+La requête va calculer :
+Pour categorie "Computer" :
+
+SUM(CASE WHEN type_cout = 1 THEN cout ELSE 0 END) = 100 + 50 = 150 (total_superCost)
+
+SUM(CASE WHEN type_cout = 2 THEN cout ELSE 0 END) = 80 + 120 = 200 (total_glpiCost)
+
+Pour categorie "Monitor" :
+
+SUM(CASE WHEN type_cout = 1 THEN cout ELSE 0 END) = 200 (total_superCost)
+
+SUM(CASE WHEN type_cout = 2 THEN cout ELSE 0 END) = 50 (total_glpiCost)
+
+Résultat final :
+List<CategorieStatsDTO> results = repository.getCoutStatsByCategorie();
+
+// results contient :
+[
+    CategorieStatsDTO(
+        categorie: "Computer",
+        totalSuper: 150.0,    // ← total_superCost
+        totalGlpi: 200.0,     // ← total_glpiCost
+        totalGeneral: 350.0
+    ),
+    CategorieStatsDTO(
+        categorie: "Monitor",
+        totalSuper: 200.0,    // ← total_superCost
+        totalGlpi: 50.0,      // ← total_glpiCost
+        totalGeneral: 250.0
+    )
+]
+
+
+------------------------
+MISE A JOUR DERNIER COUT
+// Repository
+@Query("SELECT s FROM SuperCost s WHERE s.type_cout = 1 AND s.createdAt = (SELECT MAX(s2.createdAt) FROM SuperCost s2)")
+List<SuperCost> getLastSuperCost();
+
+// Service
+@Service
+@Transactional
+public class SuperCostService {
+    
+    @Autowired
+    private SuperCostRepository repository;
+    
+    @Transactional
+    public int annulerDernierSuperCost() {
+        List<SuperCost> lastCosts = repository.getLastSuperCost();
+        int updatedCount = 0;
+        
+        for (SuperCost cost : lastCosts) {
+            cost.setCout(0.0);
+            repository.save(cost);  // ← IMPORTANT: Sauvegarder en base
+            updatedCount++;
+        }
+        
+        return updatedCount;
+    }
+}
+
+// Controller
+@PostMapping("/annuler/last")
+public ResponseEntity<?> annulerDernierSuperCost() {
+    int count = service.annulerDernierSuperCost();
+    return ResponseEntity.ok(Map.of(
+        "message", "Derniers coûts annulés avec succès",
+        "nombre_modifies", count
+    ));
+}
+
+
+----------
+
+// ===== NOUVELLES REQUÊTES =====
+
+// 1. Recherche par catégorie
+List<SuperCost> findByCategorie(String categorie);
+List<SuperCost> findByCategorieContainingIgnoreCase(String categorie);
+
+// 2. Recherche par plages de coûts
+List<SuperCost> findByCoutBetween(Double minCout, Double maxCout);
+List<SuperCost> findByCoutGreaterThan(Double minCout);
+List<SuperCost> findByCoutLessThan(Double maxCout);
+
+// 3. Recherche par réouverture
+List<SuperCost> findByReouvertureGreaterThan(Double minReouverture);
+List<SuperCost> findByReouvertureIsNull();
+List<SuperCost> findByReouvertureIsNotNull();
+
+// 4. Recherche par date (supposant que createdAt est stocké en format ISO)
+List<SuperCost> findByCreatedAtBetween(String startDate, String endDate);
+List<SuperCost> findByCreatedAtAfter(String date);
+List<SuperCost> findByCreatedAtBefore(String date);
+
+// ===== REQUÊTES AVEC @Query (JPQL) =====
+
+// 5. Somme des coûts par ticket
+@Query("SELECT SUM(s.cout) FROM SuperCost s WHERE s.ticketId = :ticketId")
+Double sumCoutByTicketId(@Param("ticketId") Long ticketId);
+
+// 6. Somme des coûts par item
+@Query("SELECT SUM(s.cout) FROM SuperCost s WHERE s.itemId = :itemId")
+Double sumCoutByItemId(@Param("itemId") Long itemId);
+
+// 7. Coût total incluant les réouvertures par ticket
+@Query("SELECT SUM(s.cout + COALESCE(s.reouverture, 0)) FROM SuperCost s WHERE s.ticketId = :ticketId")
+Double sumTotalCostWithReopenByTicketId(@Param("ticketId") Long ticketId);
+
+// 8. Moyenne des coûts par catégorie
+// @Query("SELECT s.categorie, AVG(s.cout) as moyenne, COUNT(s) as nombre, SUM(s.cout) as total " +
+//        "FROM SuperCost s GROUP BY s.categorie")
+// List<Object[]> getCoutStatsByCategorie();
+
+// 9. Top N des tickets les plus chers
+@Query("SELECT s.ticketId, SUM(s.cout) as totalCout FROM SuperCost s " +
+        "GROUP BY s.ticketId ORDER BY totalCout DESC LIMIT :limit")
+List<Object[]> findTopExpensiveTickets(@Param("limit") int limit);
+
+// 10. Coûts par période (jour/semaine/mois)
+@Query("SELECT DATE(s.createdAt) as date, SUM(s.cout) as totalCout, COUNT(s) as nombre " +
+        "FROM SuperCost s WHERE s.createdAt BETWEEN :startDate AND :endDate " +
+        "GROUP BY DATE(s.createdAt) ORDER BY date DESC")
+List<Object[]> getCostsByDateRange(@Param("startDate") String startDate, 
+                                    @Param("endDate") String endDate);
+
+// 11. Tickets sans coût GLPI (coutglpi null ou 0)
+@Query("SELECT s FROM SuperCost s WHERE s.coutglpi IS NULL OR s.coutglpi = 0")
+List<SuperCost> findTicketsWithoutGlpiCost();
+
+// 12. Coût GLPI supérieur au coût calculé
+@Query("SELECT s FROM SuperCost s WHERE s.coutglpi IS NOT NULL AND s.cout IS NOT NULL " +
+        "AND s.coutglpi > s.cout")
+List<SuperCost> findWhereGlpiCostHigherThanCalculated();
+
+// 13. Supprimer les enregistrements par ticket (batch delete)
+@Modifying
+@Transactional
+@Query("DELETE FROM SuperCost s WHERE s.ticketId = :ticketId")
+void deleteByTicketId(@Param("ticketId") Long ticketId);
+
+// 14. Supprimer les enregistrements par item
+@Modifying
+@Transactional
+@Query("DELETE FROM SuperCost s WHERE s.itemId = :itemId")
+void deleteByItemId(@Param("itemId") Long itemId);
+
+// 15. Mettre à jour la catégorie pour un ticket
+@Modifying
+@Transactional
+@Query("UPDATE SuperCost s SET s.categorie = :categorie WHERE s.ticketId = :ticketId")
+int updateCategorieByTicketId(@Param("ticketId") Long ticketId, 
+                                @Param("categorie") String categorie);
+
+// ===== REQUÊTES AVEC JOIN ET AGRÉGATIONS COMPLEXES =====
+
+// 16. Statistiques globales
+@Query("SELECT COUNT(s) as total, SUM(s.cout) as sommeTotale, AVG(s.cout) as moyenne, " +
+        "MIN(s.cout) as minimum, MAX(s.cout) as maximum " +
+        "FROM SuperCost s")
+Map<String, Object> getGlobalStatistics();
+
+// 17. Répartition des coûts par catégorie avec pourcentage
+@Query("SELECT s.categorie, " +
+        "SUM(s.cout) as totalCout, " +
+        "COUNT(s) as nombre, " +
+        "(SUM(s.cout) * 100.0 / (SELECT SUM(cout) FROM SuperCost)) as pourcentage " +
+        "FROM SuperCost s GROUP BY s.categorie")
+List<Object[]> getCostDistributionByCategorie();
+
+// 18. Coûts par ticket avec réouvertures (vue détaillée)
+@Query("SELECT s.ticketId, " +
+        "COUNT(s) as nombreLignes, " +
+        "SUM(s.cout) as totalCout, " +
+        "SUM(COALESCE(s.reouverture, 0)) as totalReouverture, " +
+        "SUM(s.cout + COALESCE(s.reouverture, 0)) as totalGeneral " +
+        "FROM SuperCost s GROUP BY s.ticketId ORDER BY totalGeneral DESC")
+List<Object[]> getDetailedCostsByTicket();
+
+// 19. Items avec leurs coûts totaux (pour dashboard)
+@Query("SELECT s.itemId, " +
+        "SUM(s.cout) as totalCout, " +
+        "COUNT(DISTINCT s.ticketId) as nombreTickets, " +
+        "AVG(s.cout) as coutMoyen " +
+        "FROM SuperCost s WHERE s.itemId IS NOT NULL " +
+        "GROUP BY s.itemId ORDER BY totalCout DESC")
+List<Object[]> getCostsByItem();
+
+// 20. Détection des anomalies (coûts anormalement élevés)
+@Query("SELECT s FROM SuperCost s WHERE s.cout > " +
+        "(SELECT AVG(s2.cout) + 2 * STDDEV(s2.cout) FROM SuperCost s2)")
+List<SuperCost> findAnomalousHighCosts();
+
+// ===== REQUÊTES NATIVES SQL (pour performances ou fonctions spécifiques) =====
+
+// 21. Export CSV-ready des coûts par période
+@Query(value = "SELECT ticket_id, item_id, cout, reouverture, coutglpi, categorie, created_at " +
+        "FROM super_cost WHERE DATE(created_at) BETWEEN :startDate AND :endDate " +
+        "ORDER BY created_at DESC", nativeQuery = true)
+List<Object[]> exportCostsByDateRangeNative(@Param("startDate") String startDate,
+                                                @Param("endDate") String endDate);
+
+// 22. Mise à jour massive des coutglpi (basée sur ticket_id)
+@Modifying
+@Transactional
+@Query(value = "UPDATE super_cost SET coutglpi = :newValue " +
+        "WHERE ticket_id IN (SELECT DISTINCT ticket_id FROM super_cost WHERE categorie = :categorie)", 
+        nativeQuery = true)
+int batchUpdateGlpiCostByCategorie(@Param("categorie") String categorie,
+                                    @Param("newValue") Double newValue);
+
+// 23. Trouver les doublons potentiels (même ticketId et itemId)
+@Query("SELECT s.ticketId, s.itemId, COUNT(s) as nombreDoublons " +
+        "FROM SuperCost s WHERE s.ticketId IS NOT NULL AND s.itemId IS NOT NULL " +
+        "GROUP BY s.ticketId, s.itemId HAVING COUNT(s) > 1")
+List<Object[]> findPotentialDuplicates();
+
+// ===== REQUÊTES POUR LE FILTRAGE AVANCÉ =====
+
+// 24. Recherche multi-critères
+@Query("SELECT s FROM SuperCost s WHERE " +
+        "(:ticketId IS NULL OR s.ticketId = :ticketId) AND " +
+        "(:itemId IS NULL OR s.itemId = :itemId) AND " +
+        "(:categorie IS NULL OR LOWER(s.categorie) LIKE LOWER(CONCAT('%', :categorie, '%'))) AND " +
+        "(:minCout IS NULL OR s.cout >= :minCout) AND " +
+        "(:maxCout IS NULL OR s.cout <= :maxCout)")
+List<SuperCost> advancedSearch(@Param("ticketId") Long ticketId,
+                                @Param("itemId") Long itemId,
+                                @Param("categorie") String categorie,
+                                @Param("minCout") Double minCout,
+                                @Param("maxCout") Double maxCout);
+
+// 25. Pagination pour les grandes listes (à utiliser avec Pageable)
+@Query("SELECT s FROM SuperCost s WHERE s.categorie = :categorie")
+org.springframework.data.domain.Page<SuperCost> findByCategorieWithPagination(
+    @Param("categorie") String categorie, 
+    org.springframework.data.domain.Pageable pageable);
+
+
+
+// ===== NOUVELLES REQUÊTES UTILES =====
+
+// 1. Récupérer tous les coûts d'un ticket par type
+List<SuperCost> findByTicketIdAndType_cout(Long ticketId, Integer type_cout);
+
+// 2. Récupérer les coûts par période (timestamps)
+List<SuperCost> findByCreatedAtBetween(Long startTimestamp, Long endTimestamp);
+
+// 3. Récupérer les coûts d'un ticket par période
+List<SuperCost> findByTicketIdAndCreatedAtBetween(Long ticketId, Long startTimestamp, Long endTimestamp);
+
+// 4. Somme des coûts par ticket
+@Query("SELECT s.ticketId, SUM(s.cout) FROM SuperCost s WHERE s.ticketId = :ticketId AND s.type_cout = :typeCout GROUP BY s.ticketId")
+Double sumCoutByTicketIdAndType(@Param("ticketId") Long ticketId, @Param("typeCout") Integer typeCout);
+
+// 5. Coût total d'un ticket (tous types confondus)
+@Query("SELECT SUM(s.cout) FROM SuperCost s WHERE s.ticketId = :ticketId")
+Double getTotalCostByTicketId(@Param("ticketId") Long ticketId);
+
+// 6. Dernier coût quelque soit le type
+@Query("SELECT s FROM SuperCost s WHERE s.ticketId = :ticketId ORDER BY s.createdAt DESC LIMIT 1")
+SuperCost getLastCostAnyType(@Param("ticketId") Long ticketId);
+
+// 7. Historique des coûts d'un ticket (trié par date)
+List<SuperCost> findByTicketIdOrderByCreatedAtDesc(Long ticketId);
+
+// 8. Supprimer tous les coûts d'un ticket
+@Modifying
+@Transactional
+@Query("DELETE FROM SuperCost s WHERE s.ticketId = :ticketId")
+void deleteByTicketId(@Param("ticketId") Long ticketId);
+
+// 9. Mettre à jour le coût d'un enregistrement spécifique
+@Modifying
+@Transactional
+@Query("UPDATE SuperCost s SET s.cout = :newCout WHERE s.id = :id")
+int updateCostById(@Param("id") Long id, @Param("newCout") Double newCout);
+
+// 10. Statistiques par ticket (pour dashboard)
+@Query("SELECT s.ticketId, " +
+        "SUM(CASE WHEN s.type_cout = 1 THEN s.cout ELSE 0 END) as totalSuper, " +
+        "SUM(CASE WHEN s.type_cout = 2 THEN s.cout ELSE 0 END) as totalGlpi, " +
+        "SUM(CASE WHEN s.type_cout = 3 THEN s.cout ELSE 0 END) as totalReouverture, " +
+        "COUNT(s) as nombreEnregistrements " +
+        "FROM SuperCost s " +
+        "GROUP BY s.ticketId")
+List<Object[]> getStatsByTicket();
+
+// 11. Top 10 des tickets les plus chers
+@Query("SELECT s.ticketId, SUM(s.cout) as totalCout " +
+        "FROM SuperCost s " +
+        "GROUP BY s.ticketId " +
+        "ORDER BY totalCout DESC LIMIT 10")
+List<Object[]> getTop10MostExpensiveTickets();
+
+// 12. Coûts par jour pour un ticket spécifique
+@Query("SELECT FROM_UNIXTIME(s.createdAt, '%Y-%m-%d') as date, SUM(s.cout) as total " +
+        "FROM super_cost s " +
+        "WHERE s.ticketId = :ticketId " +
+        "GROUP BY FROM_UNIXTIME(s.createdAt, '%Y-%m-%d') " +
+        "ORDER BY date DESC", nativeQuery = true)
+List<Object[]> getDailyCostsByTicket(@Param("ticketId") Long ticketId);
+
+// 13. Vérifier si un ticket a des coûts
+boolean existsByTicketId(Long ticketId);
+
+// 14. Compter le nombre de coûts par type pour un ticket
+@Query("SELECT s.type_cout, COUNT(s) FROM SuperCost s WHERE s.ticketId = :ticketId GROUP BY s.type_cout")
+List<Object[]> countByTypeAndTicket(@Param("ticketId") Long ticketId);
+
+// 15. Récupérer les coûts entre deux dates pour un type spécifique
+@Query("SELECT s FROM SuperCost s WHERE s.ticketId = :ticketId AND s.type_cout = :typeCout AND s.createdAt BETWEEN :startDate AND :endDate")
+List<SuperCost> findByTicketIdAndTypeAndDateRange(@Param("ticketId") Long ticketId,
+                                                    @Param("typeCout") Integer typeCout,
+                                                    @Param("startDate") Long startDate,
+                                                    @Param("endDate") Long endDate);
+
+// 16. Moyenne des coûts par ticket
+@Query("SELECT AVG(s.cout) FROM SuperCost s WHERE s.ticketId = :ticketId")
+Double getAverageCostByTicket(@Param("ticketId") Long ticketId);
+
+// 17. Dernier coût GLPI mis à jour (ORDER BY LIMIT version plus simple)
+@Query("SELECT s FROM SuperCost s WHERE s.type_cout = 2 AND s.ticketId = :ticketId ORDER BY s.createdAt DESC LIMIT 1")
+SuperCost findLastGlpiCostByTicketId(@Param("ticketId") Long ticketId);
+
+// 18. Dernier coût SUPER mis à jour (ORDER BY LIMIT version plus simple)
+@Query("SELECT s FROM SuperCost s WHERE s.type_cout = 1 AND s.ticketId = :ticketId ORDER BY s.createdAt DESC LIMIT 1")
+SuperCost findLastSuperCostByTicketId(@Param("ticketId") Long ticketId);
+
+// 19. Coûts par catégorie pour un ticket spécifique
+@Query("SELECT s.categorie, SUM(s.cout) FROM SuperCost s WHERE s.ticketId = :ticketId GROUP BY s.categorie")
+List<Object[]> getCostsByCategoryForTicket(@Param("ticketId") Long ticketId);
+
+// 20. Annuler le dernier coût d'un type spécifique (UPDATE direct)
+@Modifying
+@Transactional
+@Query("UPDATE SuperCost s SET s.cout = 0 WHERE s.id = (" +
+        "SELECT id FROM SuperCost s2 WHERE s2.ticketId = :ticketId AND s2.type_cout = :typeCout " +
+        "ORDER BY s2.createdAt DESC LIMIT 1)")
+int cancelLastCostByType(@Param("ticketId") Long ticketId, @Param("typeCout") Integer typeCout);
+}

@@ -15,7 +15,7 @@ Sort-Object LastWriteTime -Descending |
 Select-Object LastWriteTime, FullName
 
 Get-ChildItem C:\wamp64\www\glpi -Recurse -File |
-Where-Object {$_.LastWriteTime -gt (Get-Date).AddMinutes(-30)} |
+Where-Object {$_.LastWriteTime -gt (Get-Date).AddMinutes(-90)} |
 Sort-Object LastWriteTime -Descending |
 Select-Object LastWriteTime, FullName
 
@@ -26,3 +26,16 @@ atao am import = ireo mouvements nitranga
 csv 3 colonnes : ticket|mvt|valeur : 2|open|5 : ticket num 2 atao reopen, 5%;
 2|cancel| : annulena ilay ticket num 2; 2|close|100 : terminé avec cost=100
 - any amle tableau => cliquer cat laptop (avec 2 items) => item 1 : reouverture = ..., item 2 = ..... <=> details par item
+
+
+-------------------------------------------------------
+
+mode de calcul ny ficalculena anle pourcentage de reouverture
+- mode 1 = ilay cout farany no alaina
+- mode 2 = ilay voalohany no alaina
+- mode 3 = ny moyenne anle cout rehetra hatramzay. Ex : 50 et 100 => 75 => 7.5 = cout de rouverture
+- mode 4 = somme de tous les couts . Ex : 50 + 100 = 150 => 150*10/10
+
+zone de liste : 1, 2, 3, 4 (eo akaikinleh input pourcentage)
+
+nouvelle colonne : "mode" (am reouverture ihany no misy mode)

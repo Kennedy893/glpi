@@ -20,7 +20,8 @@ export const validateRow = (rawRow, index) => {
     data: {
         ticket: rawRow.ticket,
         mvt: rawRow.mvt,
-        valeur: convertCost(rawRow.valeur)
+        valeur: convertCost(rawRow.valeur),
+        mode: rawRow.mode
     }
   };
 };

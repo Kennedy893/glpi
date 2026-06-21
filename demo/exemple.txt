@@ -1,0 +1,467 @@
+1. Entités JPA
+@Entity
+@Table(name = "users")
+public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    @Column(unique = true, nullable = false)
+    private String email;
+    
+    @Column(nullable = false)
+    private String password;
+    
+    private String firstName;
+    private String lastName;
+    private boolean active;
+    private LocalDateTime createdAt;
+    
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Order> orders = new ArrayList<>();
+    
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "user_roles",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
+    
+    // Constructeurs
+    public User() {}
+    
+    public User(String email, String password, String firstName, String lastName) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.active = true;
+        this.createdAt = LocalDateTime.now();
+    }
+    
+    // Getters et Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public List<Order> getOrders() { return orders; }
+    public void setOrders(List<Order> orders) { this.orders = orders; }
+    public Set<Role> getRoles() { return roles; }
+    public void setRoles(Set<Role> roles) { this.roles = roles; }
+}
+
+@Entity
+@Table(name = "orders")
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private LocalDateTime orderDate;
+    private BigDecimal totalAmount;
+    
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+    
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<OrderItem> items = new ArrayList<>();
+    
+    // Constructeurs, getters et setters
+    // ...
+}
+
+@Entity
+@Table(name = "roles")
+public class Role {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    
+    private String name;
+    private String description;
+    
+    // getters et setters
+}
+
+public enum OrderStatus {
+    PENDING, PROCESSING, SHIPPED, DELIVERED, CANCELLED
+}
+
+
+2. DTOs avec classes classiques et validation
+// DTO pour création d'utilisateur
+public class UserCreateDTO {
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
+    private String email;
+    
+    @NotBlank(message = "Password is required")
+    @Size(min = 8, message = "Password must be at least 8 characters")
+    private String password;
+    
+    @NotBlank(message = "First name is required")
+    private String firstName;
+    
+    @NotBlank(message = "Last name is required")
+    private String lastName;
+    
+    @NotNull(message = "At least one role is required")
+    private Set<Long> roleIds;
+    
+    // Constructeurs
+    public UserCreateDTO() {}
+    
+    public UserCreateDTO(String email, String password, String firstName, String lastName, Set<Long> roleIds) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.roleIds = roleIds;
+    }
+    
+    // Getters et Setters
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getPassword() { return password; }
+    public void setPassword(String password) { this.password = password; }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public Set<Long> getRoleIds() { return roleIds; }
+    public void setRoleIds(Set<Long> roleIds) { this.roleIds = roleIds; }
+}
+
+// DTO pour réponse (sans données sensibles)
+public class UserResponseDTO {
+    private Long id;
+    private String email;
+    private String fullName;
+    private boolean active;
+    private String createdAt;
+    private Set<RoleDTO> roles;
+    private List<OrderSummaryDTO> recentOrders;
+    
+    // Constructeurs
+    public UserResponseDTO() {}
+    
+    public UserResponseDTO(Long id, String email, String fullName, boolean active, 
+                          String createdAt, Set<RoleDTO> roles, List<OrderSummaryDTO> recentOrders) {
+        this.id = id;
+        this.email = email;
+        this.fullName = fullName;
+        this.active = active;
+        this.createdAt = createdAt;
+        this.roles = roles;
+        this.recentOrders = recentOrders;
+    }
+    
+    // Getters et Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
+    public String getCreatedAt() { return createdAt; }
+    public void setCreatedAt(String createdAt) { this.createdAt = createdAt; }
+    public Set<RoleDTO> getRoles() { return roles; }
+    public void setRoles(Set<RoleDTO> roles) { this.roles = roles; }
+    public List<OrderSummaryDTO> getRecentOrders() { return recentOrders; }
+    public void setRecentOrders(List<OrderSummaryDTO> recentOrders) { this.recentOrders = recentOrders; }
+}
+
+// DTO pour mise à jour partielle (PATCH)
+public class UserUpdateDTO {
+    private String email;
+    private String firstName;
+    private String lastName;
+    private Boolean active;
+    private Set<Long> roleIdsToAdd;
+    private Set<Long> roleIdsToRemove;
+    
+    // Getters et Setters
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
+    public Boolean getActive() { return active; }
+    public void setActive(Boolean active) { this.active = active; }
+    public Set<Long> getRoleIdsToAdd() { return roleIdsToAdd; }
+    public void setRoleIdsToAdd(Set<Long> roleIdsToAdd) { this.roleIdsToAdd = roleIdsToAdd; }
+    public Set<Long> getRoleIdsToRemove() { return roleIdsToRemove; }
+    public void setRoleIdsToRemove(Set<Long> roleIdsToRemove) { this.roleIdsToRemove = roleIdsToRemove; }
+    
+    // Vérifie si au moins un champ est présent pour la mise à jour
+    public boolean hasUpdates() {
+        return email != null || firstName != null || lastName != null || 
+               active != null || roleIdsToAdd != null || roleIdsToRemove != null;
+    }
+}
+
+// DTOs imbriqués
+public class RoleDTO {
+    private Long id;
+    private String name;
+    
+    public RoleDTO() {}
+    
+    public RoleDTO(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+    
+    // Getters et Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+}
+
+public class OrderSummaryDTO {
+    private Long id;
+    private String orderDate;
+    private BigDecimal totalAmount;
+    private String status;
+    private int itemCount;
+    
+    public OrderSummaryDTO() {}
+    
+    public OrderSummaryDTO(Long id, String orderDate, BigDecimal totalAmount, String status, int itemCount) {
+        this.id = id;
+        this.orderDate = orderDate;
+        this.totalAmount = totalAmount;
+        this.status = status;
+        this.itemCount = itemCount;
+    }
+    
+    // Getters et Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public String getOrderDate() { return orderDate; }
+    public void setOrderDate(String orderDate) { this.orderDate = orderDate; }
+    public BigDecimal getTotalAmount() { return totalAmount; }
+    public void setTotalAmount(BigDecimal totalAmount) { this.totalAmount = totalAmount; }
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
+    public int getItemCount() { return itemCount; }
+    public void setItemCount(int itemCount) { this.itemCount = itemCount; }
+}
+
+
+3. Mapper manuel (Service de conversion)
+@Component
+public class UserMapper {
+    
+    // Conversion CreateDTO -> Entité
+    public User toEntity(UserCreateDTO createDTO) {
+        if (createDTO == null) {
+            return null;
+        }
+        
+        User user = new User();
+        user.setEmail(createDTO.getEmail());
+        user.setPassword(createDTO.getPassword()); // Attention: à encoder dans le service
+        user.setFirstName(createDTO.getFirstName());
+        user.setLastName(createDTO.getLastName());
+        user.setActive(true);
+        user.setCreatedAt(LocalDateTime.now());
+        
+        return user;
+    }
+    
+    // Conversion Entité -> ResponseDTO (complet)
+    public UserResponseDTO toResponseDTO(User user) {
+        if (user == null) {
+            return null;
+        }
+        
+        UserResponseDTO responseDTO = new UserResponseDTO();
+        responseDTO.setId(user.getId());
+        responseDTO.setEmail(user.getEmail());
+        responseDTO.setFullName(user.getFirstName() + " " + user.getLastName());
+        responseDTO.setActive(user.isActive());
+        responseDTO.setCreatedAt(user.getCreatedAt() != null ? 
+            user.getCreatedAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : null);
+        
+        // Conversion des rôles
+        if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+            Set<RoleDTO> roleDTOs = new HashSet<>();
+            for (Role role : user.getRoles()) {
+                roleDTOs.add(new RoleDTO(role.getId(), role.getName()));
+            }
+            responseDTO.setRoles(roleDTOs);
+        }
+        
+        // Conversion des commandes récentes (max 5)
+        if (user.getOrders() != null && !user.getOrders().isEmpty()) {
+            List<OrderSummaryDTO> orderSummaries = new ArrayList<>();
+            List<Order> recentOrders = user.getOrders().stream()
+                .sorted((o1, o2) -> o2.getOrderDate().compareTo(o1.getOrderDate()))
+                .limit(5)
+                .collect(Collectors.toList());
+            
+            for (Order order : recentOrders) {
+                OrderSummaryDTO summary = new OrderSummaryDTO();
+                summary.setId(order.getId());
+                summary.setOrderDate(order.getOrderDate() != null ? 
+                    order.getOrderDate().format(DateTimeFormatter.ISO_LOCAL_DATE) : null);
+                summary.setTotalAmount(order.getTotalAmount());
+                summary.setStatus(order.getStatus() != null ? order.getStatus().name() : null);
+                summary.setItemCount(order.getItems() != null ? order.getItems().size() : 0);
+                orderSummaries.add(summary);
+            }
+            responseDTO.setRecentOrders(orderSummaries);
+        } else {
+            responseDTO.setRecentOrders(new ArrayList<>());
+        }
+        
+        return responseDTO;
+    }
+    
+    // Mise à jour partielle d'une entité existante
+    public void updateEntity(User user, UserUpdateDTO updateDTO) {
+        if (user == null || updateDTO == null) {
+            return;
+        }
+        
+        if (updateDTO.getEmail() != null) {
+            user.setEmail(updateDTO.getEmail());
+        }
+        
+        if (updateDTO.getFirstName() != null) {
+            user.setFirstName(updateDTO.getFirstName());
+        }
+        
+        if (updateDTO.getLastName() != null) {
+            user.setLastName(updateDTO.getLastName());
+        }
+        
+        if (updateDTO.getActive() != null) {
+            user.setActive(updateDTO.getActive());
+        }
+    }
+    
+    // Conversion simple pour les listes
+    public List<UserResponseDTO> toResponseDTOList(List<User> users) {
+        if (users == null) {
+            return new ArrayList<>();
+        }
+        
+        return users.stream()
+            .map(this::toResponseDTO)
+            .collect(Collectors.toList());
+    }
+}
+
+4. Service avec gestion complète
+@Service
+@Transactional
+public class UserService {
+    
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private RoleRepository roleRepository;
+    
+    @Autowired
+    private UserMapper userMapper;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    public UserResponseDTO createUser(UserCreateDTO createDTO) {
+        // Vérification email unique
+        if (userRepository.existsByEmail(createDTO.getEmail())) {
+            throw new DuplicateResourceException("Email already exists");
+        }
+        
+        // Conversion DTO -> Entité
+        User user = userMapper.toEntity(createDTO);
+        
+        // Encodage du mot de passe
+        user.setPassword(passwordEncoder.encode(createDTO.getPassword()));
+        
+        // Récupération et assignation des rôles
+        Set<Role> roles = new HashSet<>();
+        for (Long roleId : createDTO.getRoleIds()) {
+            Role role = roleRepository.findById(roleId)
+                .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + roleId));
+            roles.add(role);
+        }
+        user.setRoles(roles);
+        
+        // Sauvegarde
+        User savedUser = userRepository.save(user);
+        
+        // Conversion Entité -> DTO
+        return userMapper.toResponseDTO(savedUser);
+    }
+    
+    public UserResponseDTO updateUserPartial(Long id, UserUpdateDTO updateDTO) {
+        if (!updateDTO.hasUpdates()) {
+            throw new NoUpdatesException("No fields to update");
+        }
+        
+        User user = userRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        
+        // Mise à jour des champs simples
+        userMapper.updateEntity(user, updateDTO);
+        
+        // Gestion des rôles
+        if (updateDTO.getRoleIdsToAdd() != null && !updateDTO.getRoleIdsToAdd().isEmpty()) {
+            for (Long roleId : updateDTO.getRoleIdsToAdd()) {
+                Role role = roleRepository.findById(roleId)
+                    .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + roleId));
+                user.getRoles().add(role);
+            }
+        }
+        
+        if (updateDTO.getRoleIdsToRemove() != null && !updateDTO.getRoleIdsToRemove().isEmpty()) {
+            user.getRoles().removeIf(role -> 
+                updateDTO.getRoleIdsToRemove().contains(role.getId()));
+        }
+        
+        User updatedUser = userRepository.save(user);
+        return userMapper.toResponseDTO(updatedUser);
+    }
+    
+    public UserResponseDTO getUserById(Long id) {
+        User user = userRepository.findByIdWithOrdersAndRoles(id)
+            .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        return userMapper.toResponseDTO(user);
+    }
+    
+    public List<UserResponseDTO> getAllUsers() {
+        List<User> users = userRepository.findAllWithRoles();
+        return userMapper.toResponseDTOList(users);
+    }
+    
+    public void deleteUser(Long id) {
+        if (!userRepository.existsById(id)) {
+            throw new ResourceNotFoundException("User not found with id: " + id);
+        }
+        userRepository.deleteById(id);
+    }
+}

@@ -1,0 +1,228 @@
+-------------> MAKA SOMME <-------------------
+// Repository - Requête simplifiée sans SUM
+@Query("SELECT s FROM SuperCost s WHERE s.ticketId = :ticketId AND s.type_cout = 1")
+List<SuperCost> findSuperCostsByTicket(@Param("ticketId") Long ticketId);
+
+// Service - Calcul dans le code
+@Service
+public class SuperCostService {
+    
+    @Autowired
+    private SuperCostRepository repository;
+    
+    public List<Object[]> getSumSuperCost(Long ticketId) {
+        // 1. Récupérer tous les enregistrements
+        List<SuperCost> costs = repository.findSuperCostsByTicket(ticketId);
+        
+        // 2. Grouper par createdAt et ne garder qu'une ligne par createdAt
+        Map<Long, SuperCost> uniqueByCreatedAt = new LinkedHashMap<>();
+        Map<Long, Double> sumByCreatedAt = new HashMap<>();
+        
+        for (SuperCost cost : costs) {
+            Long createdAt = cost.getCreatedAt();
+            
+            // Garder la première occurrence de chaque createdAt (celle avec le plus petit ID)
+            if (!uniqueByCreatedAt.containsKey(createdAt)) {
+                uniqueByCreatedAt.put(createdAt, cost);
+            }
+            
+            // Additionner les coûts pour chaque createdAt
+            sumByCreatedAt.merge(createdAt, cost.getCout(), Double::sum);
+        }
+        
+        // 3. Construire le résultat
+        List<Object[]> results = new ArrayList<>();
+        for (Map.Entry<Long, SuperCost> entry : uniqueByCreatedAt.entrySet()) {
+            Long createdAt = entry.getKey();
+            SuperCost cost = entry.getValue();
+            Double totalCout = sumByCreatedAt.get(createdAt);
+            
+            results.add(new Object[]{
+                cost.getId(),
+                cost.getTicketId(),
+                cost.getItemId(),
+                totalCout,  // ← La somme calculée dans le code
+                cost.getCategorie(),
+                cost.getCreatedAt(),
+                cost.getType_cout()
+            });
+        }
+        
+        // Trier par createdAt décroissant (optionnel)
+        results.sort((a, b) -> ((Long)b[5]).compareTo((Long)a[5]));
+        
+        return results;
+    }
+}
+
+public List<SuperCost> findByTicketId(Long ticketId) {
+        return repository.findByTicketId(ticketId);
+    }
+
+    public List<SuperCost> findByItemId(Long itemId) {
+        return repository.findByItemId(itemId);
+    }
+
+    public SuperCost findByTicketIdAndItemId(Long ticketId, Long itemId) {
+        return repository.findByTicketIdAndItemId(ticketId, itemId);
+    }
+
+    // ===== STATS DES COUTS =====
+    // Méthode directe car le DTO est déjà utilisé dans la requête
+    public List<CategorieStatsDTO> getCoutStatsByCategorie() {
+        return repository.getCoutStatsByCategorie();
+    }
+
+    // ===== GET DERNIERS COUTS D'UN TICKET =====
+    
+    public List<SuperCost> getLastSuperCost(Long ticketId) {
+        return repository.getLastSuperCost(ticketId);
+    }
+
+    public List<SuperCost> getLastGlpiCost(Long ticketId) {
+        return repository.getLastGlpiCost(ticketId);
+    }
+
+    // ===== VÉRIFIER SI LE COUT GLPI EXISTE =====
+    
+    public List<SuperCost> getSuperCost(Long ticketId, Long itemId, String categorie) {
+        return repository.getSuperCost(ticketId, itemId, categorie);
+    }
+
+    // ===== RÉCUPÉRER LES COUTS PAR CATEGORIE =====
+    
+    public List<SuperCost> findByCategorie(String categorie) {
+        return repository.findByCategorie(categorie);
+    }
+
+    // ===== GET PREMIER COUT =====
+    
+    public List<SuperCost> getFirstSuperCost(Long ticketId) {
+        return repository.getFirstSuperCost(ticketId);
+    }
+
+    // ===== SOMME DE TOUS LES SUPER COST D'UN TICKET =====
+    // Alternative : calcul dans le code Java
+    
+    public List<Object[]> getSumSuperCost(Long ticketId) {
+        // Récupérer tous les SuperCosts du ticket
+        List<SuperCost> costs = repository.findByTicketId(ticketId);
+        
+        // Filtrer uniquement type_cout = 1
+        List<SuperCost> superCosts = costs.stream()
+            .filter(c -> c.getType_cout() == 1)
+            .collect(Collectors.toList());
+        
+        // Grouper par createdAt et ne garder qu'une ligne par createdAt
+        Map<Long, List<SuperCost>> groupedByCreatedAt = superCosts.stream()
+            .collect(Collectors.groupingBy(SuperCost::getCreatedAt));
+        
+        List<Object[]> results = new ArrayList<>();
+        
+        for (Map.Entry<Long, List<SuperCost>> entry : groupedByCreatedAt.entrySet()) {
+            Long createdAt = entry.getKey();
+            List<SuperCost> items = entry.getValue();
+            
+            // Prendre le premier élément (celui avec le plus petit ID)
+            SuperCost first = items.stream()
+                .min(Comparator.comparing(SuperCost::getId))
+                .orElse(null);
+            
+            if (first != null) {
+                // Calculer la somme des coûts pour ce createdAt
+                Double totalCout = items.stream()
+                    .mapToDouble(SuperCost::getCout)
+                    .sum();
+                
+                results.add(new Object[]{
+                    first.getId(),
+                    first.getTicketId(),
+                    first.getItemId(),
+                    totalCout,
+                    first.getCategorie(),
+                    first.getCreatedAt(),
+                    first.getType_cout()
+                });
+            }
+        }
+        
+        // Trier par createdAt décroissant
+        results.sort((a, b) -> ((Long)b[5]).compareTo((Long)a[5]));
+        
+        return results;
+    }
+
+    // ===== MOYENNE DE TOUS LES SUPER COST D'UN TICKET =====
+    // Alternative : calcul dans le code Java
+    
+    public List<Object[]> getAverageSuperCost(Long ticketId) {
+        // Récupérer tous les SuperCosts du ticket
+        List<SuperCost> costs = repository.findByTicketId(ticketId);
+        
+        // Filtrer uniquement type_cout = 1
+        List<SuperCost> superCosts = costs.stream()
+            .filter(c -> c.getType_cout() == 1)
+            .collect(Collectors.toList());
+        
+        // Grouper par createdAt
+        Map<Long, List<SuperCost>> groupedByCreatedAt = superCosts.stream()
+            .collect(Collectors.groupingBy(SuperCost::getCreatedAt));
+        
+        List<Object[]> results = new ArrayList<>();
+        
+        for (Map.Entry<Long, List<SuperCost>> entry : groupedByCreatedAt.entrySet()) {
+            Long createdAt = entry.getKey();
+            List<SuperCost> items = entry.getValue();
+            
+            // Prendre le premier élément
+            SuperCost first = items.stream()
+                .min(Comparator.comparing(SuperCost::getId))
+                .orElse(null);
+            
+            if (first != null) {
+                // Calculer la moyenne des coûts pour ce createdAt
+                Double averageCout = items.stream()
+                    .mapToDouble(SuperCost::getCout)
+                    .average()
+                    .orElse(0.0);
+                
+                results.add(new Object[]{
+                    first.getId(),
+                    first.getTicketId(),
+                    first.getItemId(),
+                    averageCout,
+                    first.getCategorie(),
+                    first.getCreatedAt(),
+                    first.getType_cout()
+                });
+            }
+        }
+        
+        // Trier par createdAt décroissant
+        results.sort((a, b) -> ((Long)b[5]).compareTo((Long)a[5]));
+        
+        return results;
+    }
+
+    // ===== SOMME TOTALE DE TOUS LES COUTS D'UN TICKET (simplifiée) =====
+    
+    public Double getTotalSuperCostSum(Long ticketId) {
+        List<SuperCost> costs = repository.findByTicketId(ticketId);
+        
+        return costs.stream()
+            .filter(c -> c.getType_cout() == 1)
+            .mapToDouble(SuperCost::getCout)
+            .sum();
+    }
+
+    // ===== MOYENNE TOTALE DE TOUS LES COUTS D'UN TICKET (simplifiée) =====
+    
+    public Double getTotalSuperCostAverage(Long ticketId) {
+        List<SuperCost> costs = repository.findByTicketId(ticketId);
+        
+        return costs.stream()
+            .filter(c -> c.getType_cout() == 1)
+            .mapToDouble(SuperCost::getCout)
+            .average()
+            .orElse(0.0);
+    }
