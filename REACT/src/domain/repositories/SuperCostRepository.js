@@ -271,6 +271,80 @@ export const SuperCostRepository = {
             console.log(error);
             return [];
         }
-    }
+    },
+
+    // Get all SUPERCOSTS
+    async getSuperCosts() {
+        try {
+            const response = await fetch(`${BASE_URL}/allSuperCost`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+            console.log('[SuperCostRepository] getSuperCosts:', data);
+            return data;
+        } catch (error) {
+            console.log(error);
+            return [];
+        }
+    },
+
+    // Get all REOUVERTURES
+    async getReouvetureCosts() {
+        try {
+            const response = await fetch(`${BASE_URL}/allReouverture`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            const data = await response.json();
+            console.log('[SuperCostRepository] getReouvetureCosts:', data);
+            return data;
+        } catch (error) {
+            console.log(error);
+            return [];
+        }
+    },
+
+    async updateSuper(id, cout) {
+        try {
+            const response = await fetch(`${BASE_URL}/updateSup/${id}?cout=${cout}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const data = await response.json();
+            console.log('[SuperCostRepository] updateSuper:', data);
+            return data;
+        } catch (error) {
+            console.log(error);
+            return [];
+        }
+    },
+
+    async updateReouv(id, cout, mode) {
+        try {
+            const response = await fetch(`${BASE_URL}/updateSup/${id}?cout=${cout}&mode=${mode}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+
+            const data = await response.json();
+            console.log('[SuperCostRepository] updateSuper:', data);
+            return data;
+        } catch (error) {
+            console.log(error);
+            return [];
+        }
+    },
     
 }

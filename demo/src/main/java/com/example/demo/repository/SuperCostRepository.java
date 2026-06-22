@@ -1,8 +1,10 @@
 package com.example.demo.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -18,6 +20,7 @@ public interface SuperCostRepository extends JpaRepository<SuperCost, Long> {
     List<SuperCost> findByTicketId(Long ticketId);
     List<SuperCost> findByItemId(Long itemId);
     SuperCost findByTicketIdAndItemId(Long ticketId, Long itemId);
+    Optional<SuperCost> findById(Long id);
 
     // STATS DES COUTS
     @Query("SELECT new com.example.demo.dto.CategorieStatsDTO(" +
@@ -25,7 +28,7 @@ public interface SuperCostRepository extends JpaRepository<SuperCost, Long> {
        "SUM(CASE WHEN s.type_cout = 1 THEN s.cout ELSE 0 END), " +
        "SUM(CASE WHEN s.type_cout = 2 THEN s.cout ELSE 0 END), " +
        "SUM(CASE WHEN s.type_cout = 3 THEN s.cout ELSE 0 END)) " +
-       "FROM SuperCost s " +
+       "FROM SuperCost s WHERE s.etat = 1 " +
        "GROUP BY s.categorie")
     List<CategorieStatsDTO> getCoutStatsByCategorie();
 
@@ -33,12 +36,12 @@ public interface SuperCostRepository extends JpaRepository<SuperCost, Long> {
     // @Query("SELECT s FROM SuperCost s WHERE s.ticketId = :ticketId AND s.type_cout IN (1, 2) AND s.createdAt IN (" +
     //    "(SELECT MAX(s2.createdAt) FROM SuperCost s2 WHERE s2.ticketId = :ticketId AND s2.type_cout = 1), " +
     //    "(SELECT MAX(s3.createdAt) FROM SuperCost s3 WHERE s3.ticketId = :ticketId AND s3.type_cout = 2))")
-    @Query("SELECT s FROM SuperCost s WHERE s.type_cout = 1 AND s.ticketId = :ticketId AND s.createdAt = " + 
-        "(SELECT MAX(s2.createdAt) FROM SuperCost s2 WHERE s2.ticketId = :ticketId AND s2.type_cout = 1)")
+    @Query("SELECT s FROM SuperCost s WHERE s.type_cout = 1 AND s.ticketId = :ticketId AND s.etat = 1 AND s.createdAt = " + 
+        "(SELECT MAX(s2.createdAt) FROM SuperCost s2 WHERE s2.ticketId = :ticketId AND s.etat = 1 AND s2.type_cout = 1)")
     List<SuperCost> getLastSuperCost(@Param("ticketId") Long ticketId);
 
-    @Query("SELECT s FROM SuperCost s WHERE s.type_cout = 2 AND s.ticketId = :ticketId AND s.createdAt = " + 
-        "(SELECT MAX(s2.createdAt) FROM SuperCost s2 WHERE s2.ticketId = :ticketId AND s2.type_cout = 1)")
+    @Query("SELECT s FROM SuperCost s WHERE s.type_cout = 2 AND s.ticketId = :ticketId AND s.etat = 1 AND s.createdAt = " + 
+        "(SELECT MAX(s2.createdAt) FROM SuperCost s2 WHERE s2.ticketId = :ticketId AND s.etat = 1 AND s2.type_cout = 1)")
     List<SuperCost> getLastGlpiCost(@Param("ticketId") Long ticketId);
 
     // ALTERNATIVE
@@ -57,12 +60,12 @@ public interface SuperCostRepository extends JpaRepository<SuperCost, Long> {
     List<SuperCost> findByCategorie(String categorie);
 
     // Get premier cout
-    @Query("SELECT s FROM SuperCost s WHERE s.type_cout = 1 AND s.ticketId = :ticketId AND s.createdAt = " + 
-        "(SELECT MIN(s2.createdAt) FROM SuperCost s2 WHERE s2.ticketId = :ticketId AND s2.type_cout = 1)")
+    @Query("SELECT s FROM SuperCost s WHERE s.type_cout = 1 AND s.ticketId = :ticketId AND s.etat = 1 AND s.createdAt = " + 
+        "(SELECT MIN(s2.createdAt) FROM SuperCost s2 WHERE s2.ticketId = :ticketId AND s.etat = 1 AND s2.type_cout = 1)")
     List<SuperCost> getFirstSuperCost(@Param("ticketId") Long ticketId);
 
     // Somme de tous les SUPER COST d'un ticket
-    @Query("SELECT s.id, s.ticketId, s.itemId, SUM(s.cout), s.categorie, s.createdAt, s.type_cout FROM SuperCost s WHERE s.ticketId = :ticketId GROUP BY s.type_cout")
+    @Query("SELECT s.id, s.ticketId, s.itemId, SUM(s.cout), s.categorie, s.createdAt, s.type_cout FROM SuperCost s WHERE s.ticketId = :ticketId AND s.etat = 1 GROUP BY s.type_cout")
     // @Query("SELECT s.id, s.ticketId, s.itemId, SUM(s.cout), s.categorie, s.createdAt, s.type_cout FROM SuperCost s WHERE s.ticketId = :ticketId AND s.type_cout = 1 GROUP BY s.itemId, s.categorie")
     List<Object[]> getSumSuperCost(@Param("ticketId") Long ticketId);
 
@@ -106,10 +109,27 @@ public interface SuperCostRepository extends JpaRepository<SuperCost, Long> {
     // List<SuperCostSummaryDTO> getSumSuperCost(@Param("ticketId") Long ticketId);
 
     // Moyenne de tous les SUPER COST d'un ticket
-    @Query("SELECT s.id, s.ticketId, s.itemId, AVG(s.cout), s.categorie, s.createdAt, s.type_cout FROM SuperCost s WHERE s.ticketId = :ticketId GROUP BY s.type_cout")
+    @Query("SELECT s.id, s.ticketId, s.itemId, AVG(s.cout), s.categorie, s.createdAt, s.type_cout FROM SuperCost s WHERE s.ticketId = :ticketId AND s.etat = 1 GROUP BY s.type_cout")
     List<Object[]> getAverageSuperCost(@Param("ticketId") Long ticketId);
 
     // All supercosts pour un ticket
     // List<SuperCost> getSomme ()
+
+    // Liste de tous les supercosts
+    @Query("SELECT s from SuperCost s WHERE s.type_cout = 1")
+    List<SuperCost> getAllSuperCost();
+
+    // Liste de tous les couts de reouvertures
+    @Query("SELECT s from SuperCost s WHERE s.type_cout = 3")
+    List<SuperCost> getAllReouvertureCost();
+
+    // Update un superCost
+    @Modifying
+    @Query("UPDATE SuperCost SET cout = :cout where id = :id")
+    void updateSuper(@Param("cout") Double cout, @Param("id") Long id);
+
+    @Modifying
+    @Query("UPDATE SuperCost SET cout = :cout, mode = :mode where id = :id")
+    void updateReouv(@Param("cout") Double cout, @Param("id") Long id, @Param("mode") Integer mode);
 
 }

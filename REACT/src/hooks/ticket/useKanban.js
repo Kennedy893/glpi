@@ -267,7 +267,8 @@ export const useKanban = (ticketsStatusMap, setTicketsStatusMap) => {
                       ticketId: ticket.id,
                       itemId: item.id,
                       cost: cost || 0,
-                      categorie: item.itemType || item.type
+                      categorie: item.itemType || item.type,
+                      mode: parseFloat(extraData.mode)
                   });
               } catch (error) {
                   console.error(`Erreur pour l'item ${item.id}:`, error);

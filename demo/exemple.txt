@@ -465,3 +465,54 @@ public class UserService {
         userRepository.deleteById(id);
     }
 }
+
+
+----------------------------------
+
+package com.example.demo.dto;
+
+public class SuperCostTicketDTO {
+    private Long id;
+    private Long ticketId;
+    private Double cout;
+    private String categorie;
+    private Long createdAt;
+    private Integer typeCout;
+    private String ticketName;
+    private String ticketStatus;
+    private Integer ticketPriority;
+
+    public SuperCostTicketDTO(Long id, Long ticketId, Double cout, String categorie, 
+                              Long createdAt, Integer typeCout, String ticketName, 
+                              String ticketStatus, Integer ticketPriority) {
+        this.id = id;
+        this.ticketId = ticketId;
+        this.cout = cout;
+        this.categorie = categorie;
+        this.createdAt = createdAt;
+        this.typeCout = typeCout;
+        this.ticketName = ticketName;
+        this.ticketStatus = ticketStatus;
+        this.ticketPriority = ticketPriority;
+    }
+
+    // Getters
+    public Long getId() { return id; }
+    public Long getTicketId() { return ticketId; }
+    public Double getCout() { return cout; }
+    public String getCategorie() { return categorie; }
+    public Long getCreatedAt() { return createdAt; }
+    public Integer getTypeCout() { return typeCout; }
+    public String getTicketName() { return ticketName; }
+    public String getTicketStatus() { return ticketStatus; }
+    public Integer getTicketPriority() { return ticketPriority; }
+}
+
+// DTO SuperCost + Ticket
+@Query("SELECT new com.example.demo.dto.SuperCostTicketDTO(" +
+        "s.id, s.ticketId, s.cout, s.categorie, s.createdAt, s.typeCout, " +
+        "t.name, t.status, t.priority) " +
+        "FROM SuperCost s " +
+        "JOIN Ticket t ON s.ticketId = t.id " +
+        "WHERE s.ticketId = :ticketId")
+List<SuperCostTicketDTO> getSuperCostWithTicket(@Param("ticketId") Long ticketId);

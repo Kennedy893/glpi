@@ -13,6 +13,7 @@ import { KanbanPage } from '../pages/kanban/KanbanPage';
 import { KanbanSettingsPage } from '../pages/kanban/KanbanSettingsPage';
 import { SuperCostListPage } from '../pages/superCost/SuperCostListPage';
 import { NewImportPage } from '../pages/NewImportPage';
+import { ListeCouts } from '../pages/liste/ListeCouts';
 
 const RouteConfig = () => {
   return (
@@ -47,6 +48,12 @@ const RouteConfig = () => {
       <Route path="/new-import" element={
         <BackofficeLayout>
             <NewImportPage />
+        </BackofficeLayout>
+      } />
+
+      <Route path="/param-couts" element={
+        <BackofficeLayout>
+            <ListeCouts />
         </BackofficeLayout>
       } />
       

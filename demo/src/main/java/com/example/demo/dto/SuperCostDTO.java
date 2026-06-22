@@ -8,17 +8,37 @@ public class SuperCostDTO {
     private Integer type_cout;
     private String categorie;
     private Long createdAt;
+    private Integer etat;
+    private Integer mode;
+
+    public Integer getMode() {
+        return mode;
+    }
+
+    public void setMode(Integer mode) {
+        this.mode = mode;
+    }
+
+    public Integer getEtat() {
+        return etat;
+    }
+
+    public void setEtat(Integer etat) {
+        this.etat = etat;
+    }
 
     public SuperCostDTO() {
     }
 
-    public SuperCostDTO(Long ticketId, Long itemId, Double cost, String categorie, Long createdAt, Integer type_cout) {
+    public SuperCostDTO(Long ticketId, Long itemId, Double cost, String categorie, Long createdAt, Integer type_cout, Integer etat, Integer mode) {
         this.ticketId = ticketId;
         this.itemId = itemId;
         this.cost = cost;
         this.categorie = categorie;
         this.createdAt = createdAt;
         this.type_cout = type_cout;
+        this.etat = etat;
+        this.mode = mode;
     }
 
     public Long getTicketId() {

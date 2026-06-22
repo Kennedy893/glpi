@@ -2,6 +2,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -78,6 +79,7 @@ public class SuperCostService {
         List<SuperCost> lastCosts = repository.getLastSuperCost(ticketId);
         for (SuperCost cost : lastCosts) {
             cost.setCout(0.0);
+            cost.setEtat(0);
             repository.save(cost);  // Sauvegarder en base
             updatedCount++;
         }
@@ -115,6 +117,28 @@ public class SuperCostService {
     // MOENNEE DES COUTS
     public List<Object[]> getAvgSuperCost(Long ticketId) {
         return repository.getAverageSuperCost(ticketId);
+    }
+
+    // TOUS LES SUPERCOSTS
+    public List<SuperCost> getAllSuperCost() {
+        return repository.getAllSuperCost();
+    }
+
+    // TOUS LES COUTS DE REOUVERTURES
+    public List<SuperCost> getAllReouvertureCost() {
+        return repository.getAllReouvertureCost();
+    }
+
+    public void updateSuper(Double cout, Long id) {
+        repository.updateSuper(cout, id);
+    }
+
+    public void updateReouv(Double cout, Long id, Integer mode) {
+        repository.updateReouv(cout, id, mode);
+    }
+
+    public Optional<SuperCost> findById(Long id) {
+        return Optional.of(repository.findById(id).orElse(null));
     }
 
 }

@@ -3,7 +3,12 @@ import React, { useState } from 'react';
 import { DetailsByCategorie } from './DetailsByCategorie';
 
 const formatCurrency = (amount) => {
-    return `${amount || 0}`;
+    // Vérifier si amount est un nombre
+    if (amount === null || amount === undefined || isNaN(amount)) {
+        return '0.00';
+    }
+    // Afficher avec 3 chiffres après la virgule
+    return amount.toFixed(3);
 };
 
 export const SuperCostTable = ({ stats }) => {

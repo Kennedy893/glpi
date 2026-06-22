@@ -4,6 +4,7 @@ package com.example.demo.controller;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,7 @@ public class SuperCostController {
         superCost.setType_cout(1);  // type_cout = superCost
         superCost.setCout(superCostDTO.getCost());
         superCost.setCategorie(superCostDTO.getCategorie());
+        superCost.setMode(superCostDTO.getMode());
         superCost.setCreatedAtNow();
         
         SuperCost saved = service.createSuperCost(superCost);
@@ -75,6 +77,7 @@ public class SuperCostController {
         superCost.setType_cout(3);  // type_cout = reouvertureCost
         superCost.setCout(superCostDTO.getCost());
         superCost.setCategorie(superCostDTO.getCategorie());
+        superCost.setMode(superCostDTO.getMode());
         superCost.setCreatedAtNow();
         
         SuperCost saved = service.createSuperCost(superCost);
@@ -189,4 +192,39 @@ public class SuperCostController {
 
     //     }
     // }
+
+
+    // TOUS LES SUPERCOSTS
+    @GetMapping("/allSuperCost")
+    public ResponseEntity<List<SuperCost>> getAllSuperCost() {
+        return ResponseEntity.ok(service.getAllSuperCost());
+    }
+
+    // TOUS LES COUTS DE REOUVERTURE
+    @GetMapping("/allReouverture")
+    public ResponseEntity<List<SuperCost>> getAllReouvertureCost() {
+        return ResponseEntity.ok(service.getAllReouvertureCost());
+    }
+
+    // @PutMapping("/updateSup/{id}")
+    // public ResponseEntity<SuperCost> updateSuper(@PathVariable("id") Long id, Double cout) {
+    //     return ResponseEntity.ok(service.updateSuper(cout, id));
+    // }
+
+    @PutMapping("/updateSup/{id}")
+    public ResponseEntity<SuperCost> updateSuper(@PathVariable("id") Long id, @RequestParam Double cout) {
+        Optional<SuperCost> sup = Optional.of(service.findById(id).orElse(null));
+        sup.orElseThrow().setCout(cout);
+        service.updateSuper(cout, id);
+        return ResponseEntity.ok(sup.orElse(null));
+    }
+
+    @PutMapping("/updateReouv/{id}")
+    public ResponseEntity<SuperCost> updateReouv(@PathVariable("id") Long id, @RequestParam Double cout, @RequestParam Integer mode) {
+        Optional<SuperCost> sup = Optional.of(service.findById(id).orElse(null));
+        sup.orElseThrow().setCout(cout);
+        sup.orElseThrow().setMode(mode);
+        service.updateReouv(cout, id, mode);
+        return ResponseEntity.ok(sup.orElse(null));
+    }
 }

@@ -34,20 +34,36 @@ public class SuperCost {
     @Column(name = "type_cout") // 1=superCost, 2=coutglpi, 3=reouverture
     private Integer type_cout;
 
+    @Column(name = "etat")
+    private Integer etat = 1;
+
+    @Column(name = "mode")
+    private Integer mode;
+
+    public Integer getMode() {
+        return mode;
+    }
+
+    public void setMode(Integer mode) {
+        this.mode = mode;
+    }
 
     // Constructeur par défaut (obligatoire pour JPA)
     public SuperCost() {
     }
 
     // Constructeur avec paramètres
-    public SuperCost(Long ticketId, Long itemId, Double cout, String categorie, Long createdAt, Integer type_cout) {
+    public SuperCost(Long ticketId, Long itemId, Double cout, String categorie, Long createdAt, Integer type_cout, Integer etat, Integer mode) {
         this.ticketId = ticketId;
         this.itemId = itemId;
         this.cout = cout;
         this.categorie = categorie;
         this.createdAt = createdAt;
         this.type_cout = type_cout;
+        this.etat = etat;
+        this.mode = mode;
     }
+
 
     // Getters et Setters
     public Long getId() {
@@ -108,5 +124,13 @@ public class SuperCost {
 
     public void setType_cout(Integer type_cout) {
         this.type_cout = type_cout;
+    }
+
+    public Integer getEtat() {
+        return etat;
+    }
+
+    public void setEtat(Integer etat) {
+        this.etat = etat;
     }
 }

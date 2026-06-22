@@ -39,3 +39,17 @@ mode de calcul ny ficalculena anle pourcentage de reouverture
 zone de liste : 1, 2, 3, 4 (eo akaikinleh input pourcentage)
 
 nouvelle colonne : "mode" (am reouverture ihany no misy mode)
+
+
+----------------------------------------------------------
+
+code source + video
+
+- page vaovao = liste de toutes les reouvertures et supercosts
+=> misy bouton "modifier" -> afaka ovaina le chiffre (pourcentage) sy mode ary ny syperCost rehetra -> validena -> mirecalcule
+=> afaka fafana ihany koa ny reouverture (mety misy close mitohitohy zany) 
+
+200 close
+ouv
+100 cl
+ouv

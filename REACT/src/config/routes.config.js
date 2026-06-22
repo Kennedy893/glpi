@@ -10,6 +10,7 @@ import { KanbanPage } from '../pages/kanban/KanbanPage';
 import { KanbanSettingsPage } from '../pages/kanban/KanbanSettingsPage';
 import { SuperCostListPage } from '../pages/superCost/SuperCostListPage';
 import { NewImportPage } from '../pages/NewImportPage';
+import { ListeCouts } from '../pages/liste/ListeCouts';
 
 // Configuration du menu (barre de navigation)
 export const menuConfig = [
@@ -53,6 +54,11 @@ export const menuConfig = [
   {
     label: 'New Import',
     path: '/new-import',
+  },
+
+  {
+    label: 'Parametres Couts',
+    path: '/param-couts',
   },
   
 ];
@@ -126,6 +132,12 @@ export const routesConfig = [
     component: NewImportPage,
     protected: false,
     title: 'New import'
+  },
+  {
+    path: '/param-couts',
+    component: ListeCouts,
+    protected: false,
+    title: 'Param Couts'
   },
 ];
 
